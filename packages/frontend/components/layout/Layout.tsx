@@ -32,12 +32,6 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-// TODO: Add homepage explaining the features + try it out with Greeter
-
-// TODO: Add install instructions and docs page (go through the instructions)
-
-// TODO: Clean the layout and separate responsabilities.
-
 const Layout = ({ children }: LayoutProps): JSX.Element => {
   const dispatch = useDispatch();
   const { chainId } = useEthers();
@@ -158,7 +152,17 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
         </div>
       </main>
       <footer className="p-3 border text-center">
-        <p className="text-gray-600 font-extralight">Built by Nezzar KEFIF</p>
+        <p className="text-gray-600 font-extralight">
+          Built in the future by{' '}
+          <a
+            href="https://twitter.com/home"
+            className="text-blue-600"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Nezzar KEFIF
+          </a>
+        </p>
       </footer>
     </div>
   );

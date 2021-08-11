@@ -4,8 +4,8 @@ This monorepo should allow you to get started with a simple Greeter smart contra
 
 - Typescript
 - NextJS
-- Hardhat
-- useDapp
+- 👷 [Hardhat](https://hardhat.org/)
+- 🤝 [useDapp](https://usedapp.readthedocs.io/en/latest/)
 - Tailwind CSS
 - Redux Toolkit
 - Yarn Workspace
@@ -45,3 +45,11 @@ yarn dev
 Finnally, open <http://localhost:3000> to see the app.
 
 You frontend should be live on localhost and ready to submit and new `setGreeting` transaction to the local chain !
+
+Here is what it should look like when launched !
+
+<img src="snapshot.png" style="border: grey solid 1px; border-radius: 4px;" />
+
+## Deploy on Rinkeby
+
+TODO
