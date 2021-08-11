@@ -52,4 +52,19 @@ Here is what it should look like when launched !
 
 ## Deploy on Rinkeby
 
-TODO
+To deploy your app on Rinkeby, you'll first need to populate two environment variables in your `.env` file, that are used in `packages/hardhat/hardhat.config.ts`. Checkout [Infura](https://infura.io/) it is a suite of tools that make it easy for developpers to deploy things on Ethereum and IPFS. Create a project there, go to _Settings_ and copy the **Project ID**.
+
+For your private key make sure you use an account you do not have any real funds on and export the private key. As a good practive, never share any account's private key in your repository. `Metamask > (Select a dev account) > Account details > Export private key`
+
+```
+const INFURA_ID = process.env.INFURA_ID;
+const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY
+```
+
+Now after you deploy,
+
+```
+yarn deploy:rinbeky
+```
+
+your smart contracts should be live on Rinkeby !

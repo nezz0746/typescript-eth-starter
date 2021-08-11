@@ -8,8 +8,8 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
-const RINKEBY_PRIVATE_KEY = process.env.NEXT_PUBLIC_RINKEBY_PRIVATE_KEY
+const INFURA_ID = process.env.INFURA_ID;
+const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
