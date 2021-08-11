@@ -1,0 +1,22 @@
+{
+  "name": "my-eth-starter",
+  "author": "@nezz0746",
+  "license": "MIT",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "yarn workspace my-eth-starter-frontend-project dev",
+    "build": "yarn workspace my-eth-starter-frontend-project build",
+    "start": "yarn workspace my-eth-starter-frontend-project start",
+    "chain": "yarn workspace my-eth-starter-hardhat-project chain",
+    "deploy": "yarn workspace my-eth-starter-hardhat-project deploy",
+    "deploy:rinkeby": "yarn workspace my-eth-starter-hardhat-project deploy:rinkeby",
+    "compile": "yarn workspace my-eth-starter-hardhat-project compile",
+    "clean": "yarn workspace my-eth-starter-hardhat-project clean"
+  },
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  }
+}

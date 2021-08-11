@@ -1,0 +1,72 @@
+{
+  "name": "my-eth-starter-frontend-project",
+  "author": "@nezz0746",
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --pretty --noEmit",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "test": "jest",
+    "test-all": "yarn lint && yarn type-check && yarn test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.@(ts|tsx)": [
+      "yarn lint",
+      "yarn format"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.3",
+    "@reduxjs/toolkit": "^1.6.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "@types/react-redux": "^7.1.18",
+    "@usedapp/core": "^0.4.4",
+    "@web3-react/walletconnect-connector": "^6.2.0",
+    "blockies-ts": "^1.0.0",
+    "classnames": "^2.3.1",
+    "dayjs": "^1.10.6",
+    "ethers": "^5.4.4",
+    "framer-motion": "^4.1.17",
+    "next": "latest",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-spring": "^9.2.4"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.5",
+    "@types/jest": "^26.0.23",
+    "@types/next": "^9.0.0",
+    "@types/node": "^14.14.25",
+    "@types/react": "17.0.14",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "autoprefixer": "^10.2.6",
+    "babel-jest": "^27.0.2",
+    "eslint": "7.31.0",
+    "eslint-config-next": "11.0.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.0.4",
+    "jest-watch-typeahead": "^0.6.1",
+    "lint-staged": "^10.0.10",
+    "postcss": "^8.3.5",
+    "prettier": "^2.0.2",
+    "tailwindcss": "^2.2.4",
+    "typescript": "^4.1.3"
+  }
+}
