@@ -33,7 +33,7 @@
     "@reduxjs/toolkit": "^1.6.1",
     "@tailwindcss/forms": "^0.3.3",
     "@types/react-redux": "^7.1.18",
-    "@usedapp/core": "^0.4.4",
+    "@usedapp/core": "^0.4.7",
     "@web3-react/walletconnect-connector": "^6.2.0",
     "blockies-ts": "^1.0.0",
     "classnames": "^2.3.1",
