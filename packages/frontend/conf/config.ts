@@ -10,7 +10,14 @@ import {
 
 const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
 
-export const allowedChains: ChainId[] = [ChainId.Localhost, ChainId.Rinkeby];
+export const devChains: ChainId[] = [ChainId.Localhost];
+
+export const allowedChains: ChainId[] = [ChainId.Localhost, ChainId.Rinkeby].filter((chaindId) => {
+  if (process.env.NODE_ENV === 'production') {
+    return !devChains.includes(chaindId);
+  }
+  return chaindId;
+});
 
 export const getDappConfig = (chainId: number): Config => ({
   readOnlyUrls: {
@@ -31,7 +38,7 @@ export const getDappConfig = (chainId: number): Config => ({
   ],
   multicallAddresses: {
     ...MULTICALL_ADDRESSES,
-    [ChainId.Hardhat]: contractConfig[chainId].multicall,
+    [ChainId.Rinkeby]: contractConfig[chainId].multicall,
     [ChainId.Localhost]: contractConfig[chainId].multicall,
   },
 });
