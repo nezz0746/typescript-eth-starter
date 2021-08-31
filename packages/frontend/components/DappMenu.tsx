@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import { useEthers } from '@usedapp/core';
-import Image from 'next/image';
 import blockies from 'blockies-ts';
 
 import React, { Fragment } from 'react';
@@ -30,9 +30,8 @@ const DappMenu = (): JSX.Element => {
             <Menu.Button className="group p-2 py-3 pr-6 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm space-x-3 text-left hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               <span className="min-w-0 flex-1 flex items-center h-6 space-x-3">
                 <span className="flex flex-col justify-center items-center rounded-lg">
-                  <Image
-                    height={30}
-                    width={30}
+                  <img
+                    style={{ height: 30, width: 30 }}
                     src={blockieImageSrc}
                     className="rounded-full"
                     alt="blockie"

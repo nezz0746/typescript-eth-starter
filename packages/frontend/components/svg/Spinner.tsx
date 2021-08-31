@@ -1,4 +1,4 @@
-export default function Spinner() {
+export default function Spinner(): JSX.Element {
   return (
     <svg
       className="animate-spin stroke-current h-full w-full"

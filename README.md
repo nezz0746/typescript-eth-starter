@@ -50,7 +50,7 @@ Here is what it should look like when launched !
 
 <img src="snapshot.png" style="border: grey solid 1px; border-radius: 4px;" />
 
-## Deploy on Rinkeby
+## Deploy your Smart Contracts on Rinkeby
 
 To deploy your app on Rinkeby, you'll first need to populate two environment variables in your `.env` file, that are used in `packages/hardhat/hardhat.config.ts`. Checkout [Infura](https://infura.io/) it is a suite of tools that make it easy for developpers to deploy things on Ethereum and IPFS. Create a project there, go to _Settings_ and copy the **Project ID**.
 
@@ -68,3 +68,35 @@ yarn deploy:rinbeky
 ```
 
 your smart contracts should be live on Rinkeby !
+
+## Deploy your Dapp on IPFS
+
+IPFS uses **Content-Addressing** to reference content on the network, instead of location-based addressing as used in traditional web. Whenever you add content to IPFS, a cryptographic hash is produced to identify your content called a **CID**.
+
+After running,
+
+```
+yarn ipfs
+```
+
+you will be given a hash which reprensent the root CID of the root directory of your website. Then all subdirectories and consequent files will have their own CID since every file on IPFS no matter it's type (folder, image, text, etc) has it's own CID. Using the [IPFS CLI](https://docs.ipfs.io/install/command-line/) you'll be able to visualize what has been hosted on IPFS with all your content by running
+
+```
+> ipfs ls [YOUR_SITE_ROOT_CID]
+
+> QmTgXrRyvfb8su1YaaafBPYDqdjbSG82qMFyW5XPftdjv6 5884  404.html
+QmUJUdDtY1hLt73buoaaaDm2rARRVpkYYDHa8BvnZq3TY3 -     _next/
+Qme1DM3r38NsjAXYAoazamgrdpk1CffLiPc14ZHp5Dgya1 15086 favicon.ico
+QmNufHi8Rgwx6K4854aaa8mSpHS5pXznHvMXrrU4yvk8HC -     images/
+QmeUAy5yNYo67C8id7acWyrrUtm6aks4AQcoDhcveYXrKE 5130  index.html
+Qmdd8btEki1ASFBjMeeeaDNyAAzXH1skok8csiPQWWrnaS 1101  vercel.svg
+```
+
+You could also use the [IPFS Desktop App](https://github.com/ipfs/ipfs-desktop) to see your content, it has a nice GUI and extra content to better understand how IPFS works. It'll also run a IPFS node for you locally so you can obtain content from other peers.
+
+<div style="display: flex; justify-content: center;">
+<img src="content-tree-2.png" width="400" />
+<img src="content-tree.png" width="400" />
+</div>
+
+([This video](https://www.youtube.com/watch?v=hnigvVuoaIA&t=338s&ab_channel=OurNetworks) provides a great introdction to how IPFS works)

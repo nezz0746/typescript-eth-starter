@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useContractFunction } from '@usedapp/core';
 import GreeterArtifact from '../artifacts/contracts/Greeter.sol/Greeter.json';
 import { Greeter } from '../../hardhat/types/Greeter';
