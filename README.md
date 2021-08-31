@@ -18,8 +18,29 @@ Clone the project and install dependencies,
 
 ```
 git clone https://github.com/nezz0746/typescript-eth-starter.git
-cd eth-starter
+cd typescript-eth-starter
 yarn install
+```
+
+_Environement variables setup_
+
+First create an Infura projetct and add your project id to the .env variable **INFURA_ID**.
+
+This starter is setup to be usable/deployable on a local node and on Rinkeby. So before you start make sure you fill the **RINKEBY_PRIVATE_KEY** variable. (Checkout [this section](#deploy-your-smart-contracts-on-rinkeby) for more info on the private key), or comment out the rinkeby section if you juste want to start working asap on localhost.
+
+```js
+// packages/hardhat/hardhat.config.ts
+  ...
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
+      accounts: [`0x${RINKEBY_PRIVATE_KEY}`]
+    }
+  }
+  ...
 ```
 
 Then open 3 separate terminals and run
