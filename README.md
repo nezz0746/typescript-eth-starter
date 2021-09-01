@@ -12,6 +12,11 @@ This monorepo should allow you to get started with a simple Greeter smart contra
 
 Heavily influenced by Scaffold-Eth and the existing [Typescript branch](https://github.com/austintgriffith/scaffold-eth/tree/nextjs-typescript). Go 🏗 [check it out](https://github.com/austintgriffith/scaffold-eth) 🏗 if you haven't !
 
+TODO
+
+- [ ] Add Mintable NFTs example (Coming soon !)
+- [ ] Add Mainnet fork as dev chain
+
 # Get Started
 
 Clone the project and install dependencies,
