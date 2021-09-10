@@ -13,6 +13,8 @@ import { useTypedSelector } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { setCurrentNetworkChainId, setShowTransactions } from '../../redux/app';
 import TransactionsSidebar from '../TransactionsSidebar';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
 
 // Extends `window` to add `ethereum`.
 declare global {
@@ -34,6 +36,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { chainId } = useEthers();
   const { notifications } = useNotifications();
   const { currentNetworkChainId, showTransactions, transactionProcessing } = useTypedSelector(
@@ -90,14 +93,25 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
                         currentNetworkChainId={currentNetworkChainId}
                       />
                     </div>
-                    <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                      <a
-                        href="#"
-                        className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                      >
-                        Greeter
-                      </a>
-                    </div>
+                    {[
+                      { path: '/', name: 'Greeter' },
+                      { path: '/NFT', name: 'NFTs' },
+                    ].map((route) => {
+                      return (
+                        <div key={route.name} className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                          <a
+                            href={route.path}
+                            className={classNames({
+                              'text-gray-900 inline-flex items-center px-1 pt-1  text-sm font-medium':
+                                true,
+                              'border-indigo-500 border-b-2': route.path === router.pathname,
+                            })}
+                          >
+                            {route.name}
+                          </a>
+                        </div>
+                      );
+                    })}
                   </div>
                   <div className="absolute hidden inset-y-0 right-0 sm:flex items-center">
                     <DappMenu />
