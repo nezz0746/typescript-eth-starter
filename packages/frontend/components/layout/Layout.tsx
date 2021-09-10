@@ -64,7 +64,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <header>
+      <header className="z-10">
         <Disclosure as="nav" className="bg-white shadow-md px-1">
           {({ open }) => (
             <>
@@ -137,7 +137,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
           )}
         </Disclosure>
       </header>
-      <main className="flex-grow relative">
+      <main className="flex-grow overflow-scroll bg-gray-100 z-0">
         <TransactionsSidebar />
         {chainId && chainId !== currentNetworkChainId ? (
           allowedChains.includes(chainId) ? (
