@@ -5,6 +5,8 @@ import MyNFTArtifact from '../artifacts/contracts/MyNFT.sol/MyNFT.json';
 import { useContract } from '../hooks/useContract';
 import { useMemo, useState } from 'react';
 import classNames from 'classnames';
+import NFTsAsOwner from '../components/NFTTabs/NFTsAsOwner';
+import NFTsAsClient from '../components/NFTTabs/NFTsAsClient';
 
 const NFTPage = (): JSX.Element => {
   const { currentNetworkChainId } = useTypedSelector((state) => state.app);
@@ -13,11 +15,6 @@ const NFTPage = (): JSX.Element => {
     MyNFTArtifact.abi,
   );
   const [selectedTab, setSelectedTab] = useState(0);
-
-  const tabs = [
-    { name: 'As Owner', component: <p>As Owner</p> },
-    { name: 'As Client', component: <p>As Client</p> },
-  ];
 
   const myNFTContract = useMemo(() => {
     return contract;
@@ -30,6 +27,11 @@ const NFTPage = (): JSX.Element => {
       </div>
     );
   }
+
+  const tabs = [
+    { name: 'As Owner', component: <NFTsAsOwner contract={myNFTContract} /> },
+    { name: 'As Client', component: <NFTsAsClient contract={myNFTContract} /> },
+  ];
 
   return (
     <div className="p-5 flex flex-col h-full">
