@@ -2,6 +2,7 @@ import { ChainId, Config, MULTICALL_ADDRESSES } from '@usedapp/core';
 import {
   GreeterContractAddress as LocalhostGreeterContractAddress,
   MulticallContractAddress as LocalhostMulticallContractAddress,
+  MyNFTContractAddress as LocalhostMyNFTContractAddress,
 } from '../artifacts/contracts/addresses/localhostContractAddress';
 import {
   GreeterContractAddress as RinkebyGreeterContractAddress,
@@ -43,10 +44,11 @@ export const getDappConfig = (chainId: number): Config => ({
   },
 });
 
-const contractConfig: Record<number, { greeter: string; multicall: string }> = {
+const contractConfig: Record<number, { greeter?: string; multicall: string; myNft?: string }> = {
   [ChainId.Localhost]: {
     greeter: LocalhostGreeterContractAddress,
     multicall: LocalhostMulticallContractAddress,
+    myNft: LocalhostMyNFTContractAddress,
   },
   [ChainId.Rinkeby]: {
     greeter: RinkebyGreeterContractAddress,
