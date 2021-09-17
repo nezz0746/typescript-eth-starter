@@ -39,7 +39,7 @@ const TransactionsSidebar = (): JSX.Element => {
   return (
     <animated.div
       style={transactionPanelProps}
-      className="absolute right-0 border-l overflow-y-scroll h-full z-9 bg-white"
+      className="absolute right-0 border-l overflow-y-scroll h-full z-10 bg-white"
     >
       {transactions.length === 0 ? (
         <p className="text-center mt-5">No Transactions</p>

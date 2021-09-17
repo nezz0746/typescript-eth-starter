@@ -65,7 +65,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <header className="z-10">
+      <header className="z-11">
         <Disclosure as="nav" className="bg-white shadow-md px-1">
           {({ open }) => (
             <>

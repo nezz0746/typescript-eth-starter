@@ -129,7 +129,7 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg mt-2 relative">
       {!isOwner && (
-        <div className="absolute w-full h-full z-10 bg-gray-300 bg-opacity-70 p-5">
+        <div className="absolute w-full h-full z-9 bg-gray-300 bg-opacity-70 p-5">
           <div className="rounded-md bg-red-50 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
