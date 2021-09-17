@@ -76,6 +76,24 @@ Here is what it should look like when launched !
 
 <img src="snapshot.png" style="border: grey solid 1px; border-radius: 4px;" />
 
+## Examples
+
+### 1. Greeter Contract
+
+### 2. NFT Contract Interface
+
+What you will find on this page is an interface which interacts with the ERC721 contract: MyNFT, found in `packages/hardhat/MyNFT.sol`. It contains two tabs which themselves contain actions typically done as 1. an **Owner** of a contract and 2. a **Client** of the contract.
+
+<img src="nft-listing.png" style="border-radius: 4px;" />
+
+For now two actions are availbale as Owner: The ability to list a new NFT, and pause the sale as the contract is pausable ([see the ERC721Pausable extension on OpenZepplin](https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721Pausable)). As a client you'll be able to see the mintable NFTs, mint one and see the NFTs you own.
+
+<div style="display: flex; justify-content: center;">
+  <img src="client-warning.png" width="800px" style="border-radius: 4px;" />
+</div>
+
+To improve the UX and understanding of ownership, Alerts and Warnings have been added. For example you'll be warned on the client side if you are minting as the owner or if the sale is paused. And you'll shown an warning as well if you're trying to trigger owner actions while not being the owner.
+
 ## Deploy your Smart Contracts on Rinkeby
 
 To deploy your app on Rinkeby, you'll first need to populate two environment variables in your `.env` file, that are used in `packages/hardhat/hardhat.config.ts`. Checkout [Infura](https://infura.io/) it is a suite of tools that make it easy for developpers to deploy things on Ethereum and IPFS. Create a project there, go to _Settings_ and copy the **Project ID**.
