@@ -13,6 +13,9 @@ module.exports = {
   theme: {
     extend: {
       zIndex: extendZIndex(70),
+      colors: {
+        rinkeby: '#FFD162',
+      },
     },
   },
   variants: {
