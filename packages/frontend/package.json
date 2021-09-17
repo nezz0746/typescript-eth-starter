@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "ipfs": "rm -rf ./out && next export && ts-node ./scripts/ipfs.ts",
+    "ipfs": "rm -rf ./out && next build && next export && ts-node ./scripts/ipfs.ts",
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
@@ -46,7 +46,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
-    "react-spring": "^9.2.4"
+    "react-spring": "^9.2.4",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
