@@ -14,7 +14,7 @@ Heavily influenced by Scaffold-Eth and the existing [Typescript branch](https://
 
 TODO
 
-- [ ] Add Mintable NFTs example (Coming soon !)
+- [ ] Add Mintable NFTs example ([In progress !](https://github.com/nezz0746/typescript-eth-starter/tree/nft-example))
 - [ ] Add Mainnet fork as dev chain
 
 # Get Started
