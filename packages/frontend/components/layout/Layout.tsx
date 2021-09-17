@@ -15,6 +15,7 @@ import { setCurrentNetworkChainId, setShowTransactions } from '../../redux/app';
 import TransactionsSidebar from '../TransactionsSidebar';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import Link from 'next/link';
 
 // Extends `window` to add `ethereum`.
 declare global {
@@ -99,16 +100,17 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
                     ].map((route) => {
                       return (
                         <div key={route.name} className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                          <a
-                            href={route.path}
-                            className={classNames({
-                              'text-gray-900 inline-flex items-center px-1 pt-1  text-sm font-medium':
-                                true,
-                              'border-indigo-500 border-b-2': route.path === router.pathname,
-                            })}
-                          >
-                            {route.name}
-                          </a>
+                          <Link href={route.path}>
+                            <p
+                              className={classNames({
+                                'text-gray-900 inline-flex items-center px-1 pt-1  text-sm font-medium hover:cursor-pointer':
+                                  true,
+                                'border-indigo-500 border-b-2': route.path === router.pathname,
+                              })}
+                            >
+                              {route.name}
+                            </p>
+                          </Link>
                         </div>
                       );
                     })}

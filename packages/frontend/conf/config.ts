@@ -7,6 +7,7 @@ import {
 import {
   GreeterContractAddress as RinkebyGreeterContractAddress,
   MulticallContractAddress as RinkebyMulticallContractAddress,
+  MyNFTContractAddress as RinberkyMyNFTContractAddress,
 } from '../artifacts/contracts/addresses/rinkebyContractAddress';
 
 const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -53,6 +54,7 @@ const contractConfig: Record<number, { greeter?: string; multicall: string; myNf
   [ChainId.Rinkeby]: {
     greeter: RinkebyGreeterContractAddress,
     multicall: RinkebyMulticallContractAddress,
+    myNft: RinberkyMyNFTContractAddress,
   },
 };
 

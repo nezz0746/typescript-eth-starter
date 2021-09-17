@@ -21,7 +21,7 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const [listOpen, setListOpen] = useState(false);
 
   const renderUploader = (
-    <div className="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+    <div className="flex w-full justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
       {image === null ? (
         <div className="space-y-1 text-center">
           <svg
@@ -38,7 +38,7 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
               strokeLinejoin="round"
             />
           </svg>
-          <div className="flex text-sm text-gray-600">
+          <div className="flex justify-center self-center text-sm text-gray-600">
             <label
               htmlFor="file-upload"
               className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
@@ -60,10 +60,44 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
           </div>
           <p className="text-xs text-gray-500">Host: IPFS</p>
           <p className="text-xs text-gray-500">PNG, JPG, GIF maximum 10MB</p>
+          <div className="pt-4">
+            <p className="text-sm text-gray-500 pb-4">
+              Or use one of these custom made artworks from{' '}
+              <a
+                className="text-indigo-500 font-bold"
+                href="https://twitter.com/nezzRX"
+                target="_blank"
+                rel="noreferrer"
+              >
+                @nezzRX
+              </a>{' '}
+              ! :)
+            </p>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                'https://i.imgur.com/C0MsUXS.jpg',
+                'https://i.imgur.com/pAraStc.jpg',
+                'https://i.imgur.com/pOxlDkZ.jpg',
+                'https://i.imgur.com/QDyJoNB.jpg',
+              ].map((url) => (
+                <img
+                  key={url}
+                  src={url}
+                  onClick={async () => {
+                    const blob = await fetch(url).then((r) => r.blob());
+
+                    addImage(new File([blob], 'myImage'));
+                  }}
+                  className="hover:opacity-70 cursor-pointer rounded-md"
+                  alt={'Custom Heads NFTs Artwork'}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       ) : (
-        <div>
-          <img src={URL.createObjectURL(image)} alt="NFT_image" />
+        <div className="flex flex-col items-center justify-center">
+          <img src={URL.createObjectURL(image)} className="w-2/3" alt="NFT_image" />
           <div className="py-2 flex flex-row justify-end items-end">
             <button
               className="inline-flex mr-2 items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -241,10 +275,14 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
           setListOpen(false);
         }}
       >
-        <div className="pb-4">
-          <p className="text-2xl font-extrabold tracking-tight text-gray-900">List a new piece:</p>
+        <div className="w-full">
+          <div className="pb-4">
+            <p className="text-2xl font-extrabold tracking-tight text-gray-900">
+              List a new piece:
+            </p>
+          </div>
+          {renderUploader}
         </div>
-        {renderUploader}
       </Modal>
     </div>
   );
