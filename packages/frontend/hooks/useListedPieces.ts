@@ -2,7 +2,8 @@
 import { useEthers } from '@usedapp/core';
 import { useCallback, useEffect, useState } from 'react';
 import { MyNFT } from '../../hardhat/types/MyNFT';
-import { formatListedPieces, Piece } from '../utils/helpers';
+import { Piece } from '../types';
+import { formatListedPieces } from '../utils/helpers';
 
 const useListedPieces = (contract: MyNFT): { pieces: Piece[]; refetchPieces: () => void } => {
   const { account } = useEthers();
@@ -13,8 +14,9 @@ const useListedPieces = (contract: MyNFT): { pieces: Piece[]; refetchPieces: () 
       if (account) {
         const piecesRes = await contract.getListedPieces();
 
-        console.log('Reading from contract: getListedPieces()');
-        setPieces(formatListedPieces(piecesRes));
+        const newPieces = await formatListedPieces(piecesRes);
+
+        setPieces(newPieces);
       }
     } catch (error) {
       console.log(`error`, error);

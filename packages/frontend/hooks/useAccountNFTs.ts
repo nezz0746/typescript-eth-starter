@@ -4,7 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { useEthers } from '@usedapp/core';
 import { useCallback, useEffect, useState } from 'react';
 import { MyNFT } from '../../hardhat/types/MyNFT';
-import { Piece } from '../utils/helpers';
+import { Piece } from '../types';
 
 const getPiece: (tokenId: BigNumber, contract: MyNFT) => Promise<Partial<Piece>> = (
   tokenId,
@@ -14,9 +14,12 @@ const getPiece: (tokenId: BigNumber, contract: MyNFT) => Promise<Partial<Piece>>
     try {
       const uri = await contract.tokenURI(tokenId);
 
+      const metadata = await fetch(uri).then((res) => res.json());
+
       const token: Partial<Piece> = {
         tokenURI: uri,
         tokenId: tokenId.toNumber(),
+        metadata,
       };
 
       resolve(token);
@@ -30,6 +33,7 @@ const useAccountNFTs = (
   contract: MyNFT,
 ): {
   nfts: Partial<Piece>[];
+  refetch: () => Promise<void>;
 } => {
   const { account } = useEthers();
   const [nfts, setNfts] = useState<Partial<Piece>[]>([]);
@@ -56,6 +60,7 @@ const useAccountNFTs = (
 
   return {
     nfts,
+    refetch: getAccountNFTs,
   };
 };
 

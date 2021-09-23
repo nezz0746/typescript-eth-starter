@@ -9,7 +9,7 @@ const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' });
 const useListPiece = (
   contract: MyNFT,
 ): {
-  listItem: () => Promise<void>;
+  listItem: (name: string) => Promise<void>;
   loading: boolean;
   image: File | null;
   addImage: (file: File) => void;
@@ -21,23 +21,35 @@ const useListPiece = (
     transactionName: 'List Piece.',
   });
 
-  const listItem = useCallback(async () => {
-    if (image) {
-      setLoading(true);
-      try {
-        // Upload to IPFS
-        const added = await client.add(image);
+  const listItem = useCallback(
+    async (name: string) => {
+      if (image) {
+        setLoading(true);
+        try {
+          // Upload image to IPFS
+          const imageIPFS = await client.add(image);
 
-        const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+          // Upload NFT Metadata to IPFS
+          const added = await client.add(
+            JSON.stringify({
+              name,
+              description: 'MyNFT',
+              image: `https://ipfs.infura.io/ipfs/${imageIPFS.path}`,
+            }),
+          );
 
-        // List on Smart Contract
-        list(url);
-      } catch (error) {
-        console.log(`error`, error);
+          const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+
+          // List on Smart Contract
+          list(url);
+        } catch (error) {
+          console.log(`error`, error);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
-  }, [image, list]);
+    },
+    [image, list],
+  );
 
   const addImage = useCallback((file: File) => {
     setImage(file);

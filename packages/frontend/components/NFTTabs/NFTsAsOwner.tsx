@@ -17,6 +17,7 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const { image, addImage, removeImage, listItem } = useListPiece(contract);
   const isOwner = useOwner(contract);
   const { price } = usePrice(contract);
+  const [name, setName] = useState('');
   const { pieces, refetchPieces } = useListedPieces(contract);
   const [listOpen, setListOpen] = useState(false);
 
@@ -97,6 +98,23 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center">
+          <div className="mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <div className="mt-1">
+              <input
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                type="text"
+                name="name"
+                id="name"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="My amazing NFT"
+              />
+            </div>
+          </div>
           <img src={URL.createObjectURL(image)} className="w-2/3" alt="NFT_image" />
           <div className="py-2 flex flex-row justify-end items-end">
             <button
@@ -111,7 +129,11 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
             <button
               className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={() => {
-                listItem().then(() => {
+                if (name.length === 0) {
+                  alert('Please provide a name for your NFT !');
+                  return;
+                }
+                listItem(name).then(() => {
                   removeImage();
                   refetchPieces();
                 });
@@ -232,8 +254,8 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
                     <div className="w-full bg-gray-200 rounded-md overflow-hidden">
                       <a href={piece.tokenURI} target="_blank" rel="noreferrer">
                         <img
-                          src={piece.tokenURI}
-                          alt={piece.tokenURI}
+                          src={piece.metadata.image}
+                          alt={piece.metadata.description}
                           className="w-full h-full object-contain lg:w-full lg:h-full"
                         />
                       </a>

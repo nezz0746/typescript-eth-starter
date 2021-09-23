@@ -11,7 +11,7 @@ import usePrice from '../../hooks/usePrice';
 
 const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const isOwner = useOwner(contract);
-  const { pieces, refetchPieces } = useListedPieces(contract);
+  const { pieces } = useListedPieces(contract);
   const { price } = usePrice(contract);
   const { isPaused } = usePause(contract);
   const { mintNFT } = useMint(contract);
@@ -63,8 +63,8 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
                   <div className="w-full bg-gray-200 rounded-md overflow-hidden">
                     <a href={piece.tokenURI} target="_blank" rel="noreferrer">
                       <img
-                        src={piece.tokenURI}
-                        alt={piece.tokenURI}
+                        src={piece.metadata?.image}
+                        alt={piece.metadata?.description}
                         className="w-full h-full object-contain lg:w-full lg:h-full"
                       />
                     </a>
@@ -93,8 +93,8 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
                 <div className="w-full bg-gray-200 rounded-md overflow-hidden">
                   <a href={piece.tokenURI} target="_blank" rel="noreferrer">
                     <img
-                      src={piece.tokenURI}
-                      alt={piece.tokenURI}
+                      src={piece.metadata?.image}
+                      alt={piece.metadata?.description}
                       className="w-full h-full object-contain lg:w-full lg:h-full"
                     />
                   </a>
@@ -117,9 +117,7 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
                     type="button"
                     disabled={piece.minted}
                     onClick={() => {
-                      mintNFT(piece.tokenId).then(() => {
-                        refetchPieces();
-                      });
+                      mintNFT(piece.tokenId);
                     }}
                     className="inline-flex disabled:opacity-40 w-full justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
