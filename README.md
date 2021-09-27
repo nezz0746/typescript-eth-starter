@@ -94,6 +94,32 @@ For now two actions are availbale as Owner: The ability to list a new NFT, and p
 
 To improve the UX and understanding of ownership, Alerts and Warnings have been added. For example you'll be warned on the client side if you are minting as the owner or if the sale is paused. And you'll shown an warning as well if you're trying to trigger owner actions while not being the owner.
 
+- Metadata
+
+The crucial thing on the frontend part is to make sure you upload the correct metadata for your NFT. [OpenSea documentation](https://docs.opensea.io/docs/metadata-standards) is a good place to get a first look at standards. Here we upload the most basic metadatas possible with **name**, **description** and **image** (url)
+
+```js
+// Upload NFT Metadata to IPFS
+const added = await client.add(
+  JSON.stringify({
+    name,
+    description: "MyNFT",
+    image: `https://ipfs.infura.io/ipfs/${imageIPFS.path}`,
+  })
+);
+
+// Use the resulting URI for our tokenURI
+const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+```
+
+- Opensea
+
+Once you listed a couple of NFT, you should find them on [OpenSea's Testnet App](https://testnets.opensea.io/) !
+
+<div style="display: flex; justify-content: center;">
+  <img src="opensea-testnet.png" width="800px" style="border-radius: 4px;" />
+</div>
+
 ## Deploy your Smart Contracts on Rinkeby
 
 To deploy your app on Rinkeby, you'll first need to populate two environment variables in your `.env` file, that are used in `packages/hardhat/hardhat.config.ts`. Checkout [Infura](https://infura.io/) it is a suite of tools that make it easy for developpers to deploy things on Ethereum and IPFS. Create a project there, go to _Settings_ and copy the **Project ID**.
