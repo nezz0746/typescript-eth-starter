@@ -15,7 +15,7 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const { price } = usePrice(contract);
   const { isPaused } = usePause(contract);
   const { mintNFT } = useMint(contract);
-  const { nfts: myNfts } = useAccountNFTs(contract);
+  const { nfts: myNfts, refetch } = useAccountNFTs(contract);
 
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg mt-2">
@@ -117,7 +117,9 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
                     type="button"
                     disabled={piece.minted}
                     onClick={() => {
-                      mintNFT(piece.tokenId);
+                      mintNFT(piece.tokenId).then(() => {
+                        refetch();
+                      });
                     }}
                     className="inline-flex disabled:opacity-40 w-full justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
