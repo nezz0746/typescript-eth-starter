@@ -7,17 +7,23 @@ This monorepo should allow you to get started with a simple Greeter smart contra
 - 👷 [Hardhat](https://hardhat.org/)
 - 🤝 [useDapp](https://usedapp.readthedocs.io/en/latest/)
 - Tailwind CSS
-- Redux Toolkit
+- Redux Toolkits
 - Yarn Workspace
 
 Heavily influenced by Scaffold-Eth and the existing [Typescript branch](https://github.com/austintgriffith/scaffold-eth/tree/nextjs-typescript). Go 🏗 [check it out](https://github.com/austintgriffith/scaffold-eth) 🏗 if you haven't !
 
-TODO
+## Table of Content
 
-- [ ] Add Mainnet fork as dev chain
-- [ ] Add ENS name converter
+- [🔌 ETH Basic Typescript Starter](#-eth-basic-typescript-starter)
+  - [Table of Content](#table-of-content)
+  - [Get Started](#get-started)
+  - [Examples](#examples)
+    - [1. Greeter Contract](#1-greeter-contract)
+    - [2. NFT Sale Dashboard](#2-nft-sale-dashboard)
+  - [Deploy your Smart Contracts on Rinkeby](#deploy-your-smart-contracts-on-rinkeby)
+  - [Deploy your Dapp on IPFS](#deploy-your-dapp-on-ipfs)
 
-# Get Started
+## Get Started
 
 Clone the project and install dependencies,
 
@@ -80,7 +86,7 @@ Here is what it should look like when launched !
 
 ### 1. Greeter Contract
 
-### 2. NFT Contract Interface
+### 2. NFT Sale Dashboard
 
 What you will find on this page is an interface which interacts with the ERC721 contract: MyNFT, found in `packages/hardhat/MyNFT.sol`. It contains two tabs which themselves contain actions typically done as 1. an **Owner** of a contract and 2. a **Client** of the contract.
 
@@ -170,3 +176,8 @@ You could also use the [IPFS Desktop App](https://github.com/ipfs/ipfs-desktop) 
 </div>
 
 ([This video](https://www.youtube.com/watch?v=hnigvVuoaIA&t=338s&ab_channel=OurNetworks) provides a great introdction to how IPFS works)
+
+TODO
+
+- [ ] Add Mainnet fork as dev chain
+- [ ] Add ENS name converter
