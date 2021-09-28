@@ -3,7 +3,8 @@ import Layout from '../components/layout/Layout';
 import { DAppProvider } from '@usedapp/core';
 import { Provider as ReduxProvider } from 'react-redux';
 import type { AppProps } from 'next/app';
-import store, { useTypedSelector } from '../redux/store';
+import { useTypedSelector, store, persistor } from '../redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 import { getDappConfig } from '../conf/config';
 
 const ConnectedDappProvider: React.FC = ({ children }) => {
@@ -15,11 +16,13 @@ const ConnectedDappProvider: React.FC = ({ children }) => {
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <ReduxProvider store={store}>
-      <ConnectedDappProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ConnectedDappProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConnectedDappProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ConnectedDappProvider>
+      </PersistGate>
     </ReduxProvider>
   );
 }

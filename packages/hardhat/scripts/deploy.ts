@@ -23,12 +23,18 @@ async function main() {
   await contract.deployed();
   console.log('Greeter deployed to:', contract.address);
 
+  const MyNFTContract = await ethers.getContractFactory('MyNFT');
+  const myNFTContractDeployement = await MyNFTContract.deploy();
+  await myNFTContractDeployement.deployed();
+  console.log('MyNFT deployed to:', myNFTContractDeployement.address);
+
   const MulticallContract = await ethers.getContractFactory('Multicall');
   const multiCallContract = await MulticallContract.deploy();
   await multiCallContract.deployed();
   console.log('Multicall deployed to:', multiCallContract.address);
 
   saveFrontendFiles(contract, "GreeterContract");
+  saveFrontendFiles(myNFTContractDeployement, "MyNFTContract")
   saveFrontendFiles(multiCallContract, "MulticallContract");
 }
 

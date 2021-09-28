@@ -13,6 +13,9 @@ import { useTypedSelector } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { setCurrentNetworkChainId, setShowTransactions } from '../../redux/app';
 import TransactionsSidebar from '../TransactionsSidebar';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
+import Link from 'next/link';
 
 // Extends `window` to add `ethereum`.
 declare global {
@@ -34,6 +37,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { chainId } = useEthers();
   const { notifications } = useNotifications();
   const { currentNetworkChainId, showTransactions, transactionProcessing } = useTypedSelector(
@@ -61,7 +65,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      <header>
+      <header className="z-11">
         <Disclosure as="nav" className="bg-white shadow-md px-1">
           {({ open }) => (
             <>
@@ -90,14 +94,26 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
                         currentNetworkChainId={currentNetworkChainId}
                       />
                     </div>
-                    <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                      <a
-                        href="#"
-                        className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                      >
-                        Greeter
-                      </a>
-                    </div>
+                    {[
+                      { path: '/', name: 'Greeter' },
+                      { path: '/NFT', name: 'NFTs' },
+                    ].map((route) => {
+                      return (
+                        <div key={route.name} className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                          <Link href={route.path}>
+                            <p
+                              className={classNames({
+                                'text-gray-900 inline-flex items-center px-1 pt-1  text-sm font-medium hover:cursor-pointer':
+                                  true,
+                                'border-indigo-500 border-b-2': route.path === router.pathname,
+                              })}
+                            >
+                              {route.name}
+                            </p>
+                          </Link>
+                        </div>
+                      );
+                    })}
                   </div>
                   <div className="absolute hidden inset-y-0 right-0 sm:flex items-center">
                     <DappMenu />
@@ -123,7 +139,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
           )}
         </Disclosure>
       </header>
-      <main className="flex-grow relative">
+      <main className="flex-grow overflow-scroll bg-gray-100 z-0">
         <TransactionsSidebar />
         {chainId && chainId !== currentNetworkChainId ? (
           allowedChains.includes(chainId) ? (
