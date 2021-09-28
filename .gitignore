@@ -29,7 +29,6 @@ node_modules
 ## Hardhat files ##
 packages/hardhat/*.txt
 packages/hardhat/cache
-packages/hardhat/types
 packages/hardhat/artifacts
 packages/hardhat/deployments
 
