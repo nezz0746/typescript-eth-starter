@@ -1,3 +1,3 @@
-export const GreeterContractAddress = '0x9189f8A4E397665e6BA6bb9CC5fC0eC5d4d99A76';
-export const MyNFTContractAddress = '0x8c7D3DD21d6742E5e87dE83Ce17bB744EfdE58Df';
-export const MulticallContractAddress = '0x001FD1492D98d5ceDB8Ec8E444eee551820b4965';
+export const GreeterContractAddress = '0x8E6BF070763Df94B78afEe9339D576B788A08b0b';
+export const MyNFTContractAddress = '0x364607130CFdF7d65D6fCB316CEf1AA7576AC2AC';
+export const MulticallContractAddress = '0xcA0B2489F4d82CCb50035f740DE8fF294ac127ac';

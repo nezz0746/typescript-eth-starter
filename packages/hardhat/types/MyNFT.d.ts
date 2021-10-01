@@ -206,7 +206,7 @@ interface MyNFTInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "MintSuccess(address,string)": EventFragment;
+    "ListPiece(address,string,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -215,7 +215,7 @@ interface MyNFTInterface extends ethers.utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "MintSuccess"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ListPiece"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -686,10 +686,14 @@ export class MyNFT extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
-    MintSuccess(
-      sender?: string | null,
-      message?: null
-    ): TypedEventFilter<[string, string], { sender: string; message: string }>;
+    ListPiece(
+      sender?: null,
+      uri?: null,
+      id?: null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { sender: string; uri: string; id: BigNumber }
+    >;
 
     OwnershipTransferred(
       previousOwner?: string | null,

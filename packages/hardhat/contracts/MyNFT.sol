@@ -9,6 +9,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable {
+    event ListPiece(address sender, string uri, uint256 id);
+
     using Counters for Counters.Counter;
     struct Piece {
         string tokenURI;
@@ -31,6 +33,7 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable 
 
     function listPiece(string memory uri) public onlyOwner {
         listedPieces.push(Piece(uri, _tokenIdCounter.current(), false));
+        emit ListPiece(msg.sender, uri, _tokenIdCounter.current());
         _tokenIdCounter.increment();
     }
 

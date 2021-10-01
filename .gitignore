@@ -36,7 +36,9 @@ packages/hardhat/deployments
 # testing
 packages/frontend/coverage
 packages/react-app
-packages/subgraph
+packages/subgraph/abis
+packages/subgraph/build
+packages/subgraph/generated
 # next.js
 packages/frontend/.next/
 packages/frontend/out/

@@ -26,6 +26,7 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.4.15",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@headlessui/react": "^1.4.0",
@@ -40,6 +41,7 @@
     "dayjs": "^1.10.6",
     "ethers": "^5.4.5",
     "framer-motion": "^4.1.17",
+    "graphql": "^15.6.0",
     "ipfs-core-types": "^0.7.0",
     "ipfs-http-client": "^52.0.1",
     "next": "latest",
