@@ -5,6 +5,7 @@ import { XCircleIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { MyNFT } from '../../../hardhat/types/MyNFT';
+import useCurrency from '../../hooks/useCurrency';
 import useListedPieces from '../../hooks/useListedPieces';
 import useListPiece from '../../hooks/useListPiece';
 import useOwner from '../../hooks/useOwner';
@@ -14,6 +15,7 @@ import Modal from '../Modal';
 
 const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const { isPaused, pause, unpause } = usePause(contract);
+  const currency = useCurrency();
   const { image, addImage, removeImage, listItem } = useListPiece(contract);
   const isOwner = useOwner(contract);
   const { price } = usePrice(contract);
@@ -239,7 +241,9 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
         </div>
         <div className="flex flex-row items-center">
           <p className="text-gray-500 mr-2">Unit Price</p>
-          <p className="font-bold">{price} ETH</p>
+          <p className="font-bold">
+            {price} {currency}
+          </p>
         </div>
         <div className="">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Listed Pieces</h2>
@@ -270,7 +274,7 @@ const NFTsAsOwner = ({ contract }: { contract: MyNFT }): JSX.Element => {
                         </h3>
                       </div>
                       <p className="text-sm font-medium text-gray-900">
-                        {isOwner ? 'Free' : `${price} ETH`}
+                        {isOwner ? 'Free' : `${price} ${currency}`}
                       </p>
                     </div>
                   </div>

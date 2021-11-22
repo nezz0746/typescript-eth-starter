@@ -15,6 +15,7 @@ module.exports = {
       zIndex: extendZIndex(70),
       colors: {
         rinkeby: '#FFD162',
+        polygon: '#8247E5'
       },
     },
   },

@@ -1,6 +1,11 @@
 # 🔌 ETH Basic Typescript Starter
 
-This monorepo should allow you to get started with a simple Greeter smart contract on localhost and Rinkeby in record time with this basic react stack using
+<div style="display: flex; justify-content: center; padding-bottom: 10px;">
+<img src="https://i.imgur.com/u7K0689.png" style="height: 120px; width: 120x; margin-right: 40px;" />
+<img src="https://polygon.technology/wp-content/uploads/2021/07/polygon-logo.svg" style="height: 120px; width: 49%; object-fit: contain;" />
+</div>
+
+This monorepo should allow you to get started with a simple Greeter smart contract on localhost and Rinkeby and the Polygon POS chain (L2 network), in record time with this basic react stack using
 
 - Typescript
 - NextJS
@@ -37,7 +42,7 @@ _Environement variables setup_
 
 First create an Infura projetct and add your project id to the .env variable **INFURA_ID**.
 
-This starter is setup to be usable/deployable on a local node and on Rinkeby. So before you start make sure you fill the **RINKEBY_PRIVATE_KEY** variable. (Checkout [this section](#deploy-your-smart-contracts-on-rinkeby) for more info on the private key), or comment out the rinkeby section if you juste want to start working asap on localhost.
+This starter is setup to be usable/deployable on a local node and on Rinkeby. So before you start make sure you fill the **RINKEBY_PRIVATE_KEY** or **POLYGON_PRIVATE_KEY** variable. (Checkout [this section](#deploy-your-smart-contracts-on-rinkeby) for more info on the private key), or comment out the rinkeby section if you juste want to start working asap on localhost.
 
 ```js
 // packages/hardhat/hardhat.config.ts
@@ -49,7 +54,11 @@ This starter is setup to be usable/deployable on a local node and on Rinkeby. So
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
       accounts: [`0x${RINKEBY_PRIVATE_KEY}`]
-    }
+    },
+    matic: {
+      url: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_ID}`,
+      accounts: [`0x${POLYGON_PRIVATE_KEY}`],
+    },
   }
   ...
 ```
@@ -80,7 +89,7 @@ You frontend should be live on localhost and ready to submit and new `setGreetin
 
 Here is what it should look like when launched !
 
-<img src="snapshot.png" style="border: grey solid 1px; border-radius: 4px;" />
+<img src="https://i.imgur.com/5X4l9Lg.png" style="border-radius: 4px;" />
 
 ## Examples
 
@@ -90,12 +99,12 @@ Here is what it should look like when launched !
 
 What you will find on this page is an interface which interacts with the ERC721 contract: MyNFT, found in `packages/hardhat/MyNFT.sol`. It contains two tabs which themselves contain actions typically done as 1. an **Owner** of a contract and 2. a **Client** of the contract.
 
-<img src="nft-listing.png" style="border-radius: 4px;" />
+<img src="https://i.imgur.com/9faye6G.png" style="border-radius: 4px;" />
 
 For now two actions are availbale as Owner: The ability to list a new NFT, and pause the sale as the contract is pausable ([see the ERC721Pausable extension on OpenZepplin](https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721Pausable)). As a client you'll be able to see the mintable NFTs, mint one and see the NFTs you own.
 
 <div style="display: flex; justify-content: center;">
-  <img src="client-warning.png" width="800px" style="border-radius: 4px;" />
+  <img src="https://i.imgur.com/AROu7UD.png" width="800px" style="border-radius: 4px;" />
 </div>
 
 To improve the UX and understanding of ownership, Alerts and Warnings have been added. For example you'll be warned on the client side if you are minting as the owner or if the sale is paused. And you'll shown an warning as well if you're trying to trigger owner actions while not being the owner.
@@ -123,7 +132,7 @@ const url = `https://ipfs.infura.io/ipfs/${added.path}`;
 Once you listed a couple of NFT, you should find them on [OpenSea's Testnet App](https://testnets.opensea.io/) !
 
 <div style="display: flex; justify-content: center;">
-  <img src="opensea-testnet.png" width="800px" style="border-radius: 4px;" />
+  <img src="https://i.imgur.com/2olNedM.png" width="800px" style="border-radius: 4px;" />
 </div>
 
 ## Deploy your Smart Contracts on Rinkeby
@@ -171,8 +180,8 @@ Qmdd8btEki1ASFBjMeeeaDNyAAzXH1skok8csiPQWWrnaS 1101  vercel.svg
 You could also use the [IPFS Desktop App](https://github.com/ipfs/ipfs-desktop) to see your content, it has a nice GUI and extra content to better understand how IPFS works. It'll also run a IPFS node for you locally so you can obtain content from other peers.
 
 <div style="display: flex; justify-content: center;">
-<img src="content-tree-2.png" width="400" />
-<img src="content-tree.png" width="400" />
+<img src="https://i.imgur.com/qYljPSy.png" width="400" />
+<img src="https://i.imgur.com/A8Mb1rA.png" width="400" />
 </div>
 
 ([This video](https://www.youtube.com/watch?v=hnigvVuoaIA&t=338s&ab_channel=OurNetworks) provides a great introdction to how IPFS works)

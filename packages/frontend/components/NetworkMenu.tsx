@@ -24,6 +24,10 @@ const chainIdToName: Record<number, NetworkOption> = {
     name: 'Rinkeby',
     icon: <p className="bg-rinkeby w-4 h-4 rounded-full"></p>,
   },
+  [ChainId.Polygon]: {
+    name: 'Polygon',
+    icon: <p className="bg-polygon w-4 h-4 rounded-full"></p>,
+  },
 };
 
 export default function NetworkMenu({

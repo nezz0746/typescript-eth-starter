@@ -9,12 +9,22 @@ import {
   MulticallContractAddress as RinkebyMulticallContractAddress,
   MyNFTContractAddress as RinberkyMyNFTContractAddress,
 } from '../artifacts/contracts/addresses/rinkebyContractAddress';
+import {
+  GreeterContractAddress as PolygonGreeterContractAddress,
+  MulticallContractAddress as PolygonMulticallContractAddress,
+  MyNFTContractAddress as PolygonMyNFTContractAddress,
+} from '../artifacts/contracts/addresses/maticContractAddress';
 
 const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
+const ALCHEMY_KEY_MATIC = process.env.NEXT_PUBLIC_ALCHEMY_KEY_MATIC;
 
 export const devChains: ChainId[] = [ChainId.Localhost];
 
-export const allowedChains: ChainId[] = [ChainId.Localhost, ChainId.Rinkeby].filter((chaindId) => {
+export const allowedChains: ChainId[] = [
+  ChainId.Localhost,
+  ChainId.Rinkeby,
+  ChainId.Polygon,
+].filter((chaindId) => {
   if (process.env.NODE_ENV === 'production') {
     return !devChains.includes(chaindId);
   }
@@ -26,6 +36,7 @@ export const getDappConfig = (chainId: number): Config => ({
     [ChainId.Rinkeby]: `https://ropsten.infura.io/v3/${INFURA_ID}`,
     [ChainId.Hardhat]: 'http://localhost:8545',
     [ChainId.Localhost]: 'http://localhost:8545',
+    [ChainId.Polygon]: `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY_MATIC}`,
   },
   supportedChains: [
     ChainId.Mainnet,
@@ -42,6 +53,7 @@ export const getDappConfig = (chainId: number): Config => ({
     ...MULTICALL_ADDRESSES,
     [ChainId.Rinkeby]: contractConfig[chainId].multicall,
     [ChainId.Localhost]: contractConfig[chainId].multicall,
+    [ChainId.Polygon]: contractConfig[chainId].multicall,
   },
 });
 
@@ -55,6 +67,11 @@ const contractConfig: Record<number, { greeter?: string; multicall: string; myNf
     greeter: RinkebyGreeterContractAddress,
     multicall: RinkebyMulticallContractAddress,
     myNft: RinberkyMyNFTContractAddress,
+  },
+  [ChainId.Polygon]: {
+    greeter: PolygonGreeterContractAddress,
+    multicall: PolygonMulticallContractAddress,
+    myNft: PolygonMyNFTContractAddress,
   },
 };
 

@@ -206,7 +206,6 @@ interface MyNFTInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "MintSuccess(address,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -215,7 +214,6 @@ interface MyNFTInterface extends ethers.utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "MintSuccess"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -685,11 +683,6 @@ export class MyNFT extends BaseContract {
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
     >;
-
-    MintSuccess(
-      sender?: string | null,
-      message?: null
-    ): TypedEventFilter<[string, string], { sender: string; message: string }>;
 
     OwnershipTransferred(
       previousOwner?: string | null,

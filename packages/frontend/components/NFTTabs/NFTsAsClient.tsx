@@ -3,6 +3,7 @@ import { ExclamationIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { MyNFT } from '../../../hardhat/types/MyNFT';
 import useAccountNFTs from '../../hooks/useAccountNFTs';
+import useCurrency from '../../hooks/useCurrency';
 import useListedPieces from '../../hooks/useListedPieces';
 import useMint from '../../hooks/useMint';
 import useOwner from '../../hooks/useOwner';
@@ -11,6 +12,7 @@ import usePrice from '../../hooks/usePrice';
 
 const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
   const isOwner = useOwner(contract);
+  const currency = useCurrency();
   const { pieces } = useListedPieces(contract);
   const { price } = usePrice(contract);
   const { isPaused } = usePause(contract);
@@ -109,7 +111,7 @@ const NFTsAsClient = ({ contract }: { contract: MyNFT }): JSX.Element => {
                     </h3>
                   </div>
                   <p className="text-sm font-medium text-gray-900">
-                    {isOwner ? 'Free' : `${price} ETH`}
+                    {isOwner ? 'Free' : `${price} ${currency}`}
                   </p>
                 </div>
                 <div className="mt-2">

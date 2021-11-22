@@ -17,9 +17,11 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable 
     }
     Piece[] public listedPieces;
     Counters.Counter private _tokenIdCounter;
-    uint256 public _price = 3 * 10**16;
-
     constructor() ERC721("MyNFT", "MNFT") {}
+
+    function _price() view public returns (uint256) {
+        return block.chainid == 137 ? 3 * 10**20 : 3 * 10**16;
+    }
 
     function pause() public onlyOwner {
         _pause();
@@ -46,7 +48,7 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable 
     function mint(address _to, uint256 index) public whenNotPaused payable {
         require(listedPieces[index].minted == false, "NFT already minted.");
         if(msg.sender != owner()) {
-          require(msg.value >= _price, "Ether sent is not correct" );
+          require(msg.value >= _price(), "Ether sent is not correct" );
         }
 
         _safeMint(_to, index);

@@ -24,7 +24,8 @@
     "chain": "npx hardhat node",
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat run scripts/deploy.ts --network localhost",
-    "deploy:rinkeby": "npx hardhat run scripts/deploy.ts --network rinkeby"
+    "deploy:rinkeby": "npx hardhat run scripts/deploy.ts --network rinkeby",
+    "deploy:matic": "npx hardhat run scripts/deploy.ts --network matic"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.2.0",
