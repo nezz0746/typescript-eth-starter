@@ -14,6 +14,7 @@ export type { ERC165 } from "./ERC165";
 export type { IERC165 } from "./IERC165";
 export type { Greeter } from "./Greeter";
 export type { Multicall } from "./Multicall";
+export type { MutableNFT } from "./MutableNFT";
 export type { MyNFT } from "./MyNFT";
 
 export { Ownable__factory } from "./factories/Ownable__factory";
@@ -29,4 +30,5 @@ export { ERC165__factory } from "./factories/ERC165__factory";
 export { IERC165__factory } from "./factories/IERC165__factory";
 export { Greeter__factory } from "./factories/Greeter__factory";
 export { Multicall__factory } from "./factories/Multicall__factory";
+export { MutableNFT__factory } from "./factories/MutableNFT__factory";
 export { MyNFT__factory } from "./factories/MyNFT__factory";

@@ -3,6 +3,7 @@ import {
   GreeterContractAddress as LocalhostGreeterContractAddress,
   MulticallContractAddress as LocalhostMulticallContractAddress,
   MyNFTContractAddress as LocalhostMyNFTContractAddress,
+  MutableNFTContractAddress as LocalhostMutableNFTContractAddress,
 } from '../artifacts/contracts/addresses/localhostContractAddress';
 import {
   GreeterContractAddress as RinkebyGreeterContractAddress,
@@ -21,6 +22,7 @@ const ALCHEMY_KEY_MATIC = process.env.NEXT_PUBLIC_ALCHEMY_KEY_MATIC;
 export const devChains: ChainId[] = [ChainId.Localhost];
 
 export const allowedChains: ChainId[] = [
+  ChainId.Hardhat,
   ChainId.Localhost,
   ChainId.Rinkeby,
   ChainId.Polygon,
@@ -52,16 +54,27 @@ export const getDappConfig = (chainId: number): Config => ({
   multicallAddresses: {
     ...MULTICALL_ADDRESSES,
     [ChainId.Rinkeby]: contractConfig[chainId].multicall,
+    [ChainId.Hardhat]: contractConfig[chainId].multicall,
     [ChainId.Localhost]: contractConfig[chainId].multicall,
     [ChainId.Polygon]: contractConfig[chainId].multicall,
   },
 });
 
-const contractConfig: Record<number, { greeter?: string; multicall: string; myNft?: string }> = {
+const contractConfig: Record<
+  number,
+  { greeter?: string; multicall: string; myNft?: string; mutableNft?: string }
+> = {
   [ChainId.Localhost]: {
     greeter: LocalhostGreeterContractAddress,
     multicall: LocalhostMulticallContractAddress,
     myNft: LocalhostMyNFTContractAddress,
+    mutableNft: LocalhostMutableNFTContractAddress,
+  },
+  [ChainId.Hardhat]: {
+    greeter: LocalhostGreeterContractAddress,
+    multicall: LocalhostMulticallContractAddress,
+    myNft: LocalhostMyNFTContractAddress,
+    mutableNft: LocalhostMutableNFTContractAddress,
   },
   [ChainId.Rinkeby]: {
     greeter: RinkebyGreeterContractAddress,

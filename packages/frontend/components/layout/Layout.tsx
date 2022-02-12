@@ -97,6 +97,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
                     {[
                       { path: '/', name: 'Greeter' },
                       { path: '/NFT', name: 'NFTs' },
+                      { path: '/MutableNFT', name: 'Mutable NFTs' },
                     ].map((route) => {
                       return (
                         <div key={route.name} className="hidden sm:ml-6 sm:flex sm:space-x-8">

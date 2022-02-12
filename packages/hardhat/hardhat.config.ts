@@ -29,9 +29,9 @@ const config: HardhatUserConfig = {
     artifacts: "../frontend/artifacts",
   },
   networks: {
-    hardhat: {
-      chainId: 1337,
-    },
+    // hardhat: {
+    //   chainId: 1337,
+    // },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
       accounts: [`0x${RINKEBY_PRIVATE_KEY}`],

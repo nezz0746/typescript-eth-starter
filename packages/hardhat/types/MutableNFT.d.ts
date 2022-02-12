@@ -19,14 +19,19 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface ERC721EnumerableInterface extends ethers.utils.Interface {
+interface MutableNFTInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
+    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "safeMint(address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -36,6 +41,9 @@ interface ERC721EnumerableInterface extends ethers.utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "unpause()": FunctionFragment;
+    "walletOfOwner(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -52,10 +60,18 @@ interface ERC721EnumerableInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "safeMint", values: [string]): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish]
@@ -89,6 +105,15 @@ interface ERC721EnumerableInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "walletOfOwner",
+    values: [string]
+  ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -101,7 +126,15 @@ interface ERC721EnumerableInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "safeMint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -132,16 +165,31 @@ interface ERC721EnumerableInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "walletOfOwner",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "Paused(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
@@ -160,11 +208,19 @@ export type ApprovalForAllEvent = TypedEvent<
   }
 >;
 
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type PausedEvent = TypedEvent<[string] & { account: string }>;
+
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
 >;
 
-export class ERC721Enumerable extends BaseContract {
+export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
+
+export class MutableNFT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -205,7 +261,7 @@ export class ERC721Enumerable extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ERC721EnumerableInterface;
+  interface: MutableNFTInterface;
 
   functions: {
     approve(
@@ -229,10 +285,27 @@ export class ERC721Enumerable extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    safeMint(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -286,6 +359,20 @@ export class ERC721Enumerable extends BaseContract {
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    walletOfOwner(
+      _owner: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
   };
 
   approve(
@@ -309,7 +396,24 @@ export class ERC721Enumerable extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
+  owner(overrides?: CallOverrides): Promise<string>;
+
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
+
+  renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  safeMint(
+    to: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -361,6 +465,20 @@ export class ERC721Enumerable extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  transferOwnership(
+    newOwner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  unpause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  walletOfOwner(
+    _owner: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   callStatic: {
     approve(
       to: string,
@@ -383,7 +501,17 @@ export class ERC721Enumerable extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
+    owner(overrides?: CallOverrides): Promise<string>;
+
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    safeMint(to: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -434,6 +562,18 @@ export class ERC721Enumerable extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    unpause(overrides?: CallOverrides): Promise<void>;
+
+    walletOfOwner(
+      _owner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
   };
 
   filters: {
@@ -473,6 +613,28 @@ export class ERC721Enumerable extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
+    "Paused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
+
+    Paused(account?: null): TypedEventFilter<[string], { account: string }>;
+
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
@@ -490,6 +652,12 @@ export class ERC721Enumerable extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
     >;
+
+    "Unpaused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
+
+    Unpaused(account?: null): TypedEventFilter<[string], { account: string }>;
   };
 
   estimateGas: {
@@ -514,9 +682,26 @@ export class ERC721Enumerable extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    safeMint(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -571,6 +756,20 @@ export class ERC721Enumerable extends BaseContract {
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    walletOfOwner(
+      _owner: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -598,9 +797,26 @@ export class ERC721Enumerable extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    safeMint(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -654,6 +870,20 @@ export class ERC721Enumerable extends BaseContract {
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    walletOfOwner(
+      _owner: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

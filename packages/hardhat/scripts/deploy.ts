@@ -28,6 +28,11 @@ async function main() {
   await myNFTContractDeployement.deployed();
   console.log('MyNFT deployed to:', myNFTContractDeployement.address);
 
+  const MutableNFTContract = await ethers.getContractFactory('MutableNFT');
+  const mutableNFTContractDeployement = await MutableNFTContract.deploy();
+  await mutableNFTContractDeployement.deployed();
+  console.log('MutableNFT deployed to:', mutableNFTContractDeployement.address);
+
   const MulticallContract = await ethers.getContractFactory('Multicall');
   const multiCallContract = await MulticallContract.deploy();
   await multiCallContract.deployed();
@@ -35,6 +40,7 @@ async function main() {
 
   saveFrontendFiles(contract, "GreeterContract");
   saveFrontendFiles(myNFTContractDeployement, "MyNFTContract")
+  saveFrontendFiles(mutableNFTContractDeployement, "MutableNFTContract")
   saveFrontendFiles(multiCallContract, "MulticallContract");
 }
 

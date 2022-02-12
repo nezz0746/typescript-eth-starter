@@ -18,7 +18,7 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface MyNFTInterface extends ethers.utils.Interface {
   functions: {
@@ -219,6 +219,34 @@ interface MyNFTInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
+
+export type ApprovalEvent = TypedEvent<
+  [string, string, BigNumber] & {
+    owner: string;
+    approved: string;
+    tokenId: BigNumber;
+  }
+>;
+
+export type ApprovalForAllEvent = TypedEvent<
+  [string, string, boolean] & {
+    owner: string;
+    operator: string;
+    approved: boolean;
+  }
+>;
+
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type PausedEvent = TypedEvent<[string] & { account: string }>;
+
+export type TransferEvent = TypedEvent<
+  [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
+>;
+
+export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
 
 export class MyNFT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -666,6 +694,15 @@ export class MyNFT extends BaseContract {
   };
 
   filters: {
+    "Approval(address,address,uint256)"(
+      owner?: string | null,
+      approved?: string | null,
+      tokenId?: BigNumberish | null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { owner: string; approved: string; tokenId: BigNumber }
+    >;
+
     Approval(
       owner?: string | null,
       approved?: string | null,
@@ -673,6 +710,15 @@ export class MyNFT extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; approved: string; tokenId: BigNumber }
+    >;
+
+    "ApprovalForAll(address,address,bool)"(
+      owner?: string | null,
+      operator?: string | null,
+      approved?: null
+    ): TypedEventFilter<
+      [string, string, boolean],
+      { owner: string; operator: string; approved: boolean }
     >;
 
     ApprovalForAll(
@@ -684,6 +730,14 @@ export class MyNFT extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -692,7 +746,20 @@ export class MyNFT extends BaseContract {
       { previousOwner: string; newOwner: string }
     >;
 
+    "Paused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
+
     Paused(account?: null): TypedEventFilter<[string], { account: string }>;
+
+    "Transfer(address,address,uint256)"(
+      from?: string | null,
+      to?: string | null,
+      tokenId?: BigNumberish | null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { from: string; to: string; tokenId: BigNumber }
+    >;
 
     Transfer(
       from?: string | null,
@@ -702,6 +769,10 @@ export class MyNFT extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
     >;
+
+    "Unpaused(address)"(
+      account?: null
+    ): TypedEventFilter<[string], { account: string }>;
 
     Unpaused(account?: null): TypedEventFilter<[string], { account: string }>;
   };

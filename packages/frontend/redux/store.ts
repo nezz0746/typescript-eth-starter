@@ -18,6 +18,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
+  whitelist: ['app.ceramic'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({ app }));
@@ -27,7 +28,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'app/setCeramic'],
+        ignoredPaths: ['app.ceramic'],
       },
     }),
 });

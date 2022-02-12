@@ -1,0 +1,23 @@
+{
+  "name": "my-eth-starter-ceramic-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "model:create": "node --experimental-json-modules models/createModel.mjs",
+    "model:publish": "node --experimental-json-modules models/publishModel.mjs",
+    "deploy": "yarn run model:create && yarn run model:publish",
+    "deploy:prod": ""
+  },
+  "devDependencies": {
+    "@ceramicnetwork/http-client": "^1.5.7",
+    "@datamodels/identity-profile-basic": "^0.1.2",
+    "@glazed/devtools": "^0.1.3",
+    "@glazed/types": "^0.1.3",
+    "dotenv": "^14.3.2",
+    "key-did-provider-ed25519": "^1.1.0",
+    "key-did-resolver": "^1.4.4",
+    "prettier": "^2.5.1",
+    "uint8arrays": "^3.0.0"
+  }
+}

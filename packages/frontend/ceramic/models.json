@@ -1,0 +1,16 @@
+{
+  "definitions": {
+    "basicProfile": "kjzl6cwe1jw145cjbeko9kil8g9bxszjhyde21ob8epxuxkaon1izyqsu8wgcic",
+    "erc721Metadata": "kjzl6cwe1jw148k3poncrcw0ftiim4k331086qubu61xlibqluigbv0fc1nirha",
+    "streamRegistry": "kjzl6cwe1jw147co72xy52tbag02yg4grszu969ufm7c6kt9z3ta618kjqhynd9"
+  },
+  "schemas": {
+    "BasicProfile": "ceramic://k3y52l7qbv1frxt706gqfzmq6cbqdkptzk8uudaryhlkf6ly9vx21hqu4r6k1jqio",
+    "erc721Metadata": "ceramic://k3y52l7qbv1frxon49jsnxiss5ovbote05sjdf9onl6sg5p0vq3qk3t8sla978av4",
+    "streamRegistry": "ceramic://k3y52l7qbv1fry0sfgcpxmooizjfeicj63kgcszl349qkbhyxlnyc0rjaexdmzk00"
+  },
+  "tiles": {
+    "ping": "kjzl6cwe1jw148gama73rdpx3gvdp6wuloztplzo6dhe5rw1jcl92hsm4waicbt",
+    "Mutable NFT Stream Registry": "kjzl6cwe1jw1488o1nohsq05wu1s1epek9c4yrq13va5v5x4577e6c96fsy1vyv"
+  }
+}

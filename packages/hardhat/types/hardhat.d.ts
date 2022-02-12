@@ -65,9 +65,89 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Multicall__factory>;
     getContractFactory(
+      name: "MutableNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MutableNFT__factory>;
+    getContractFactory(
       name: "MyNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyNFT__factory>;
+
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Pausable>;
+    getContractAt(
+      name: "ERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "ERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Enumerable>;
+    getContractAt(
+      name: "ERC721URIStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721URIStorage>;
+    getContractAt(
+      name: "IERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "Greeter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Greeter>;
+    getContractAt(
+      name: "Multicall",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Multicall>;
+    getContractAt(
+      name: "MutableNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MutableNFT>;
+    getContractAt(
+      name: "MyNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyNFT>;
 
     // default types
     getContractFactory(
@@ -79,5 +159,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
+    getContractAt(
+      nameOrAbi: string | any[],
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<ethers.Contract>;
   }
 }
