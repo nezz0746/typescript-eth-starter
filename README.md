@@ -25,6 +25,11 @@ Heavily influenced by Scaffold-Eth and the existing [Typescript branch](https://
   - [Examples](#examples)
     - [1. Greeter Contract](#1-greeter-contract)
     - [2. NFT Sale Dashboard](#2-nft-sale-dashboard)
+    - [3. Mutable NFT Collection](#3-mutable-nft-collection)
+      - [a. DIDs](#a-dids)
+      - [b. DataModels](#b-datamodels)
+      - [c. Wrapper](#c-wrapper)
+      - [d. Example of owner-side features](#d-example-of-owner-side-features)
   - [Deploy your Smart Contracts on Rinkeby](#deploy-your-smart-contracts-on-rinkeby)
   - [Deploy your Dapp on IPFS](#deploy-your-dapp-on-ipfs)
 
@@ -134,6 +139,26 @@ Once you listed a couple of NFT, you should find them on [OpenSea's Testnet App]
 <div style="display: flex; justify-content: center;">
   <img src="https://i.imgur.com/2olNedM.png" width="800px" style="border-radius: 4px;" />
 </div>
+
+### 3. Mutable NFT Collection
+
+Before digging into this I recommend visiting Ceramic's documentation and getting familiar with concepts like DataStreams, DIDs and the Ceramic Network itself [here](https://developers.ceramic.network/learn/welcome/) !
+
+The aim of this example is to try and leverage Ceramics Datastreams and DIDs to hand our token owners, some write rights over their metadata once the token minted. Here's a simple representation of what this might look like:
+
+Challenge ? Our contract and clients that might consume the metadata are expecting the tokenURI to be standard and predictible in the format: baseURI + tokenID. To maintain consistency we'll just use a node wrapper that'll take the tokenID and point to the correct metadata by reading the registry. (Plenty of space for improvements or doing things differently i'm sure, open to suggestions :) )
+
+<div style="display: flex; justify-content: center;">
+  <img src="https://i.imgur.com/xblRgjY.png" width="800px" style="border-radius: 4px;" />
+</div>
+
+#### a. DIDs
+
+#### b. DataModels
+
+#### c. Wrapper
+
+#### d. Example of owner-side features
 
 ## Deploy your Smart Contracts on Rinkeby
 
