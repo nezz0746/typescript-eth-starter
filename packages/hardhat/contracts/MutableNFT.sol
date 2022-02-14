@@ -15,7 +15,7 @@ contract MutableNFT is ERC721, ERC721Enumerable, Pausable, Ownable {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "http://ceramic.com";
+        return "http://localhost:4009/";
     }
 
     function pause() public onlyOwner {

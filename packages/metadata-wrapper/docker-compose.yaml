@@ -6,3 +6,5 @@ services:
       - ./.env
     ports:
       - "4009:4009"
+    volumes:
+      - .:/usr/src/app

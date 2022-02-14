@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { create } from 'ipfs-http-client'
 import nodeHtmlToImage from 'node-html-to-image'
-import fs, { readFile } from 'fs/promises'
+import { promises as fs } from 'fs'
 
 const deleteImage = async (path: string) => {
   return fs.unlink(path)
@@ -45,12 +45,12 @@ export default class ImageController {
               }
             </style>
           </head>
-          <body><p>#${word}</p></body>
+          <body><p>${word}</p></body>
           </html>
           `,
       })
 
-      const file = await readFile(fileOutput)
+      const file = await fs.readFile(fileOutput)
 
       const { path } = await ipfs.add(file)
 

@@ -1,16 +1,1 @@
-{
-  "definitions": {
-    "basicProfile": "kjzl6cwe1jw145cjbeko9kil8g9bxszjhyde21ob8epxuxkaon1izyqsu8wgcic",
-    "erc721Metadata": "kjzl6cwe1jw1466dl3vh92teas6m1vmjn4tzk3gg9oimaw3g7q80u65o06nn47c",
-    "streamRegistry": "kjzl6cwe1jw14ae0npfsg5u9dfnc9vlv76psvck3k9sqo5r401l4q48vnwh4r3h"
-  },
-  "schemas": {
-    "BasicProfile": "ceramic://k3y52l7qbv1frxt706gqfzmq6cbqdkptzk8uudaryhlkf6ly9vx21hqu4r6k1jqio",
-    "erc721Metadata": "ceramic://k3y52l7qbv1fry6blgsxl0juut2epv8x81pz549gsysevsg6kwzch9bagxsmyjlz4",
-    "streamRegistry": "ceramic://k3y52l7qbv1fry7syh5cirfr2bpzc5ax9bk6lu5m3hrpsxhft5gvztwph24kptlvk"
-  },
-  "tiles": {
-    "ping": "kjzl6cwe1jw148l1y5hant8nrsexuxwsaqf7axeymbmflxhsrsal3wzrtnmfe8w",
-    "Mutable NFT Stream Registry": "kjzl6cwe1jw14a2rcgrh8z9icy2zs40n4nc7xe06dry2k9cbz8t7xyzwvzh9djb"
-  }
-}
+{"definitions":{"basicProfile":"kjzl6cwe1jw145cjbeko9kil8g9bxszjhyde21ob8epxuxkaon1izyqsu8wgcic","erc721Metadata":"kjzl6cwe1jw146n7du4h6gbjkiazubiccxbqcbqoanmowvz8x57dzvw4to11lwk","streamRegistry":"kjzl6cwe1jw146plxls7f7syrs4hlumtuemlak530hj5urfqxtr0fhf0n48g3kw"},"schemas":{"BasicProfile":"ceramic://k3y52l7qbv1frxt706gqfzmq6cbqdkptzk8uudaryhlkf6ly9vx21hqu4r6k1jqio","erc721Metadata":"ceramic://k3y52l7qbv1fryd1zxybje8530qr2jyl4o5juhtz1695lvwfmrmnyxcmjustlexhc","streamRegistry":"ceramic://k3y52l7qbv1fryabfxb65hzxyhvzwdg5byghiocx9lc80u4rti8g1nukfqopzvrwg"},"tiles":{"ping":"kjzl6cwe1jw146n5dax4939htek4479sd74mflajedg4ogowc6k66gszdp2ke0g","Mutable NFT Stream Registry":"kjzl6cwe1jw146fjln3c3cg1uwa9dy0951kwhc6nszop4ax9x06ojqotuh6zu52"}}

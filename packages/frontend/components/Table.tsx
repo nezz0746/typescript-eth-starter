@@ -50,11 +50,10 @@ export default function Table({
                           if (onRowClick) {
                             if (rowIndex === indexOpen) {
                               setIndexOpen(-1);
-                              onRowClick(-1);
                             } else {
                               setIndexOpen(rowIndex);
-                              onRowClick(rowIndex);
                             }
+                            onRowClick(rowIndex);
                           }
                         }}
                         className={classNames({

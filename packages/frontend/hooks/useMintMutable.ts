@@ -1,22 +1,42 @@
 /* eslint-disable no-console */
 import { TileDocument } from '@ceramicnetwork/stream-tile';
 import { useEthers } from '@usedapp/core';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { MutableNFT } from '../../hardhat/types/MutableNFT';
 
 import { erc721Schema } from '../conf/ceramic';
 import { useTypedSelector } from '../redux/store';
-import { updateRegistry } from '../services/metadatamanage';
+import { getMetadata, updateRegistry } from '../services/metadatamanage';
+import { makeNewWordImage } from '../services/wordmaker';
 import useSelfID from './useSelfID';
 
 const useMintMutable = (
   contract: MutableNFT | null,
-): { mintNFT: () => Promise<void>; balance: number[] } => {
+): {
+  mintNFT: () => Promise<void>;
+  minting: boolean;
+  balance: number[];
+  fetchTokenMetadata: (tokenID: number) => Promise<Record<string, string> | undefined>;
+} => {
+  const [minting, setMinting] = useState(false);
   const { self } = useSelfID();
   const { account } = useEthers();
   const { ceramic } = useTypedSelector((state) => state.app);
   const [balance, setBalance] = useState<number[]>([]);
+
+  const fetchTokenMetadata = useCallback(
+    async (tokenID: number) => {
+      if (contract) {
+        const uri = await contract.tokenURI(ethers.BigNumber.from(tokenID));
+
+        const data = await getMetadata(uri);
+
+        return data;
+      }
+    },
+    [contract],
+  );
 
   const getBalance = useCallback(async () => {
     if (account && contract) {
@@ -27,8 +47,8 @@ const useMintMutable = (
   }, [account, contract]);
 
   const mintNFT = useCallback(async () => {
-    console.log('{self, contract, account}', { self, contract, account });
     if (!ceramic || !contract || !account || !self) return;
+    setMinting(true);
 
     try {
       const tx = await contract.safeMint(account);
@@ -38,24 +58,22 @@ const useMintMutable = (
       const tokenIDBN = await contract.callStatic.safeMint(account);
       const tokenID = tokenIDBN.toNumber() - 1;
 
+      let baseWordUrl;
+      try {
+        baseWordUrl = await makeNewWordImage({ word: `word#${tokenID}` });
+      } catch (error) {
+        throw new Error('Could not generate new image.');
+      }
+
+      console.log(baseWordUrl);
+
       // CREATE NEW TOKEN_STREAM
       const newTokenStreamID = await TileDocument.create(
         self.client.ceramic,
-        /**
-         * Here we are placing the metadata directly in the hands of the owner at creation.
-         * This could open doors for creativity and authority by owner on metadata.
-         *
-         * Things like:
-         * - Pick options at creation
-         * - Updates of metadata
-         *
-         * TODO: Think of simple first use-case to implement.
-         */
         {
-          image:
-            'https://lemagdesanimaux.ouest-france.fr/images/dossiers/2021-03/adopter-poney-083907.jpg',
-          name: 'PONEY',
-          description: 'This is a cute poney',
+          image: baseWordUrl.path,
+          name: 'word#' + tokenID.toString(),
+          description: 'This is the word token #' + tokenID.toString(),
         },
         {
           schema: erc721Schema,
@@ -64,22 +82,27 @@ const useMintMutable = (
         },
       );
 
+      console.log(1);
+
       await updateRegistry({
         tokenID: tokenID.toString(),
         streamID: newTokenStreamID.id.toString(),
       });
 
+      console.log(2);
+
       await getBalance();
     } catch (error) {
       console.log('error', error);
     }
+    setMinting(false);
   }, [account, ceramic, contract, getBalance, self]);
 
   useEffect(() => {
     getBalance();
   }, [contract, getBalance]);
 
-  return { mintNFT, balance };
+  return { mintNFT, minting, balance, fetchTokenMetadata };
 };
 
 export default useMintMutable;

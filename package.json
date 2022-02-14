@@ -11,9 +11,10 @@
     "ipfs": "yarn workspace my-eth-starter-frontend-project ipfs",
     "chain": "yarn workspace my-eth-starter-hardhat-project chain",
     "server:dev": "yarn workspace my-eth-starter-server dev",
+    "run:services": "concurrently --kill-others \"yarn run chain\" \"yarn run server:dev\"",
     "deploy:models": "yarn workspace my-eth-starter-ceramic-project deploy",
     "deploy:contracts": "yarn workspace my-eth-starter-hardhat-project deploy",
-    "deploy:full": "yarn run deploy:models && yarn run deploy:contracts",
+    "deploy:full": "concurrently \"yarn run deploy:models\" \"yarn run deploy:contracts\"",
     "deploy:rinkeby": "yarn workspace my-eth-starter-hardhat-project deploy:rinkeby",
     "deploy:matic": "yarn workspace my-eth-starter-hardhat-project deploy:matic",
     "compile": "yarn workspace my-eth-starter-hardhat-project compile",
@@ -23,5 +24,8 @@
     "packages": [
       "./packages/*"
     ]
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0"
   }
 }

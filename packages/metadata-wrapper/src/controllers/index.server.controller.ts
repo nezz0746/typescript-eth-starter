@@ -47,6 +47,23 @@ export default class IndexController {
     res.json(registry)
   }
 
+  public async getRegistryByTokenID(
+    { params: { id } }: Request<{ id: string }>,
+    res: Response,
+    next: Function
+  ): Promise<void> {
+    const ceramic = await authenticate()
+
+    const doc = await TileDocument.load<Record<number, string>>(
+      ceramic,
+      registryStreamID
+    )
+
+    const registry = doc.content
+
+    res.json(registry[id])
+  }
+
   public async updateRegistry(
     req: Request<{}, {}, { tokenID: string; streamID: string }>,
     res: Response,
@@ -81,13 +98,37 @@ export default class IndexController {
   }
 
   public async getMetadata(
-    req: Request<{}, {}, { tokenID: string }>,
+    {
+      params: { id: tokenID },
+    }: Request<{ id: string }, {}, { tokenID: string }>,
     res: Response,
     next: Function
   ): Promise<void> {
-    const { tokenID } = req.body
+    const ceramic = await authenticate()
 
-    res.json({ metadata: 'get_metadata for tokenID: ' + tokenID })
+    const registryDoc = await TileDocument.load<Record<number, string>>(
+      ceramic,
+      registryStreamID
+    )
+
+    const registry = registryDoc.content
+
+    if (!registry) {
+      throw new Error('Regisrt does not exists')
+    }
+
+    const tokenStreamID = registry[tokenID]
+
+    if (!tokenStreamID) {
+      throw new Error('Token does not exists')
+    }
+
+    const tokenStreamDoc = await TileDocument.load<Record<number, string>>(
+      ceramic,
+      tokenStreamID
+    )
+
+    res.json(tokenStreamDoc.content)
   }
 
   public updateMetadata(req: Request, res: Response): void {
