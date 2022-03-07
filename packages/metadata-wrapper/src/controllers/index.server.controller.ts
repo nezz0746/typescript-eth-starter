@@ -5,7 +5,7 @@ import { Ed25519Provider } from 'key-did-provider-ed25519'
 import { getResolver } from 'key-did-resolver'
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { fromString } from 'uint8arrays'
-import { registryStreamID } from '../ceramic'
+import { regionsModels, registryStreamID } from '../ceramic'
 
 const CERAMIC_URL =
   process.env.CERAMIC_URL || 'https://ceramic-clay.3boxlabs.com'
@@ -133,6 +133,18 @@ export default class IndexController {
 
   public updateMetadata(req: Request, res: Response): void {
     res.json({ metadata: 'updated_metadata' })
+  }
+
+  public async getRegions(req: Request, res: Response): Promise<void> {
+    const ceramic = await authenticate()
+
+    const regions = (
+      await Promise.all(
+        regionsModels.map(model => TileDocument.load(ceramic, model))
+      )
+    ).map(doc => doc.content)
+
+    res.json({ regions })
   }
 }
 
