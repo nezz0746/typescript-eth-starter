@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Feature } from 'geojson';
 
 const WRAPPER_URL = process.env.NEXT_PUBLIC_WRAPPER_URL;
 
@@ -12,6 +13,10 @@ export const updateRegistry = ({ tokenID, streamID }: { tokenID: string; streamI
 
 export const getRegistry = (): Promise<Record<string, string>> => {
   return metadataManager.get('/registry').then((res) => res.data);
+};
+
+export const getRegions = (): Promise<{ regions: Feature[] }> => {
+  return metadataManager.get('/regions').then((res) => res.data);
 };
 
 export const getTokenStreamID = ({ tokenID }: { tokenID: string }): Promise<string> => {

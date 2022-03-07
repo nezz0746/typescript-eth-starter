@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import Layout from '../components/layout/Layout';
 import { DAppProvider } from '@usedapp/core';
 import { ModelTypes } from '@datamodels/identity-profile-basic';

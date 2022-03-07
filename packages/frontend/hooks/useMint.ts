@@ -14,7 +14,9 @@ const useMint = (contract: MyNFT): { mintNFT: (tokenId: number) => Promise<void>
   const mintNFT = useCallback(
     async (tokenId: number) => {
       if (contract && account && BNPrice) {
-        await (await contract.mint(account, tokenId, { value: isOwner ? BigNumber.from('0') : BNPrice })).wait();
+        await (
+          await contract.mint(account, tokenId, { value: isOwner ? BigNumber.from('0') : BNPrice })
+        ).wait();
       }
     },
     [BNPrice, account, contract, isOwner],

@@ -1,6 +1,21 @@
 import CeramicClient from '@ceramicnetwork/http-client';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Feature, Point } from 'geojson';
 import { allowedChains } from '../conf/config';
+
+export type MapPointItemFeature = Feature<Point, { name: string; descritption: string }>;
+
+export type Metadata = {
+  name: string;
+  description: string;
+  image: string;
+  geo_feature: MapPointItemFeature;
+};
+
+export type ERC721 = {
+  tokenID: number;
+  data: Metadata;
+};
 
 interface AppState {
   currentNetworkChainId: number;
@@ -8,6 +23,8 @@ interface AppState {
   transactionProcessing: boolean;
   ceramic: CeramicClient | null;
   metadataRegistry: Record<number, string>;
+  regions: Feature[];
+  tokenBalance: ERC721[];
 }
 
 const initialState: AppState = {
@@ -16,6 +33,8 @@ const initialState: AppState = {
   transactionProcessing: false,
   ceramic: null,
   metadataRegistry: {},
+  regions: [],
+  tokenBalance: [],
 };
 
 export const appSlice = createSlice({
@@ -37,6 +56,12 @@ export const appSlice = createSlice({
     setRegistry: (state, action: PayloadAction<Record<number, string>>) => {
       state.metadataRegistry = action.payload;
     },
+    setRegions: (state, action: PayloadAction<Feature[]>) => {
+      state.regions = action.payload;
+    },
+    setTokenBalance: (state, action: PayloadAction<ERC721[]>) => {
+      state.tokenBalance = action.payload;
+    },
   },
   extraReducers: () => {
     //
@@ -49,6 +74,8 @@ export const {
   setTransactionProcessing,
   setCeramic,
   setRegistry,
+  setRegions,
+  setTokenBalance,
 } = appSlice.actions;
 
 export default appSlice.reducer;

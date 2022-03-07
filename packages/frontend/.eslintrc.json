@@ -37,6 +37,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-console": "off"
+    "no-console": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }

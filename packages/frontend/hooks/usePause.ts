@@ -8,7 +8,9 @@ const usePause = (
   contract: MyNFT,
 ): { isPaused: boolean; pause: () => Promise<void>; unpause: () => Promise<void> } => {
   const [isPaused, setIsPaused] = useState(false);
+  // @ts-ignore
   const { send: pause } = useContractFunction(contract, 'pause', { transactionName: 'Pause Sale' });
+  // @ts-ignore
   const { send: unpause } = useContractFunction(contract, 'unpause', {
     transactionName: 'Unpause Sale',
   });

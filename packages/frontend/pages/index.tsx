@@ -21,6 +21,7 @@ export default function Home(): JSX.Element {
 }
 
 const GreetingCard = ({ contract }: { contract: Greeter }) => {
+  // @ts-ignore
   const setGreetingCaller = useContractFunction(contract, 'setGreeting', {
     transactionName: 'Setting Greeting.',
   });

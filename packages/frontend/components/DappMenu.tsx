@@ -15,7 +15,7 @@ const DappMenu = (): JSX.Element => {
   let didBlockieImageSrc: string;
 
   if (typeof window !== 'undefined') {
-    didBlockieImageSrc = blockies.create({ seed: self?.did.id || '' }).toDataURL();
+    didBlockieImageSrc = blockies.create({ seed: self?.did.id || '987' }).toDataURL();
 
     accountBlockieImageSrc = blockies.create({ seed: account as string | undefined }).toDataURL();
   }

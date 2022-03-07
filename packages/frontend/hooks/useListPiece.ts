@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-console */
 import { useContractFunction } from '@usedapp/core';
 import { create } from 'ipfs-http-client';
@@ -17,6 +18,7 @@ const useListPiece = (
 } => {
   const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<File | null>(null);
+  // @ts-ignore
   const { send: list } = useContractFunction(contract, 'listPiece', {
     transactionName: 'List Piece.',
   });
