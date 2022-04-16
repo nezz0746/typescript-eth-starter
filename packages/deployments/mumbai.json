@@ -1,0 +1,48 @@
+{
+  "name": "mumbai",
+  "chainId": "80001",
+  "contracts": {
+    "Greeter": {
+      "address": "0x636478c169bBAd67E381acbC68da3E9A9A2510Bc",
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "_greeting",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "name": "greet",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "_greeting",
+              "type": "string"
+            }
+          ],
+          "name": "setGreeting",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "deployments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "hardhat-deploy": "^0.11.2"
+  }
+}

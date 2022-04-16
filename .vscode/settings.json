@@ -5,5 +5,5 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "autoimport.filesToScan": "./packages/**/*.{ts,tsx,d.ts}"
+  "autoimport.filesToScan": "./{packages, apps}/**/*.{ts,tsx,d.ts}"
 }

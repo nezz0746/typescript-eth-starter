@@ -46,3 +46,8 @@ packages/frontend/build
 packages/frontend/artifacts/*
 !packages/frontend/artifacts/contracts
 packages/frontend/artifacts/contracts/**/*.sol
+
+.turbo
+build/**
+dist/**
+.next/**

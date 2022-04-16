@@ -1,0 +1,42 @@
+{
+  "name": "my-eth-starter-hardhat-project",
+  "author": "@nezz0746",
+  "license": "MIT",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@typechain/ethers-v5": "^10.0.0",
+    "@typechain/hardhat": "^6.0.0",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.3",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.6.3",
+    "hardhat": "^2.9.3",
+    "hardhat-deploy": "^0.11.4",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.7.20",
+    "ts-node": "^10.1.0",
+    "typechain": "^8.0.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "clean": "npx hardhat clean",
+    "chain": "hardhat node --export ../../packages/deployments/local.json",
+    "deploy:local": "hardhat deploy --export ../../packages/deployments/local.json --tags local --reset",
+    "deploy:mumbai": "hardhat --network mumbai deploy --export ../../packages/deployments/mumbai.json --tags mumbai --write true --reset",
+    "compile": "npx hardhat compile",
+    "dev": "npm run chain",
+    "test": "hardhat test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "chai-ethers": "^0.0.1",
+    "dotenv": "^10.0.0",
+    "types": "*"
+  }
+}
