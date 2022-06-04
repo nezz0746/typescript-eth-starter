@@ -6,13 +6,13 @@
 
 This monorepo should allow you to get started with a simple Greeter smart contract on your local hardhat netowrk and Polygon testnet (Mumbai) in record time with this basic react stack using
 
-- React / Typescript (Vite ⚡)
+- React / Typescript (NextJS)
 - 🏎️  [Turborepo](https://turborepo.org/)
 - 👷 [Hardhat](https://hardhat.org/), with tests & plugings setup:
   - hardhat-deploy
   - hardhat-gas-reporter
-- 🚀 [wagmi](https://wagmi.sh/), React Hooks library
-- [Tailwind CSS](https://tailwindcss.com/)
+- 🚀 [wagmi](https://wagmi.sh/) & 🌈 [RainbowKit](https://www.rainbowkit.com/) !
+- [Tailwind CSS](https://tailwindcss.com/) with [DaisyUI](https://daisyui.com/) 🌼 ! 
 
 ## Get Started
 
@@ -35,17 +35,14 @@ will concurrently:
 - deploy contracts locally as described by the hardhat-deploy plugin
 - start your web app on port 3000
 
-While you work on your hardhat projet, any new compilation or deployments will be saved in the packages folder to
-be consumed by your frontend or any other app you'll add in the future.
-
 ```
 /apps
   /ethereum
   /web
   [...]
 /packages
-  /deployments
   /types
+  [...]
 ```
 
 ### Tests

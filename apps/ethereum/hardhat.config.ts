@@ -52,7 +52,7 @@ const getCommonNetworkConfig = (url: string, networkId: number) => ({
 });
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.4",
+  solidity: "0.8.14",
   namedAccounts: {
     deployer: 0,
     user1: 1,
