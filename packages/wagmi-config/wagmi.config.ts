@@ -1,11 +1,13 @@
 import { foundry } from "@wagmi/cli/plugins";
+import { react } from "@wagmi/cli/plugins";
 
 export default {
-  out: "src/generated.js",
+  out: "generated.ts",
   contracts: [],
   plugins: [
     foundry({
-      project: "../contracts",
+      project: "../../apps/contracts",
     }),
+    react({}),
   ],
 };

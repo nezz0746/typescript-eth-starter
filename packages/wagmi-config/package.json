@@ -1,0 +1,19 @@
+{
+  "name": "wagmi-config",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "private": true,
+  "scripts": {
+    "dev": "wagmi generate -w"
+  },
+  "dependencies": {
+    "shared-config": "*",
+    "wagmi": "^1.4.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "wagmi": "^1.4.5"
+  }
+}

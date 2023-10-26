@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "generate": "wagmi generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -17,7 +16,9 @@
     "next": "13.5.6",
     "react": "^18.1.0",
     "react-dom": "18.1.0",
-    "wagmi": "^1.4.5"
+    "wagmi": "^1.4.5",
+    "shared-config": "*",
+    "wagmi-config": "*"
   },
   "devDependencies": {
     "@types/node": "17.0.39",

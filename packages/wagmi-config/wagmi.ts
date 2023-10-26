@@ -1,9 +1,8 @@
-import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig } from "wagmi";
 import { localhost } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { WALLETCONNECT_PROJECT_ID, appName } from "./constants";
+import { projectId, appName } from "shared-config";
 
 const { chains, publicClient } = configureChains(
   [localhost],
@@ -12,7 +11,7 @@ const { chains, publicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName,
-  projectId: WALLETCONNECT_PROJECT_ID,
+  projectId,
   chains,
 });
 
