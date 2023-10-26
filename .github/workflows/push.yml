@@ -24,9 +24,11 @@ jobs:
         run: |
           forge --version
           forge build
+        working-directory: apps/contracts
         id: build
 
       - name: Run Forge tests
         run: |
           forge test -vvv
+        working-directory: apps/contracts
         id: test
