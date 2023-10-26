@@ -1,23 +1,12 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiConfig } from "wagmi";
 import Layout from "../components/Layout";
-import { wagmiConfig, chains } from "wagmi-config";
+import dynamic from "next/dynamic";
 
-type DappProviderProps = {
-  children: React.ReactNode;
-};
-
-const DappProvider = ({ children }: DappProviderProps) => {
-  return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
-    </WagmiConfig>
-  );
-};
+const DappProvider = dynamic(() => import("../components/DappProvider"), {
+  ssr: false,
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

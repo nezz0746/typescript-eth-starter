@@ -2,9 +2,11 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import useAnvil from "../hooks/useAnvil";
 import ConnectButton from "./ConnectButton";
+import useChain from "../hooks/useChain";
 
 const Layout = ({ children }: { children: ReactElement }) => {
   const { selfFund } = useAnvil();
+  const { isLocal } = useChain();
 
   return (
     <div className="border flex flex-col h-screen">
@@ -15,14 +17,16 @@ const Layout = ({ children }: { children: ReactElement }) => {
           </Link>
         </div>
         <div className="flex flex-row gap-2">
-          <button
-            className="btn btn-outline"
-            onClick={() => {
-              selfFund();
-            }}
-          >
-            Get ETH
-          </button>
+          {isLocal && (
+            <button
+              className="btn btn-outline"
+              onClick={() => {
+                selfFund();
+              }}
+            >
+              Get ETH
+            </button>
+          )}
           <ConnectButton />
         </div>
       </div>
