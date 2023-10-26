@@ -1,7 +1,0 @@
-node_modules
-
-#Hardhat files
-cache
-artifacts
-# NOTE: remove this to commit your deployments
-deployments

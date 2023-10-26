@@ -1,0 +1,9 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "forge test",
+    "dev": "echo 'anvil'",
+    "build": "forge compile"
+  }
+}
