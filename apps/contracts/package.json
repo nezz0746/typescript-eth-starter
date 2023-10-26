@@ -4,6 +4,7 @@
   "scripts": {
     "test": "forge test",
     "dev": "anvil --chain-id 1337",
+    "deploy:local": "forge script CounterScript --broadcast",
     "build": "forge compile"
   }
 }
