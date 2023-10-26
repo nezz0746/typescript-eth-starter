@@ -6,7 +6,7 @@
   "types": "index.ts",
   "private": true,
   "scripts": {
-    "dev": "wagmi generate -w"
+    "generate": "wagmi generate"
   },
   "dependencies": {
     "shared-config": "*",
@@ -14,6 +14,6 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "wagmi": "^1.4.5"
+    "@wagmi/cli": "^1.5.2"
   }
 }
