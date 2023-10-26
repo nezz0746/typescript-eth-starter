@@ -1,50 +1,61 @@
 # 🔌 ETH Basic Typescript Starter
 
-### ✨ New version ✨
+### ✨ New version (V3!) ✨
 
-(Older version available [here](https://github.com/nezz0746/typescript-eth-starter/tree/12d7cd88a70251b134abea7ea7c0666aa2142de0))
-
-This monorepo should allow you to get started with a simple Greeter smart contract on your local hardhat netowrk and Polygon testnet (Mumbai) in record time with this basic react stack using
+This monorepo should allow you to get started with a simple Counter smart contract on your local anvil instance, and a dapp
 
 - React / Typescript (NextJS)
 - 🏎️  [Turborepo](https://turborepo.org/)
-- 👷 [Hardhat](https://hardhat.org/), with tests & plugings setup:
-  - hardhat-deploy
-  - hardhat-gas-reporter
+- ⚒️ [Foundry](https://github.com/foundry-rs/foundry), with tests & local anvil instance:
 - 🚀 [wagmi](https://wagmi.sh/) & 🌈 [RainbowKit](https://www.rainbowkit.com/) !
+  - Generated custom hooks with the wagmi-cli !
 - [Tailwind CSS](https://tailwindcss.com/) with [DaisyUI](https://daisyui.com/) 🌼 ! 
+
+Recommended:
+- [Rivet](https://github.com/paradigmxyz/rivet): Developper wallet & devtool for you local developpement
 
 ## Get Started
 
-Install dependencies
+### 0. Set environment variables (Optional)
+
+
+
+### 1. Install dependencies
 
 ```
-npm install
+yarn
 ```
 
-The repo consists of 2 apps **ethereum** (hardhat project) & your **web** app. Running
+### 2. Start developement process
+Will concurrently:
+
+- launch your anvil instance
+- start your nextjs app dev server
 
 ```
-npm run dev
+yarn run dev
 ```
 
-will concurrently:
-
-- start your local chain
-- compile contracts
-- deploy contracts locally as described by the hardhat-deploy plugin
-- start your web app on port 3000
+### 3. Deploy
 
 ```
+yarn run deploy:local
+```
+
+Will:
+- Run your deploy script on your local chain
+- Regenerate your custom hooks stright into your wagmi-config
+
+
+```bash
 /apps
-  /ethereum
+  # You foundry project
+  /contracts
+  # Your dapp
   /web
-  [...]
 /packages
-  /types
-  [...]
+  # Contains wagmi & rainbowkit config and generated code with the wagmi-cli
+  /wagmi-config
+  # Hosting app constants
+  /shared-config
 ```
-
-### Tests
-
-Test your project with `npm run test`.
