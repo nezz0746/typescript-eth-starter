@@ -7,15 +7,25 @@ import { WagmiConfig } from "wagmi";
 import Layout from "../components/Layout";
 import { wagmiConfig, chains } from "wagmi-config";
 
-function MyApp({ Component, pageProps }: AppProps) {
+type DappProviderProps = {
+  children: React.ReactNode;
+};
+
+const DappProvider = ({ children }: DappProviderProps) => {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </RainbowKitProvider>
+      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
     </WagmiConfig>
+  );
+};
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <DappProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </DappProvider>
   );
 }
 

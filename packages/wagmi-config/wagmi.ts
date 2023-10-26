@@ -1,11 +1,19 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { configureChains, createConfig } from "wagmi";
-import { localhost } from "wagmi/chains";
+import { Chain, configureChains, createConfig } from "wagmi";
+import { baseGoerli, localhost } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { projectId, appName } from "shared-config";
 
+let defaultChain: Chain;
+
+if (process.env.NODE_ENV === "development") {
+  defaultChain = localhost;
+} else {
+  defaultChain = baseGoerli;
+}
+
 const { chains, publicClient } = configureChains(
-  [localhost],
+  [defaultChain],
   [publicProvider()]
 );
 
@@ -21,4 +29,4 @@ const wagmiConfig = createConfig({
   publicClient,
 });
 
-export { wagmiConfig, chains };
+export { wagmiConfig, chains, defaultChain };
