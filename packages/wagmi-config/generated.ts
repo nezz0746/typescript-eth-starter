@@ -1,4 +1,6 @@
 import {
+  useNetwork,
+  useChainId,
   useContractRead,
   UseContractReadConfig,
   useContractWrite,
@@ -18,7 +20,8 @@ import {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export const counterABI = [
   {
@@ -52,14 +55,17 @@ export const counterABI = [
 ] as const
 
 /**
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export const counterAddress = {
-  1337: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+  5: '0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619',
+  1337: '0x948B3c65b89DF0B4894ABE91E6D02FE579834F8F',
 } as const
 
 /**
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export const counterConfig = {
   address: counterAddress,
@@ -316,7 +322,8 @@ export const iMulticall3ABI = [
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link counterABI}__.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterRead<
   TFunctionName extends string,
@@ -327,9 +334,12 @@ export function useCounterRead<
     'abi' | 'address'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     ...config,
   } as UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>)
 }
@@ -337,7 +347,8 @@ export function useCounterRead<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"getNumber"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterGetNumber<
   TFunctionName extends 'getNumber',
@@ -348,9 +359,12 @@ export function useCounterGetNumber<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'getNumber',
     ...config,
   } as UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>)
@@ -359,7 +373,8 @@ export function useCounterGetNumber<
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"number"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterNumber<
   TFunctionName extends 'number',
@@ -370,9 +385,12 @@ export function useCounterNumber<
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractRead({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'number',
     ...config,
   } as UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>)
@@ -381,7 +399,8 @@ export function useCounterNumber<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterWrite<
   TFunctionName extends string,
@@ -400,9 +419,12 @@ export function useCounterWrite<
         chainId?: TChainId
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof counterABI, TFunctionName, TMode>({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     ...config,
   } as any)
 }
@@ -410,7 +432,8 @@ export function useCounterWrite<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"increment"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterIncrement<
   TMode extends WriteContractMode = undefined,
@@ -432,9 +455,12 @@ export function useCounterIncrement<
         functionName?: 'increment'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof counterABI, 'increment', TMode>({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'increment',
     ...config,
   } as any)
@@ -443,7 +469,8 @@ export function useCounterIncrement<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"setNumber"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function useCounterSetNumber<
   TMode extends WriteContractMode = undefined,
@@ -465,9 +492,12 @@ export function useCounterSetNumber<
         functionName?: 'setNumber'
       } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return useContractWrite<typeof counterABI, 'setNumber', TMode>({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'setNumber',
     ...config,
   } as any)
@@ -476,7 +506,8 @@ export function useCounterSetNumber<
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function usePrepareCounterWrite<TFunctionName extends string>(
   config: Omit<
@@ -484,9 +515,12 @@ export function usePrepareCounterWrite<TFunctionName extends string>(
     'abi' | 'address'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     ...config,
   } as UsePrepareContractWriteConfig<typeof counterABI, TFunctionName>)
 }
@@ -494,7 +528,8 @@ export function usePrepareCounterWrite<TFunctionName extends string>(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"increment"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function usePrepareCounterIncrement(
   config: Omit<
@@ -502,9 +537,12 @@ export function usePrepareCounterIncrement(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'increment',
     ...config,
   } as UsePrepareContractWriteConfig<typeof counterABI, 'increment'>)
@@ -513,7 +551,8 @@ export function usePrepareCounterIncrement(
 /**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"setNumber"`.
  *
- *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
 export function usePrepareCounterSetNumber(
   config: Omit<
@@ -521,9 +560,12 @@ export function usePrepareCounterSetNumber(
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
   return usePrepareContractWrite({
     abi: counterABI,
-    address: counterAddress[1337],
+    address: counterAddress[chainId as keyof typeof counterAddress],
     functionName: 'setNumber',
     ...config,
   } as UsePrepareContractWriteConfig<typeof counterABI, 'setNumber'>)

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -13,11 +14,16 @@ const Home: NextPage = () => {
     args: [number],
   });
 
-  const { data, write } = useContractWrite({ ...config });
+  const {
+    data,
+    write,
+    isLoading: confirmationPending,
+  } = useContractWrite({ ...config });
 
-  const { isSuccess: txDone } = useWaitForTransaction({
-    hash: data?.hash,
-  });
+  const { isSuccess: txDone, isLoading: transactionPending } =
+    useWaitForTransaction({
+      hash: data?.hash,
+    });
 
   useEffect(() => {
     if (txDone) {
@@ -44,7 +50,9 @@ const Home: NextPage = () => {
             }}
           />
           <button
-            className="btn btn-primary"
+            className={classNames("btn btn-primary", {
+              loading: confirmationPending || transactionPending,
+            })}
             onClick={() => {
               write && write();
             }}

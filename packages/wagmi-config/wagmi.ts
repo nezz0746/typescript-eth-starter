@@ -15,17 +15,17 @@ let appChains: Chain[] = [];
 
 if (localChainEnabled) {
   defaultChain = localhost;
-  appChains.push(localhost);
+  appChains = [localhost];
 }
 
 if (testnetChainEnabled) {
   defaultChain = goerli;
-  appChains.push(goerli);
+  appChains = [goerli];
 }
 
 if (mainnetChainEnabled) {
   defaultChain = base;
-  appChains.push(base);
+  appChains = [base];
 }
 
 console.log({ appChains });
