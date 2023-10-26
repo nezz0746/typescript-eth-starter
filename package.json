@@ -9,7 +9,8 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "test:force": "turbo run test --force"
+    "test:force": "turbo run test --force",
+    "add:web": "yarn workspace web add"
   },
   "workspaces": [
     "packages/*",
