@@ -1,6 +1,0 @@
-{
-  "include": ["./scripts/**/*.ts", "./test/**/*.ts"],
-  "exclude": ["./node_modules/**/*"],
-  "files": ["hardhat.config.ts"],
-  "extends": "tsconfig/hardhat.json"
-}

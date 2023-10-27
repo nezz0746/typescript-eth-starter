@@ -7,16 +7,20 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "deploy:local": "yarn workspace contracts run deploy:local && yarn workspace wagmi-config run generate",
+    "deploy:testnets": "yarn workspace contracts run deploy:testnets && yarn workspace wagmi-config run generate",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "test:force": "turbo run test --force"
+    "test:force": "turbo run test --force",
+    "add:web": "yarn workspace web add",
+    "add:wagmi": "yarn workspace wagmi-config add"
   },
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "devDependencies": {
-    "turbo": "^1.2.16"
+    "turbo": "^1.10.16"
   },
   "engines": {
     "npm": ">=7.0.0",

@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - master
+      - feat/*
+
+name: test
+
+jobs:
+  check:
+    name: Foundry project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run Forge build
+        run: |
+          forge --version
+          forge build
+        working-directory: apps/contracts
+        id: build
+
+      - name: Run Forge tests
+        run: |
+          forge test -vvv
+        working-directory: apps/contracts
+        id: test

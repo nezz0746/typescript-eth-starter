@@ -1,0 +1,11 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "forge test",
+    "dev": "anvil --chain-id 1337",
+    "deploy:local": "forge script CounterScript -s 'deployCounterLocal()' --broadcast",
+    "deploy:testnets": "forge script CounterScript -s 'deployCounterTesnet()' --broadcast --verify",
+    "build": "forge compile"
+  }
+}
