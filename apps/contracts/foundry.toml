@@ -9,10 +9,12 @@ fs_permissions = [
 
 [etherscan]
 goerli = { key = "${API_KEY_ETHERSCAN}" }
+base_goerli = { key = "${API_KEY_BASESCAN}" }
 
 [rpc_endpoints]
 local = "http://localhost:8545"
 goerli = "https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_GOERLI_API_KEY}"
+base_goerli = "https://base-goerli.g.alchemy.com/v2/${ALCHEMY_GOERLI_API_KEY}"
 
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
