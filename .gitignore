@@ -26,6 +26,10 @@ yarn-error.log*
 
 node_modules
 
+apps/subgraph/subgraph.yaml
+apps/subgraph/build
+apps/contracts/data
+
 ## Hardhat files ##
 packages/hardhat/*.txt
 packages/hardhat/cache
@@ -36,7 +40,7 @@ packages/hardhat/deployments
 # testing
 packages/frontend/coverage
 packages/react-app
-packages/subgraph
+
 # next.js
 packages/frontend/.next/
 packages/frontend/out/

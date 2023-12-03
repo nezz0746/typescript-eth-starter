@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {Counter} from "../src/Counter.sol";
 
 contract BaseScript is Script {
     enum Cycle {

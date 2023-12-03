@@ -2,8 +2,9 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {Counter} from "../src/Counter.sol";
 import {BaseScript} from "./Base.s.sol";
+import {UpgradeableCounter} from "../src/UpgradeableCounter.sol";
+import {UUPSProxy} from "../src/UUPSProxy.sol";
 
 contract CounterScript is BaseScript {
     DeployementChain[] deploymentChains;
@@ -28,9 +29,15 @@ contract CounterScript is BaseScript {
     function _deployCounter(
         DeployementChain[] memory targetChains
     ) internal broadcastOn(targetChains) {
-        Counter counter = new Counter();
-        counter.setNumber(42);
+        UpgradeableCounter counterImpl = new UpgradeableCounter();
 
-        _saveImplementations(address(counter), "Counter");
+        UUPSProxy proxy = new UUPSProxy(
+            address(counterImpl),
+            abi.encodeWithSelector(counterImpl.initialize.selector)
+        );
+
+        UpgradeableCounter(address(proxy)).setNumber(42);
+
+        _saveImplementations(address(proxy), "Counter");
     }
 }

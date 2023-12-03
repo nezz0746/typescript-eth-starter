@@ -1,0 +1,8 @@
+{
+  "mainnet": {
+    "Counter": {
+      "address": "0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619",
+      "startBlock": 0
+    }
+  }
+}

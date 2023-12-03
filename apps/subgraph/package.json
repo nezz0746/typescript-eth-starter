@@ -1,0 +1,23 @@
+{
+  "name": "subgraph",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "copy-artifacts": "npx tsx copy-artifacts.ts",
+    "prepare:local": "yarn run copy-artifacts && mustache config/1337.json template.yaml > subgraph.yaml && yarn run codegen",
+    "create-local": "graph create --node http://localhost:8020/ local-graph",
+    "deploy:local": "yarn run prepare:local && yarn run create-local && graph deploy -l 0.0.1 --node http://localhost:8020/ --ipfs http://localhost:5001 local-graph",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.61.0",
+    "@graphprotocol/graph-ts": "0.30.0",
+    "mustache": "^4.2.0",
+    "wagmi-config": "*"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}

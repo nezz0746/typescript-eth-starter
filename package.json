@@ -6,14 +6,16 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "chain": "cd apps/contracts && yarn run chain",
     "dev": "turbo run dev --parallel",
-    "deploy:local": "yarn workspace contracts run deploy:local && yarn workspace wagmi-config run generate",
+    "deploy:local": "yarn workspace contracts run deploy:local && yarn workspace wagmi-config run generate && yarn workspace subgraph run deploy:local",
     "deploy:testnets": "yarn workspace contracts run deploy:testnets && yarn workspace wagmi-config run generate",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:force": "turbo run test --force",
     "add:web": "yarn workspace web add",
-    "add:wagmi": "yarn workspace wagmi-config add"
+    "add:wagmi": "yarn workspace wagmi-config add",
+    "add:subgraph": "yarn workspace subgraph add"
   },
   "workspaces": [
     "packages/*",
