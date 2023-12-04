@@ -37,7 +37,8 @@ export default defineConfig(async () => {
     out: "generated.ts",
     plugins: [
       foundry({
-        project: "../../apps/contracts",
+        artifacts: "../../apps/contracts/out",
+        include: ["UpgradeableCounter.sol/*.json"],
         deployments,
       }),
       react({

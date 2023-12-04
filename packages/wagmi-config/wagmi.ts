@@ -1,21 +1,27 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { Chain, configureChains, createConfig } from "wagmi";
+import { Chain, ChainProviderFn, configureChains, createConfig } from "wagmi";
 import { base, goerli, localhost } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
 import {
   projectId,
   appName,
   localChainEnabled,
   testnetChainEnabled,
   mainnetChainEnabled,
+  alchemy_key,
 } from "shared-config";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 let defaultChain: Chain;
 let appChains: Chain[] = [];
+let providers: ChainProviderFn<Chain>[] = [];
 
 if (localChainEnabled) {
   defaultChain = localhost;
   appChains = [localhost];
+  providers.push(
+    jsonRpcProvider({ rpc: (chain) => ({ http: "http://localhost:8545" }) })
+  );
 }
 
 if (testnetChainEnabled) {
@@ -28,9 +34,13 @@ if (mainnetChainEnabled) {
   appChains = [base];
 }
 
+if (testnetChainEnabled || mainnetChainEnabled) {
+  providers.push(alchemyProvider({ apiKey: alchemy_key }));
+}
+
 console.log({ appChains });
 
-const { chains, publicClient } = configureChains(appChains, [publicProvider()]);
+const { chains, publicClient } = configureChains(appChains, providers);
 
 const { connectors } = getDefaultWallets({
   appName,

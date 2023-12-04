@@ -1,6 +1,7 @@
 {
   "extends": "solhint:default",
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "private-vars-leading-underscore": "off"
   }
 }

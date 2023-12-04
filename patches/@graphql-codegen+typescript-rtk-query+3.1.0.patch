@@ -1,0 +1,48 @@
+diff --git a/node_modules/@graphql-codegen/typescript-rtk-query/cjs/visitor.js b/node_modules/@graphql-codegen/typescript-rtk-query/cjs/visitor.js
+index 980d3c9..af25e63 100644
+--- a/node_modules/@graphql-codegen/typescript-rtk-query/cjs/visitor.js
++++ b/node_modules/@graphql-codegen/typescript-rtk-query/cjs/visitor.js
+@@ -14,6 +14,7 @@ class RTKQueryVisitor extends visitor_plugin_common_1.ClientSideBaseVisitor {
+             addTransformResponse: (0, visitor_plugin_common_1.getConfigValue)(rawConfig.addTransformResponse, false),
+             exportHooks: (0, visitor_plugin_common_1.getConfigValue)(rawConfig.exportHooks, false),
+             overrideExisting: (0, visitor_plugin_common_1.getConfigValue)(rawConfig.overrideExisting, ''),
++            defaultChainId: (0, visitor_plugin_common_1.getConfigValue)(rawConfig.defaultChainId, 1),
+         });
+         this.rawConfig = rawConfig;
+         this._endpoints = [];
+@@ -79,9 +80,9 @@ export { injectedRtkApi as api };
+             console.warn(`Plugin "typescript-rtk-query" does not support GraphQL Subscriptions at the moment! Skipping "${(_b = node.name) === null || _b === void 0 ? void 0 : _b.value}"...`);
+             return '';
+         }
+-        const Generics = `${operationResultType}, ${operationVariablesTypes}${hasRequiredVariables ? '' : ' | void'}`;
++        const Generics = `${operationResultType}, {variables: ${operationVariablesTypes}; chainId?: number;}`;
+         const operationTypeString = operationType.toLowerCase();
+-        const functionsString = `query: (variables) => ({ document: ${documentVariableName}, variables })
++        const functionsString = `query: ({variables, chainId = ${this.rawConfig.defaultChainId}}) => ({ document: ${documentVariableName}, variables, chainId })
+       ${this.injectTransformResponse(Generics)}`.trim();
+         const endpointString = `
+     ${operationName}: build.${operationTypeString}<${Generics}>({
+diff --git a/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.cts b/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.cts
+index 9b605df..2d241fe 100644
+--- a/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.cts
++++ b/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.cts
+@@ -102,6 +102,7 @@ export interface RTKConfig {
+      * ```
+      */
+     overrideExisting?: string;
++    defaultChainId?: string;
+     /**
+      * @name addTransformResponse
+      * @description Sets the `addTransformResponse` option, which will automatically add a types transformResponse for query
+diff --git a/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.ts b/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.ts
+index 9b605df..2d241fe 100644
+--- a/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.ts
++++ b/node_modules/@graphql-codegen/typescript-rtk-query/typings/config.d.ts
+@@ -102,6 +102,7 @@ export interface RTKConfig {
+      * ```
+      */
+     overrideExisting?: string;
++    defaultChainId?: string;
+     /**
+      * @name addTransformResponse
+      * @description Sets the `addTransformResponse` option, which will automatically add a types transformResponse for query

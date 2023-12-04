@@ -5,7 +5,7 @@ import { localhost } from "wagmi/chains";
 const useChain = () => {
   const { chain } = useNetwork();
 
-  const chainId = chain?.id ?? defaultChain;
+  const chainId = chain?.id ?? defaultChain.id;
 
   return {
     isLocal: chainId === localhost.id,

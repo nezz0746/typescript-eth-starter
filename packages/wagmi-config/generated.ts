@@ -8,6 +8,8 @@ import {
   UseContractWriteConfig,
   usePrepareContractWrite,
   UsePrepareContractWriteConfig,
+  useContractEvent,
+  UseContractEventConfig,
 } from 'wagmi'
 import {
   ReadContractResult,
@@ -25,6 +27,91 @@ import {
  */
 export const counterABI = [
   {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'AdminChanged',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BeaconUpgraded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'newValue',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'NumberSet',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'Upgraded',
+  },
+  {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
@@ -35,7 +122,7 @@ export const counterABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
-    name: 'increment',
+    name: 'initialize',
     outputs: [],
   },
   {
@@ -46,10 +133,57 @@ export const counterABI = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'newNumber', internalType: 'uint256', type: 'uint256' }],
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_number', internalType: 'uint256', type: 'uint256' }],
     name: 'setNumber',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'upgradeTo',
+    outputs: [],
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'upgradeToAndCall',
     outputs: [],
   },
 ] as const
@@ -60,7 +194,7 @@ export const counterABI = [
  */
 export const counterAddress = {
   5: '0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619',
-  1337: '0x948B3c65b89DF0B4894ABE91E6D02FE579834F8F',
+  1337: '0xbCF26943C0197d2eE0E5D05c716Be60cc2761508',
 } as const
 
 /**
@@ -73,245 +207,169 @@ export const counterConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IMulticall3
+// UpgradeableCounter
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iMulticall3ABI = [
+export const upgradeableCounterABI = [
   {
-    stateMutability: 'payable',
-    type: 'function',
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
+        name: 'previousAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'newAdmin',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
       },
     ],
-    name: 'aggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'returnData', internalType: 'bytes[]', type: 'bytes[]' },
-    ],
+    name: 'AdminChanged',
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call3[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'allowFailure', internalType: 'bool', type: 'bool' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
+        name: 'beacon',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
       },
     ],
-    name: 'aggregate3',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct IMulticall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
+    name: 'BeaconUpgraded',
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call3Value[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'allowFailure', internalType: 'bool', type: 'bool' },
-          { name: 'value', internalType: 'uint256', type: 'uint256' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
+        name: 'newValue',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
       },
     ],
-    name: 'aggregate3Value',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct IMulticall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
+    name: 'NumberSet',
   },
   {
-    stateMutability: 'payable',
-    type: 'function',
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
       },
-    ],
-    name: 'blockAndAggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
       {
-        name: 'returnData',
-        internalType: 'struct IMulticall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
       },
     ],
+    name: 'OwnershipTransferred',
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getBasefee',
-    outputs: [{ name: 'basefee', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'blockNumber', internalType: 'uint256', type: 'uint256' }],
-    name: 'getBlockHash',
-    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'getBlockNumber',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'implementation',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
     ],
+    name: 'Upgraded',
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'getChainId',
-    outputs: [{ name: 'chainid', internalType: 'uint256', type: 'uint256' }],
+    name: 'getNumber',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'initialize',
+    outputs: [],
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'getCurrentBlockCoinbase',
-    outputs: [{ name: 'coinbase', internalType: 'address', type: 'address' }],
+    name: 'number',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'getCurrentBlockDifficulty',
-    outputs: [{ name: 'difficulty', internalType: 'uint256', type: 'uint256' }],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'getCurrentBlockGasLimit',
-    outputs: [{ name: 'gaslimit', internalType: 'uint256', type: 'uint256' }],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
   },
   {
-    stateMutability: 'view',
+    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
-    name: 'getCurrentBlockTimestamp',
-    outputs: [{ name: 'timestamp', internalType: 'uint256', type: 'uint256' }],
+    name: 'renounceOwnership',
+    outputs: [],
   },
   {
-    stateMutability: 'view',
+    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'addr', internalType: 'address', type: 'address' }],
-    name: 'getEthBalance',
-    outputs: [{ name: 'balance', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: '_number', internalType: 'uint256', type: 'uint256' }],
+    name: 'setNumber',
+    outputs: [],
   },
   {
-    stateMutability: 'view',
+    stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [],
-    name: 'getLastBlockHash',
-    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+    ],
+    name: 'upgradeTo',
+    outputs: [],
   },
   {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
-      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
-      {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' },
     ],
-    name: 'tryAggregate',
-    outputs: [
-      {
-        name: 'returnData',
-        internalType: 'struct IMulticall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
-      {
-        name: 'calls',
-        internalType: 'struct IMulticall3.Call[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'target', internalType: 'address', type: 'address' },
-          { name: 'callData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
-    name: 'tryBlockAndAggregate',
-    outputs: [
-      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
-      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
-      {
-        name: 'returnData',
-        internalType: 'struct IMulticall3.Result[]',
-        type: 'tuple[]',
-        components: [
-          { name: 'success', internalType: 'bool', type: 'bool' },
-          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
-        ],
-      },
-    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
   },
 ] as const
 
@@ -397,6 +455,58 @@ export function useCounterNumber<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"owner"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterOwner<
+  TFunctionName extends 'owner',
+  TSelectData = ReadContractResult<typeof counterABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractRead({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'owner',
+    ...config,
+  } as UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"proxiableUUID"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterProxiableUuid<
+  TFunctionName extends 'proxiableUUID',
+  TSelectData = ReadContractResult<typeof counterABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractRead({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'proxiableUUID',
+    ...config,
+  } as UseContractReadConfig<typeof counterABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__.
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
@@ -430,12 +540,12 @@ export function useCounterWrite<
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"increment"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"initialize"`.
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
  */
-export function useCounterIncrement<
+export function useCounterInitialize<
   TMode extends WriteContractMode = undefined,
   TChainId extends number = keyof typeof counterAddress,
 >(
@@ -443,25 +553,66 @@ export function useCounterIncrement<
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
           typeof counterABI,
-          'increment'
+          'initialize'
         >['request']['abi'],
-        'increment',
+        'initialize',
         TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'increment' }
-    : UseContractWriteConfig<typeof counterABI, 'increment', TMode> & {
+      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
+    : UseContractWriteConfig<typeof counterABI, 'initialize', TMode> & {
         abi?: never
         address?: never
         chainId?: TChainId
-        functionName?: 'increment'
+        functionName?: 'initialize'
       } = {} as any,
 ) {
   const { chain } = useNetwork()
   const defaultChainId = useChainId()
   const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof counterABI, 'increment', TMode>({
+  return useContractWrite<typeof counterABI, 'initialize', TMode>({
     abi: counterABI,
     address: counterAddress[chainId as keyof typeof counterAddress],
-    functionName: 'increment',
+    functionName: 'initialize',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"renounceOwnership"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterRenounceOwnership<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof counterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof counterABI,
+          'renounceOwnership'
+        >['request']['abi'],
+        'renounceOwnership',
+        TMode
+      > & {
+        address?: Address
+        chainId?: TChainId
+        functionName?: 'renounceOwnership'
+      }
+    : UseContractWriteConfig<typeof counterABI, 'renounceOwnership', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'renounceOwnership'
+      } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractWrite<typeof counterABI, 'renounceOwnership', TMode>({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'renounceOwnership',
     ...config,
   } as any)
 }
@@ -504,6 +655,125 @@ export function useCounterSetNumber<
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"transferOwnership"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterTransferOwnership<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof counterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof counterABI,
+          'transferOwnership'
+        >['request']['abi'],
+        'transferOwnership',
+        TMode
+      > & {
+        address?: Address
+        chainId?: TChainId
+        functionName?: 'transferOwnership'
+      }
+    : UseContractWriteConfig<typeof counterABI, 'transferOwnership', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'transferOwnership'
+      } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractWrite<typeof counterABI, 'transferOwnership', TMode>({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'transferOwnership',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"upgradeTo"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterUpgradeTo<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof counterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof counterABI,
+          'upgradeTo'
+        >['request']['abi'],
+        'upgradeTo',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'upgradeTo' }
+    : UseContractWriteConfig<typeof counterABI, 'upgradeTo', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'upgradeTo'
+      } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractWrite<typeof counterABI, 'upgradeTo', TMode>({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'upgradeTo',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterUpgradeToAndCall<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof counterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof counterABI,
+          'upgradeToAndCall'
+        >['request']['abi'],
+        'upgradeToAndCall',
+        TMode
+      > & {
+        address?: Address
+        chainId?: TChainId
+        functionName?: 'upgradeToAndCall'
+      }
+    : UseContractWriteConfig<typeof counterABI, 'upgradeToAndCall', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'upgradeToAndCall'
+      } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractWrite<typeof counterABI, 'upgradeToAndCall', TMode>({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'upgradeToAndCall',
+    ...config,
+  } as any)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__.
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
@@ -526,14 +796,14 @@ export function usePrepareCounterWrite<TFunctionName extends string>(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"increment"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"initialize"`.
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
  */
-export function usePrepareCounterIncrement(
+export function usePrepareCounterInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof counterABI, 'increment'>,
+    UsePrepareContractWriteConfig<typeof counterABI, 'initialize'>,
     'abi' | 'address' | 'functionName'
   > & { chainId?: keyof typeof counterAddress } = {} as any,
 ) {
@@ -543,9 +813,32 @@ export function usePrepareCounterIncrement(
   return usePrepareContractWrite({
     abi: counterABI,
     address: counterAddress[chainId as keyof typeof counterAddress],
-    functionName: 'increment',
+    functionName: 'initialize',
     ...config,
-  } as UsePrepareContractWriteConfig<typeof counterABI, 'increment'>)
+  } as UsePrepareContractWriteConfig<typeof counterABI, 'initialize'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"renounceOwnership"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function usePrepareCounterRenounceOwnership(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof counterABI, 'renounceOwnership'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return usePrepareContractWrite({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'renounceOwnership',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof counterABI, 'renounceOwnership'>)
 }
 
 /**
@@ -572,531 +865,844 @@ export function usePrepareCounterSetNumber(
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"transferOwnership"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
  */
-export function useIMulticall3Read<
+export function usePrepareCounterTransferOwnership(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof counterABI, 'transferOwnership'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return usePrepareContractWrite({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'transferOwnership',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof counterABI, 'transferOwnership'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"upgradeTo"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function usePrepareCounterUpgradeTo(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof counterABI, 'upgradeTo'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return usePrepareContractWrite({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'upgradeTo',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof counterABI, 'upgradeTo'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link counterABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function usePrepareCounterUpgradeToAndCall(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof counterABI, 'upgradeToAndCall'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return usePrepareContractWrite({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    functionName: 'upgradeToAndCall',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof counterABI, 'upgradeToAndCall'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterEvent<TEventName extends string>(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, TEventName>,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"AdminChanged"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterAdminChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'AdminChanged'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'AdminChanged',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'AdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"BeaconUpgraded"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterBeaconUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'BeaconUpgraded'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'BeaconUpgraded',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'BeaconUpgraded'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"Initialized"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'Initialized'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'Initialized',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"NumberSet"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterNumberSetEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'NumberSet'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'NumberSet',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'NumberSet'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterOwnershipTransferredEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'OwnershipTransferred'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'OwnershipTransferred',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'OwnershipTransferred'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link counterABI}__ and `eventName` set to `"Upgraded"`.
+ *
+ * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
+ * -
+ */
+export function useCounterUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof counterABI, 'Upgraded'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof counterAddress } = {} as any,
+) {
+  const { chain } = useNetwork()
+  const defaultChainId = useChainId()
+  const chainId = config.chainId ?? chain?.id ?? defaultChainId
+  return useContractEvent({
+    abi: counterABI,
+    address: counterAddress[chainId as keyof typeof counterAddress],
+    eventName: 'Upgraded',
+    ...config,
+  } as UseContractEventConfig<typeof counterABI, 'Upgraded'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link upgradeableCounterABI}__.
+ */
+export function useUpgradeableCounterRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
+  TSelectData = ReadContractResult<typeof upgradeableCounterABI, TFunctionName>,
 >(
   config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<
+      typeof upgradeableCounterABI,
+      TFunctionName,
+      TSelectData
+    >,
     'abi'
   > = {} as any,
 ) {
   return useContractRead({
-    abi: iMulticall3ABI,
+    abi: upgradeableCounterABI,
     ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<
+    typeof upgradeableCounterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getBasefee"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"getNumber"`.
  */
-export function useIMulticall3GetBasefee<
-  TFunctionName extends 'getBasefee',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
+export function useUpgradeableCounterGetNumber<
+  TFunctionName extends 'getNumber',
+  TSelectData = ReadContractResult<typeof upgradeableCounterABI, TFunctionName>,
 >(
   config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<
+      typeof upgradeableCounterABI,
+      TFunctionName,
+      TSelectData
+    >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getBasefee',
+    abi: upgradeableCounterABI,
+    functionName: 'getNumber',
     ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<
+    typeof upgradeableCounterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getBlockHash"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"number"`.
  */
-export function useIMulticall3GetBlockHash<
-  TFunctionName extends 'getBlockHash',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
+export function useUpgradeableCounterNumber<
+  TFunctionName extends 'number',
+  TSelectData = ReadContractResult<typeof upgradeableCounterABI, TFunctionName>,
 >(
   config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<
+      typeof upgradeableCounterABI,
+      TFunctionName,
+      TSelectData
+    >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getBlockHash',
+    abi: upgradeableCounterABI,
+    functionName: 'number',
     ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<
+    typeof upgradeableCounterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getBlockNumber"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"owner"`.
  */
-export function useIMulticall3GetBlockNumber<
-  TFunctionName extends 'getBlockNumber',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
+export function useUpgradeableCounterOwner<
+  TFunctionName extends 'owner',
+  TSelectData = ReadContractResult<typeof upgradeableCounterABI, TFunctionName>,
 >(
   config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<
+      typeof upgradeableCounterABI,
+      TFunctionName,
+      TSelectData
+    >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getBlockNumber',
+    abi: upgradeableCounterABI,
+    functionName: 'owner',
     ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<
+    typeof upgradeableCounterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getChainId"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"proxiableUUID"`.
  */
-export function useIMulticall3GetChainId<
-  TFunctionName extends 'getChainId',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
+export function useUpgradeableCounterProxiableUuid<
+  TFunctionName extends 'proxiableUUID',
+  TSelectData = ReadContractResult<typeof upgradeableCounterABI, TFunctionName>,
 >(
   config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<
+      typeof upgradeableCounterABI,
+      TFunctionName,
+      TSelectData
+    >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getChainId',
+    abi: upgradeableCounterABI,
+    functionName: 'proxiableUUID',
     ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<
+    typeof upgradeableCounterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getCurrentBlockCoinbase"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__.
  */
-export function useIMulticall3GetCurrentBlockCoinbase<
-  TFunctionName extends 'getCurrentBlockCoinbase',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getCurrentBlockCoinbase',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getCurrentBlockDifficulty"`.
- */
-export function useIMulticall3GetCurrentBlockDifficulty<
-  TFunctionName extends 'getCurrentBlockDifficulty',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getCurrentBlockDifficulty',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getCurrentBlockGasLimit"`.
- */
-export function useIMulticall3GetCurrentBlockGasLimit<
-  TFunctionName extends 'getCurrentBlockGasLimit',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getCurrentBlockGasLimit',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getCurrentBlockTimestamp"`.
- */
-export function useIMulticall3GetCurrentBlockTimestamp<
-  TFunctionName extends 'getCurrentBlockTimestamp',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getCurrentBlockTimestamp',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getEthBalance"`.
- */
-export function useIMulticall3GetEthBalance<
-  TFunctionName extends 'getEthBalance',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getEthBalance',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"getLastBlockHash"`.
- */
-export function useIMulticall3GetLastBlockHash<
-  TFunctionName extends 'getLastBlockHash',
-  TSelectData = ReadContractResult<typeof iMulticall3ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: iMulticall3ABI,
-    functionName: 'getLastBlockHash',
-    ...config,
-  } as UseContractReadConfig<typeof iMulticall3ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__.
- */
-export function useIMulticall3Write<
+export function useUpgradeableCounterWrite<
   TFunctionName extends string,
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof iMulticall3ABI,
+          typeof upgradeableCounterABI,
           string
         >['request']['abi'],
         TFunctionName,
         TMode
       >
-    : UseContractWriteConfig<typeof iMulticall3ABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof iMulticall3ABI, TFunctionName, TMode>({
-    abi: iMulticall3ABI,
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate"`.
- */
-export function useIMulticall3Aggregate<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'aggregate'
-        >['request']['abi'],
-        'aggregate',
-        TMode
-      > & { functionName?: 'aggregate' }
-    : UseContractWriteConfig<typeof iMulticall3ABI, 'aggregate', TMode> & {
-        abi?: never
-        functionName?: 'aggregate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof iMulticall3ABI, 'aggregate', TMode>({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate3"`.
- */
-export function useIMulticall3Aggregate3<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'aggregate3'
-        >['request']['abi'],
-        'aggregate3',
-        TMode
-      > & { functionName?: 'aggregate3' }
-    : UseContractWriteConfig<typeof iMulticall3ABI, 'aggregate3', TMode> & {
-        abi?: never
-        functionName?: 'aggregate3'
-      } = {} as any,
-) {
-  return useContractWrite<typeof iMulticall3ABI, 'aggregate3', TMode>({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate3',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate3Value"`.
- */
-export function useIMulticall3Aggregate3Value<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'aggregate3Value'
-        >['request']['abi'],
-        'aggregate3Value',
-        TMode
-      > & { functionName?: 'aggregate3Value' }
     : UseContractWriteConfig<
-        typeof iMulticall3ABI,
-        'aggregate3Value',
+        typeof upgradeableCounterABI,
+        TFunctionName,
         TMode
       > & {
         abi?: never
-        functionName?: 'aggregate3Value'
       } = {} as any,
 ) {
-  return useContractWrite<typeof iMulticall3ABI, 'aggregate3Value', TMode>({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate3Value',
+  return useContractWrite<typeof upgradeableCounterABI, TFunctionName, TMode>({
+    abi: upgradeableCounterABI,
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"initialize"`.
  */
-export function useIMulticall3BlockAndAggregate<
+export function useUpgradeableCounterInitialize<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'blockAndAggregate'
+          typeof upgradeableCounterABI,
+          'initialize'
         >['request']['abi'],
-        'blockAndAggregate',
+        'initialize',
         TMode
-      > & { functionName?: 'blockAndAggregate' }
+      > & { functionName?: 'initialize' }
     : UseContractWriteConfig<
-        typeof iMulticall3ABI,
-        'blockAndAggregate',
+        typeof upgradeableCounterABI,
+        'initialize',
         TMode
       > & {
         abi?: never
-        functionName?: 'blockAndAggregate'
+        functionName?: 'initialize'
       } = {} as any,
 ) {
-  return useContractWrite<typeof iMulticall3ABI, 'blockAndAggregate', TMode>({
-    abi: iMulticall3ABI,
-    functionName: 'blockAndAggregate',
+  return useContractWrite<typeof upgradeableCounterABI, 'initialize', TMode>({
+    abi: upgradeableCounterABI,
+    functionName: 'initialize',
     ...config,
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"tryAggregate"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"renounceOwnership"`.
  */
-export function useIMulticall3TryAggregate<
+export function useUpgradeableCounterRenounceOwnership<
   TMode extends WriteContractMode = undefined,
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'tryAggregate'
+          typeof upgradeableCounterABI,
+          'renounceOwnership'
         >['request']['abi'],
-        'tryAggregate',
+        'renounceOwnership',
         TMode
-      > & { functionName?: 'tryAggregate' }
-    : UseContractWriteConfig<typeof iMulticall3ABI, 'tryAggregate', TMode> & {
-        abi?: never
-        functionName?: 'tryAggregate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof iMulticall3ABI, 'tryAggregate', TMode>({
-    abi: iMulticall3ABI,
-    functionName: 'tryAggregate',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
- */
-export function useIMulticall3TryBlockAndAggregate<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof iMulticall3ABI,
-          'tryBlockAndAggregate'
-        >['request']['abi'],
-        'tryBlockAndAggregate',
-        TMode
-      > & { functionName?: 'tryBlockAndAggregate' }
+      > & { functionName?: 'renounceOwnership' }
     : UseContractWriteConfig<
-        typeof iMulticall3ABI,
-        'tryBlockAndAggregate',
+        typeof upgradeableCounterABI,
+        'renounceOwnership',
         TMode
       > & {
         abi?: never
-        functionName?: 'tryBlockAndAggregate'
+        functionName?: 'renounceOwnership'
       } = {} as any,
 ) {
-  return useContractWrite<typeof iMulticall3ABI, 'tryBlockAndAggregate', TMode>(
-    {
-      abi: iMulticall3ABI,
-      functionName: 'tryBlockAndAggregate',
-      ...config,
-    } as any,
-  )
+  return useContractWrite<
+    typeof upgradeableCounterABI,
+    'renounceOwnership',
+    TMode
+  >({
+    abi: upgradeableCounterABI,
+    functionName: 'renounceOwnership',
+    ...config,
+  } as any)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"setNumber"`.
  */
-export function usePrepareIMulticall3Write<TFunctionName extends string>(
+export function useUpgradeableCounterSetNumber<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof upgradeableCounterABI,
+          'setNumber'
+        >['request']['abi'],
+        'setNumber',
+        TMode
+      > & { functionName?: 'setNumber' }
+    : UseContractWriteConfig<
+        typeof upgradeableCounterABI,
+        'setNumber',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'setNumber'
+      } = {} as any,
+) {
+  return useContractWrite<typeof upgradeableCounterABI, 'setNumber', TMode>({
+    abi: upgradeableCounterABI,
+    functionName: 'setNumber',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"transferOwnership"`.
+ */
+export function useUpgradeableCounterTransferOwnership<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof upgradeableCounterABI,
+          'transferOwnership'
+        >['request']['abi'],
+        'transferOwnership',
+        TMode
+      > & { functionName?: 'transferOwnership' }
+    : UseContractWriteConfig<
+        typeof upgradeableCounterABI,
+        'transferOwnership',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'transferOwnership'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof upgradeableCounterABI,
+    'transferOwnership',
+    TMode
+  >({
+    abi: upgradeableCounterABI,
+    functionName: 'transferOwnership',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"upgradeTo"`.
+ */
+export function useUpgradeableCounterUpgradeTo<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof upgradeableCounterABI,
+          'upgradeTo'
+        >['request']['abi'],
+        'upgradeTo',
+        TMode
+      > & { functionName?: 'upgradeTo' }
+    : UseContractWriteConfig<
+        typeof upgradeableCounterABI,
+        'upgradeTo',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'upgradeTo'
+      } = {} as any,
+) {
+  return useContractWrite<typeof upgradeableCounterABI, 'upgradeTo', TMode>({
+    abi: upgradeableCounterABI,
+    functionName: 'upgradeTo',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function useUpgradeableCounterUpgradeToAndCall<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof upgradeableCounterABI,
+          'upgradeToAndCall'
+        >['request']['abi'],
+        'upgradeToAndCall',
+        TMode
+      > & { functionName?: 'upgradeToAndCall' }
+    : UseContractWriteConfig<
+        typeof upgradeableCounterABI,
+        'upgradeToAndCall',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'upgradeToAndCall'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof upgradeableCounterABI,
+    'upgradeToAndCall',
+    TMode
+  >({
+    abi: upgradeableCounterABI,
+    functionName: 'upgradeToAndCall',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__.
+ */
+export function usePrepareUpgradeableCounterWrite<TFunctionName extends string>(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, TFunctionName>,
+    UsePrepareContractWriteConfig<typeof upgradeableCounterABI, TFunctionName>,
     'abi'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iMulticall3ABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate"`.
- */
-export function usePrepareIMulticall3Aggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate3"`.
- */
-export function usePrepareIMulticall3Aggregate3(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate3'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate3',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate3'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"aggregate3Value"`.
- */
-export function usePrepareIMulticall3Aggregate3Value(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate3Value'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'aggregate3Value',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'aggregate3Value'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"blockAndAggregate"`.
- */
-export function usePrepareIMulticall3BlockAndAggregate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'blockAndAggregate'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'blockAndAggregate',
+    abi: upgradeableCounterABI,
     ...config,
   } as UsePrepareContractWriteConfig<
-    typeof iMulticall3ABI,
-    'blockAndAggregate'
+    typeof upgradeableCounterABI,
+    TFunctionName
   >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"tryAggregate"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"initialize"`.
  */
-export function usePrepareIMulticall3TryAggregate(
+export function usePrepareUpgradeableCounterInitialize(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'tryAggregate'>,
+    UsePrepareContractWriteConfig<typeof upgradeableCounterABI, 'initialize'>,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'tryAggregate',
+    abi: upgradeableCounterABI,
+    functionName: 'initialize',
     ...config,
-  } as UsePrepareContractWriteConfig<typeof iMulticall3ABI, 'tryAggregate'>)
+  } as UsePrepareContractWriteConfig<
+    typeof upgradeableCounterABI,
+    'initialize'
+  >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iMulticall3ABI}__ and `functionName` set to `"tryBlockAndAggregate"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"renounceOwnership"`.
  */
-export function usePrepareIMulticall3TryBlockAndAggregate(
+export function usePrepareUpgradeableCounterRenounceOwnership(
   config: Omit<
     UsePrepareContractWriteConfig<
-      typeof iMulticall3ABI,
-      'tryBlockAndAggregate'
+      typeof upgradeableCounterABI,
+      'renounceOwnership'
     >,
     'abi' | 'functionName'
   > = {} as any,
 ) {
   return usePrepareContractWrite({
-    abi: iMulticall3ABI,
-    functionName: 'tryBlockAndAggregate',
+    abi: upgradeableCounterABI,
+    functionName: 'renounceOwnership',
     ...config,
   } as UsePrepareContractWriteConfig<
-    typeof iMulticall3ABI,
-    'tryBlockAndAggregate'
+    typeof upgradeableCounterABI,
+    'renounceOwnership'
   >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"setNumber"`.
+ */
+export function usePrepareUpgradeableCounterSetNumber(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof upgradeableCounterABI, 'setNumber'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: upgradeableCounterABI,
+    functionName: 'setNumber',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof upgradeableCounterABI, 'setNumber'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"transferOwnership"`.
+ */
+export function usePrepareUpgradeableCounterTransferOwnership(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof upgradeableCounterABI,
+      'transferOwnership'
+    >,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: upgradeableCounterABI,
+    functionName: 'transferOwnership',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof upgradeableCounterABI,
+    'transferOwnership'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"upgradeTo"`.
+ */
+export function usePrepareUpgradeableCounterUpgradeTo(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof upgradeableCounterABI, 'upgradeTo'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: upgradeableCounterABI,
+    functionName: 'upgradeTo',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof upgradeableCounterABI, 'upgradeTo'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link upgradeableCounterABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function usePrepareUpgradeableCounterUpgradeToAndCall(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof upgradeableCounterABI,
+      'upgradeToAndCall'
+    >,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: upgradeableCounterABI,
+    functionName: 'upgradeToAndCall',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof upgradeableCounterABI,
+    'upgradeToAndCall'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__.
+ */
+export function useUpgradeableCounterEvent<TEventName extends string>(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, TEventName>,
+    'abi'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"AdminChanged"`.
+ */
+export function useUpgradeableCounterAdminChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, 'AdminChanged'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'AdminChanged',
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, 'AdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"BeaconUpgraded"`.
+ */
+export function useUpgradeableCounterBeaconUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, 'BeaconUpgraded'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'BeaconUpgraded',
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, 'BeaconUpgraded'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useUpgradeableCounterInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, 'Initialized'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'Initialized',
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"NumberSet"`.
+ */
+export function useUpgradeableCounterNumberSetEvent(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, 'NumberSet'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'NumberSet',
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, 'NumberSet'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ */
+export function useUpgradeableCounterOwnershipTransferredEvent(
+  config: Omit<
+    UseContractEventConfig<
+      typeof upgradeableCounterABI,
+      'OwnershipTransferred'
+    >,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'OwnershipTransferred',
+    ...config,
+  } as UseContractEventConfig<
+    typeof upgradeableCounterABI,
+    'OwnershipTransferred'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link upgradeableCounterABI}__ and `eventName` set to `"Upgraded"`.
+ */
+export function useUpgradeableCounterUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof upgradeableCounterABI, 'Upgraded'>,
+    'abi' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: upgradeableCounterABI,
+    eventName: 'Upgraded',
+    ...config,
+  } as UseContractEventConfig<typeof upgradeableCounterABI, 'Upgraded'>)
 }

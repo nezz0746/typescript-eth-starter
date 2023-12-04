@@ -1,5 +1,19 @@
 {
-  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
   "autoimport.filesToScan": "./{packages, apps}/**/*.{ts,tsx,d.ts}",
   "[solidity]": {
     "editor.defaultFormatter": "NomicFoundation.hardhat-solidity",
@@ -7,5 +21,6 @@
   },
   "solidity.packageDefaultDependenciesContractsDirectory": "apps/contracts/src",
   "solidity.packageDefaultDependenciesDirectory": "apps/contracts/lib",
-  "solidity.formatter": "prettier"
+  "solidity.formatter": "prettier",
+  "solidity.compileUsingRemoteVersion": "v0.8.20+commit.a1b79de6"
 }
