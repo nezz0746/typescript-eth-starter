@@ -7,8 +7,13 @@ This monorepo should allow you to get started with a simple Counter smart contra
 - React / Typescript (NextJS)
 - 🏎️  [Turborepo](https://turborepo.org/)
 - ⚒️ [Foundry](https://github.com/foundry-rs/foundry), with tests & local anvil instance:
+  - Multi chain deployments utils
+  - Upgradeable Counter example
+- Subgraph to index your smart contracts
+- 🐋 Docker Compose file to run you anvil & graph-node locally quickly
 - 🚀 [wagmi](https://wagmi.sh/) & 🌈 [RainbowKit](https://www.rainbowkit.com/) !
   - Generated custom hooks with the wagmi-cli !
+- graphql-codegen generated hooks to query your subgraph from your apps quickly 
 - [Tailwind CSS](https://tailwindcss.com/) with [DaisyUI](https://daisyui.com/) 🌼 ! 
 
 Recommended:
