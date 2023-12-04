@@ -18,6 +18,7 @@ dataSources:
         - BeaconUpgraded
         - Initialized
         - NumberSet
+        - Number
         - OwnershipTransferred
         - Upgraded
       abis:

@@ -6,16 +6,18 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "kit:codegen": "yarn workspace kit run codegen",
     "chain": "cd apps/contracts && yarn run chain",
     "dev": "turbo run dev --parallel",
-    "deploy:local": "yarn workspace contracts run deploy:local && yarn workspace wagmi-config run generate && yarn workspace subgraph run deploy:local",
+    "deploy:local": "yarn workspace contracts run deploy:local && yarn workspace wagmi-config run generate && yarn workspace subgraph run deploy:local && yarn run kit:codegen",
     "deploy:testnets": "yarn workspace contracts run deploy:testnets && yarn workspace wagmi-config run generate",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:force": "turbo run test --force",
     "add:web": "yarn workspace web add",
     "add:wagmi": "yarn workspace wagmi-config add",
-    "add:subgraph": "yarn workspace subgraph add"
+    "add:subgraph": "yarn workspace subgraph add",
+    "postinstall": "npx patch-package"
   },
   "workspaces": [
     "packages/*",

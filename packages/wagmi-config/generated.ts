@@ -194,7 +194,7 @@ export const counterABI = [
  */
 export const counterAddress = {
   5: '0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619',
-  1337: '0x2dE080e97B0caE9825375D31f5D0eD5751fDf16D',
+  1337: '0xbCF26943C0197d2eE0E5D05c716Be60cc2761508',
 } as const
 
 /**

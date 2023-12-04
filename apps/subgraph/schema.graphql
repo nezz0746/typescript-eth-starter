@@ -1,3 +1,8 @@
+type Number @entity(immutable: false) {
+  id: Bytes!
+  value: BigInt! # uint256
+}
+
 type NumberSet @entity(immutable: true) {
   id: Bytes!
   newValue: BigInt! # uint256

@@ -30,6 +30,8 @@ apps/subgraph/subgraph.yaml
 apps/subgraph/build
 apps/contracts/data
 
+packages/kit/operations.graphql
+
 ## Hardhat files ##
 packages/hardhat/*.txt
 packages/hardhat/cache
