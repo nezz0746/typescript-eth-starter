@@ -1,4 +1,4 @@
-import { Exact, InputMaybe, Scalars } from "kit";
+import { Exact, InputMaybe, Scalars } from "app-kit";
 import { UseQuery } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import { QueryDefinition } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";
@@ -24,7 +24,9 @@ const useIndexedTransaction = <SubgraphQuery>(
       "subgraphAPI"
     >
   >,
-  selectFromResult: (result: SubgraphQuery) => {
+  selectFromResult: (
+    result: SubgraphQuery
+  ) => {
     indexed: boolean;
   },
   onSuccessfulIndexing?: () => void
@@ -32,16 +34,16 @@ const useIndexedTransaction = <SubgraphQuery>(
   const { chainId } = useChain();
   const [polling, setPolling] = useState(false);
 
-  const {
-    data,
-    write,
-    isLoading: confirmationPending,
-  } = useContractWrite(config);
+  const { data, write, isLoading: confirmationPending } = useContractWrite(
+    config
+  );
 
-  const { isSuccess: transactionSucess, isLoading: transactionPending } =
-    useWaitForTransaction({
-      hash: data?.hash,
-    });
+  const {
+    isSuccess: transactionSucess,
+    isLoading: transactionPending,
+  } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   const { indexed } = useQuery(
     { variables: { where: { transactionHash: data?.hash } }, chainId },

@@ -2,7 +2,7 @@ import { useState } from "react";
 import useChain from "./hooks/useChain";
 import useIndexedTransaction from "./hooks/useIndexed";
 import { counterAddress, usePrepareCounterSetNumber } from "wagmi-config";
-import { useNumberQuery, useNumberSetsQuery } from "kit";
+import { useNumberQuery, useNumberSetsQuery } from "app-kit";
 
 function App() {
   const { chainId } = useChain();

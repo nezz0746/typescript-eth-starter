@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./index.css";
 import Layout from "./components/Layout.tsx";
-import { AppProvider } from "kit";
+import { AppProvider } from "app-kit";
 import { WagmiConfig } from "wagmi";
 import { chains, wagmiConfig } from "wagmi-config";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
