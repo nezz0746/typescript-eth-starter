@@ -1,4 +1,4 @@
-import { Exact, InputMaybe, Scalars } from "app-kit";
+import { Exact, InputMaybe, Scalars } from "web-kit";
 import { UseQuery } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import { QueryDefinition } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";

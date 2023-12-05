@@ -4,7 +4,7 @@
 
 This monorepo should allow you to get started with a simple Counter smart contract on your local anvil instance, and a dapp
 
-- React / Typescript (NextJS)
+- React / Typescript (Vite ⚡)
 - 🏎️  [Turborepo](https://turborepo.org/)
 - ⚒️ [Foundry](https://github.com/foundry-rs/foundry), with tests & local anvil instance:
   - Multi chain deployments utils
@@ -35,7 +35,7 @@ yarn
 Will concurrently:
 
 - launch your anvil instance
-- start your nextjs app dev server
+- start your react app dev server
 
 ```
 yarn run dev
