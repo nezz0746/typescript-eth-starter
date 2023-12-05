@@ -1,4 +1,4 @@
-import { useAccount, useBalance, useNetwork, usePublicClient } from "wagmi";
+import { useAccount, useBalance, usePublicClient } from "wagmi";
 import { toHex, parseEther } from "viem";
 
 const useAnvil = () => {

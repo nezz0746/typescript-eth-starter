@@ -1,1 +1,4 @@
-module.exports = require("shared-config/tailwind/tailwind.config")
+/** @type {import('tailwindcss').Config} */
+import conf from "shared-config/tailwind/tailwind.config.js"
+
+export default conf

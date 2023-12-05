@@ -1,10 +1,10 @@
-import { Exact, InputMaybe, Scalars } from 'kit'
-import { UseQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import { QueryDefinition } from '@reduxjs/toolkit/query'
-import { useEffect, useState } from 'react'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
-import useChain from './useChain'
-import { PrepareWriteContractResult } from 'wagmi/dist/actions'
+import { Exact, InputMaybe, Scalars } from "kit";
+import { UseQuery } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import { QueryDefinition } from "@reduxjs/toolkit/query";
+import { useEffect, useState } from "react";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
+import useChain from "./useChain";
+import { PrepareWriteContractResult } from "wagmi/actions";
 
 const useIndexedTransaction = <SubgraphQuery>(
   config: PrepareWriteContractResult,
@@ -13,35 +13,35 @@ const useIndexedTransaction = <SubgraphQuery>(
       {
         variables: Exact<{
           where?: InputMaybe<{
-            transactionHash?: InputMaybe<Scalars['Bytes']['input']>
-          }>
-        }>
-        chainId?: number | undefined
+            transactionHash?: InputMaybe<Scalars["Bytes"]["input"]>;
+          }>;
+        }>;
+        chainId?: number | undefined;
       },
       any,
       never,
       SubgraphQuery,
-      'subgraphAPI'
+      "subgraphAPI"
     >
   >,
   selectFromResult: (result: SubgraphQuery) => {
-    indexed: boolean
+    indexed: boolean;
   },
   onSuccessfulIndexing?: () => void
 ) => {
-  const { chainId } = useChain()
-  const [polling, setPolling] = useState(false)
+  const { chainId } = useChain();
+  const [polling, setPolling] = useState(false);
 
   const {
     data,
     write,
     isLoading: confirmationPending,
-  } = useContractWrite(config)
+  } = useContractWrite(config);
 
   const { isSuccess: transactionSucess, isLoading: transactionPending } =
     useWaitForTransaction({
       hash: data?.hash,
-    })
+    });
 
   const { indexed } = useQuery(
     { variables: { where: { transactionHash: data?.hash } }, chainId },
@@ -50,35 +50,35 @@ const useIndexedTransaction = <SubgraphQuery>(
       skip: !polling || !Boolean(data?.hash),
       selectFromResult: (result) => {
         if (!result.data) {
-          return { indexed: false }
+          return { indexed: false };
         }
-        const { indexed } = selectFromResult(result.data)
+        const { indexed } = selectFromResult(result.data);
         return {
           indexed,
-        }
+        };
       },
     }
-  )
+  );
 
   useEffect(() => {
     if (transactionSucess) {
-      setPolling(true)
+      setPolling(true);
     }
-  }, [transactionSucess])
+  }, [transactionSucess]);
 
   useEffect(() => {
     if (indexed) {
-      onSuccessfulIndexing?.()
-      setPolling(false)
+      onSuccessfulIndexing?.();
+      setPolling(false);
     }
-  }, [indexed])
+  }, [indexed]);
 
   return {
     loading: confirmationPending || transactionPending || polling,
     execute: () => {
-      write && write()
+      write && write();
     },
-  }
-}
+  };
+};
 
-export default useIndexedTransaction
+export default useIndexedTransaction;

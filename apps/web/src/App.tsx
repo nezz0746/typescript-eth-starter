@@ -1,47 +1,46 @@
-import { useNumberQuery, useNumberSetsQuery } from 'kit'
-import type { NextPage } from 'next'
-import { useState } from 'react'
-import { counterAddress, usePrepareCounterSetNumber } from 'wagmi-config'
-import useChain from '../hooks/useChain'
-import useIndexedTransaction from '../hooks/useIndexed'
+import { useState } from "react";
+import useChain from "./hooks/useChain";
+import useIndexedTransaction from "./hooks/useIndexed";
+import { counterAddress, usePrepareCounterSetNumber } from "wagmi-config";
+import { useNumberQuery, useNumberSetsQuery } from "kit";
 
-const Home: NextPage = () => {
-  const { chainId } = useChain()
+function App() {
+  const { chainId } = useChain();
 
-  const [number, setNumber] = useState<bigint>(BigInt(0))
+  const [number, setNumber] = useState<bigint>(BigInt(0));
 
   const { data: currentNumber, refetch: refetchCurrentNumber } = useNumberQuery(
     {
       variables: { id: counterAddress[chainId as keyof typeof counterAddress] },
       chainId,
     }
-  )
+  );
 
   const { data: numberSets, refetch: refetchNumberUpdates } =
     useNumberSetsQuery(
       { variables: {}, chainId },
       {
         selectFromResult: ({ data, ...rest }) => {
-          return { data: data?.numberSets, ...rest }
+          return { data: data?.numberSets, ...rest };
         },
       }
-    )
+    );
 
   const { config } = usePrepareCounterSetNumber({
     args: [number],
-  })
+  });
 
   const { execute, loading } = useIndexedTransaction(
     config,
     useNumberSetsQuery,
     ({ numberSets }) => {
-      return { indexed: Boolean(numberSets?.length) }
+      return { indexed: Boolean(numberSets?.length) };
     },
     () => {
-      refetchNumberUpdates()
-      refetchCurrentNumber()
+      refetchNumberUpdates();
+      refetchCurrentNumber();
     }
-  )
+  );
 
   return (
     <div className="h-full w-full border">
@@ -76,7 +75,7 @@ const Home: NextPage = () => {
                   type="submit"
                   onClick={() => execute()}
                 >
-                  {loading ? '...' : 'Submit'}
+                  {loading ? "..." : "Submit"}
                 </button>
               </div>
             </div>
@@ -102,7 +101,7 @@ const Home: NextPage = () => {
                       </div>
                       <div className="text-lg">{numberSet.newValue}</div>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -110,7 +109,7 @@ const Home: NextPage = () => {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default Home
+export default App;
