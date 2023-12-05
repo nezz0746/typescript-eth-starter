@@ -17,6 +17,7 @@
     "add:web": "yarn workspace web add",
     "add:wagmi": "yarn workspace wagmi-config add",
     "add:subgraph": "yarn workspace subgraph add",
+    "add:shared": "yarn workspace shared-config add",
     "postinstall": "npx patch-package"
   },
   "workspaces": [
