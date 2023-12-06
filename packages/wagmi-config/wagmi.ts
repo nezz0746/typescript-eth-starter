@@ -20,13 +20,13 @@ if (localChainEnabled) {
   defaultChain = localhost;
   appChains = [localhost];
   providers.push(
-    jsonRpcProvider({ rpc: (chain) => ({ http: "http://localhost:8545" }) })
+    jsonRpcProvider({ rpc: () => ({ http: "http://localhost:8545" }) })
   );
 }
 
 if (testnetChainEnabled) {
   defaultChain = goerli;
-  appChains = [polygonMumbai];
+  appChains.push(polygonMumbai);
 }
 
 if (mainnetChainEnabled) {

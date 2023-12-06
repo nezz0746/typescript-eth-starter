@@ -7,6 +7,7 @@ import {
   Upgraded as UpgradedEvent,
 } from "../generated/Counter/Counter";
 import {
+  Account,
   AdminChanged,
   BeaconUpgraded,
   Initialized,
@@ -57,6 +58,14 @@ export function handleInitialized(event: InitializedEvent): void {
 }
 
 export function handleNumberSet(event: NumberSetEvent): void {
+  let account = Account.load(event.transaction.from);
+
+  if (account == null) {
+    account = new Account(event.transaction.from);
+  }
+
+  account.save();
+
   let number = Number.load(event.address);
 
   if (number == null) {
@@ -66,16 +75,17 @@ export function handleNumberSet(event: NumberSetEvent): void {
   number.value = event.params.newValue;
   number.save();
 
-  let entity = new NumberSet(
+  let numberSet = new NumberSet(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
-  entity.newValue = event.params.newValue;
+  numberSet.newValue = event.params.newValue;
 
-  entity.blockNumber = event.block.number;
-  entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+  numberSet.owner = event.transaction.from;
+  numberSet.blockNumber = event.block.number;
+  numberSet.blockTimestamp = event.block.timestamp;
+  numberSet.transactionHash = event.transaction.hash;
 
-  entity.save();
+  numberSet.save();
 }
 
 export function handleOwnershipTransferred(

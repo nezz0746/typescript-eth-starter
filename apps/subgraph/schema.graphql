@@ -1,3 +1,7 @@
+type Account @entity(immutable: true) {
+  id: Bytes! # address
+}
+
 type Number @entity(immutable: false) {
   id: Bytes!
   value: BigInt! # uint256
@@ -5,6 +9,7 @@ type Number @entity(immutable: false) {
 
 type NumberSet @entity(immutable: true) {
   id: Bytes!
+  owner: Account! # address
   newValue: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!

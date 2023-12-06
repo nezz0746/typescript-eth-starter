@@ -19,6 +19,32 @@ export type Scalars = {
   Int8: { input: any; output: any; }
 };
 
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['Bytes']['output'];
+};
+
+export type Account_Filter = {
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Account_Filter>>>;
+  id?: InputMaybe<Scalars['Bytes']['input']>;
+  id_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  id_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  id_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  or?: InputMaybe<Array<InputMaybe<Account_Filter>>>;
+};
+
+export enum Account_OrderBy {
+  Id = 'id'
+}
+
 export type AdminChanged = {
   __typename?: 'AdminChanged';
   blockNumber: Scalars['BigInt']['output'];
@@ -261,6 +287,7 @@ export type NumberSet = {
   blockTimestamp: Scalars['BigInt']['output'];
   id: Scalars['Bytes']['output'];
   newValue: Scalars['BigInt']['output'];
+  owner: Account;
   transactionHash: Scalars['Bytes']['output'];
 };
 
@@ -303,6 +330,27 @@ export type NumberSet_Filter = {
   newValue_not?: InputMaybe<Scalars['BigInt']['input']>;
   newValue_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   or?: InputMaybe<Array<InputMaybe<NumberSet_Filter>>>;
+  owner?: InputMaybe<Scalars['String']['input']>;
+  owner_?: InputMaybe<Account_Filter>;
+  owner_contains?: InputMaybe<Scalars['String']['input']>;
+  owner_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  owner_ends_with?: InputMaybe<Scalars['String']['input']>;
+  owner_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  owner_gt?: InputMaybe<Scalars['String']['input']>;
+  owner_gte?: InputMaybe<Scalars['String']['input']>;
+  owner_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  owner_lt?: InputMaybe<Scalars['String']['input']>;
+  owner_lte?: InputMaybe<Scalars['String']['input']>;
+  owner_not?: InputMaybe<Scalars['String']['input']>;
+  owner_not_contains?: InputMaybe<Scalars['String']['input']>;
+  owner_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  owner_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  owner_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  owner_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  owner_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  owner_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  owner_starts_with?: InputMaybe<Scalars['String']['input']>;
+  owner_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   transactionHash?: InputMaybe<Scalars['Bytes']['input']>;
   transactionHash_contains?: InputMaybe<Scalars['Bytes']['input']>;
   transactionHash_gt?: InputMaybe<Scalars['Bytes']['input']>;
@@ -320,6 +368,8 @@ export enum NumberSet_OrderBy {
   BlockTimestamp = 'blockTimestamp',
   Id = 'id',
   NewValue = 'newValue',
+  Owner = 'owner',
+  OwnerId = 'owner__id',
   TransactionHash = 'transactionHash'
 }
 
@@ -445,6 +495,8 @@ export type Query = {
   __typename?: 'Query';
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+  account?: Maybe<Account>;
+  accounts: Array<Account>;
   adminChanged?: Maybe<AdminChanged>;
   adminChangeds: Array<AdminChanged>;
   beaconUpgraded?: Maybe<BeaconUpgraded>;
@@ -464,6 +516,24 @@ export type Query = {
 
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+
+export type QueryAccountArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID']['input'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryAccountsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Account_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Account_Filter>;
 };
 
 
@@ -596,6 +666,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+  account?: Maybe<Account>;
+  accounts: Array<Account>;
   adminChanged?: Maybe<AdminChanged>;
   adminChangeds: Array<AdminChanged>;
   beaconUpgraded?: Maybe<BeaconUpgraded>;
@@ -615,6 +687,24 @@ export type Subscription = {
 
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+
+export type SubscriptionAccountArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID']['input'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionAccountsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Account_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Account_Filter>;
 };
 
 
@@ -847,6 +937,26 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type AccountQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+  block?: InputMaybe<Block_Height>;
+}>;
+
+
+export type AccountQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: any } | null };
+
+export type AccountsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Account_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Account_Filter>;
+  block?: InputMaybe<Block_Height>;
+}>;
+
+
+export type AccountsQuery = { __typename?: 'Query', accounts: Array<{ __typename?: 'Account', id: any }> };
+
 export type NumberQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_Height>;
@@ -873,7 +983,7 @@ export type NumberSetQueryVariables = Exact<{
 }>;
 
 
-export type NumberSetQuery = { __typename?: 'Query', numberSet?: { __typename?: 'NumberSet', id: any, newValue: any, blockNumber: any, blockTimestamp: any, transactionHash: any } | null };
+export type NumberSetQuery = { __typename?: 'Query', numberSet?: { __typename?: 'NumberSet', id: any, newValue: any, blockNumber: any, blockTimestamp: any, transactionHash: any, owner: { __typename?: 'Account', id: any } } | null };
 
 export type NumberSetsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -885,7 +995,7 @@ export type NumberSetsQueryVariables = Exact<{
 }>;
 
 
-export type NumberSetsQuery = { __typename?: 'Query', numberSets: Array<{ __typename?: 'NumberSet', id: any, newValue: any, blockNumber: any, blockTimestamp: any, transactionHash: any }> };
+export type NumberSetsQuery = { __typename?: 'Query', numberSets: Array<{ __typename?: 'NumberSet', id: any, newValue: any, blockNumber: any, blockTimestamp: any, transactionHash: any, owner: { __typename?: 'Account', id: any } }> };
 
 export type AdminChangedQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -988,6 +1098,27 @@ export type UpgradedsQueryVariables = Exact<{
 export type UpgradedsQuery = { __typename?: 'Query', upgradeds: Array<{ __typename?: 'Upgraded', id: any, implementation: any, blockNumber: any, blockTimestamp: any, transactionHash: any }> };
 
 
+export const AccountDocument = `
+    query account($id: ID!, $block: Block_height) {
+  account(id: $id, block: $block) {
+    id
+  }
+}
+    `;
+export const AccountsDocument = `
+    query accounts($skip: Int, $first: Int, $orderBy: Account_orderBy, $orderDirection: OrderDirection, $where: Account_filter, $block: Block_height) {
+  accounts(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+  }
+}
+    `;
 export const NumberDocument = `
     query number($id: ID!, $block: Block_height) {
   number(id: $id, block: $block) {
@@ -1015,6 +1146,9 @@ export const NumberSetDocument = `
     query numberSet($id: ID!, $block: Block_height) {
   numberSet(id: $id, block: $block) {
     id
+    owner {
+      id
+    }
     newValue
     blockNumber
     blockTimestamp
@@ -1033,6 +1167,9 @@ export const NumberSetsDocument = `
     block: $block
   ) {
     id
+    owner {
+      id
+    }
     newValue
     blockNumber
     blockTimestamp
@@ -1192,6 +1329,12 @@ export const UpgradedsDocument = `
 
 const injectedRtkApi = subgraphAPI.injectEndpoints({
   endpoints: (build) => ({
+    account: build.query<AccountQuery, {variables: AccountQueryVariables; chainId?: number;}>({
+      query: ({variables, chainId = 1337}) => ({ document: AccountDocument, variables, chainId })
+    }),
+    accounts: build.query<AccountsQuery, {variables: AccountsQueryVariables; chainId?: number;}>({
+      query: ({variables, chainId = 1337}) => ({ document: AccountsDocument, variables, chainId })
+    }),
     number: build.query<NumberQuery, {variables: NumberQueryVariables; chainId?: number;}>({
       query: ({variables, chainId = 1337}) => ({ document: NumberDocument, variables, chainId })
     }),
@@ -1238,5 +1381,5 @@ const injectedRtkApi = subgraphAPI.injectEndpoints({
 });
 
 export { injectedRtkApi as api };
-export const { useNumberQuery, useLazyNumberQuery, useNumbersQuery, useLazyNumbersQuery, useNumberSetQuery, useLazyNumberSetQuery, useNumberSetsQuery, useLazyNumberSetsQuery, useAdminChangedQuery, useLazyAdminChangedQuery, useAdminChangedsQuery, useLazyAdminChangedsQuery, useBeaconUpgradedQuery, useLazyBeaconUpgradedQuery, useBeaconUpgradedsQuery, useLazyBeaconUpgradedsQuery, useInitializedQuery, useLazyInitializedQuery, useInitializedsQuery, useLazyInitializedsQuery, useOwnershipTransferredQuery, useLazyOwnershipTransferredQuery, useOwnershipTransferredsQuery, useLazyOwnershipTransferredsQuery, useUpgradedQuery, useLazyUpgradedQuery, useUpgradedsQuery, useLazyUpgradedsQuery } = injectedRtkApi;
+export const { useAccountQuery, useLazyAccountQuery, useAccountsQuery, useLazyAccountsQuery, useNumberQuery, useLazyNumberQuery, useNumbersQuery, useLazyNumbersQuery, useNumberSetQuery, useLazyNumberSetQuery, useNumberSetsQuery, useLazyNumberSetsQuery, useAdminChangedQuery, useLazyAdminChangedQuery, useAdminChangedsQuery, useLazyAdminChangedsQuery, useBeaconUpgradedQuery, useLazyBeaconUpgradedQuery, useBeaconUpgradedsQuery, useLazyBeaconUpgradedsQuery, useInitializedQuery, useLazyInitializedQuery, useInitializedsQuery, useLazyInitializedsQuery, useOwnershipTransferredQuery, useLazyOwnershipTransferredQuery, useOwnershipTransferredsQuery, useLazyOwnershipTransferredsQuery, useUpgradedQuery, useLazyUpgradedQuery, useUpgradedsQuery, useLazyUpgradedsQuery } = injectedRtkApi;
 

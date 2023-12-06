@@ -1,4 +1,19 @@
-query number($id: ID!, $block: Block_height) {
+query account($id: ID!, $block: Block_height) {
+  account(id: $id, block: $block) {
+    id
+  }
+}query accounts($skip: Int, $first: Int, $orderBy: Account_orderBy, $orderDirection: OrderDirection, $where: Account_filter, $block: Block_height) {
+  accounts(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+  }
+}query number($id: ID!, $block: Block_height) {
   number(id: $id, block: $block) {
     id
     value
@@ -18,6 +33,9 @@ query number($id: ID!, $block: Block_height) {
 }query numberSet($id: ID!, $block: Block_height) {
   numberSet(id: $id, block: $block) {
     id
+    owner {
+      id
+    }
     newValue
     blockNumber
     blockTimestamp
@@ -33,6 +51,9 @@ query number($id: ID!, $block: Block_height) {
     block: $block
   ) {
     id
+    owner {
+      id
+    }
     newValue
     blockNumber
     blockTimestamp

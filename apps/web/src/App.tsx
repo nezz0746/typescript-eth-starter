@@ -4,9 +4,10 @@ import useIndexedTransaction from "./hooks/useIndexed";
 import { counterAddress, usePrepareCounterSetNumber } from "wagmi-config";
 import { useNumberQuery, useNumberSetsQuery } from "web-kit";
 import { Button, Card } from "web-ui";
+import { truncateAddress } from "./utils";
 
 function App() {
-  const { chainId } = useChain();
+  const { chainId, explorer } = useChain();
 
   const [number, setNumber] = useState<bigint>(BigInt(0));
 
@@ -101,10 +102,20 @@ function App() {
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {numberSets?.map((numberSet, _index) => {
                   return (
-                    <li className="px-3 flex flex-row items-center gap-2 justify-between">
-                      <div className="text-lg">{numberSet.newValue}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        Update {_index + 1} at block {numberSet?.blockNumber}
+                    <li
+                      key={numberSet.transactionHash}
+                      className="px-3 flex flex-row items-center gap-2"
+                    >
+                      <div className="text-lg w-1/2">{numberSet.newValue}</div>
+                      <div className="text-xs w-1/2 text-gray-500 dark:text-gray-400">
+                        Update {_index + 1} at block {numberSet?.blockNumber} by{" "}
+                        <a
+                          href={`${explorer}/address/${numberSet.owner.id}`}
+                          target="_blank"
+                          className="link"
+                        >
+                          {truncateAddress(numberSet.owner.id)}
+                        </a>
                       </div>
                     </li>
                   );

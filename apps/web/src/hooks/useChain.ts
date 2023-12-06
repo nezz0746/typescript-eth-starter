@@ -10,6 +10,7 @@ const useChain = () => {
   return {
     isLocal: chainId === localhost.id,
     chainId,
+    explorer: chain?.blockExplorers?.etherscan?.url,
   };
 };
 
