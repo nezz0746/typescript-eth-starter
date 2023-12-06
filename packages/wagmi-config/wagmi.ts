@@ -26,7 +26,7 @@ if (localChainEnabled) {
 
 if (testnetChainEnabled) {
   defaultChain = goerli;
-  appChains = [polygonMumbai];
+  appChains.push(polygonMumbai);
 }
 
 if (mainnetChainEnabled) {
