@@ -34,5 +34,5 @@ export const subgraphQuery = <T>() => async ({
 export const subgraphAPI = createApi({
   reducerPath: "subgraphAPI",
   baseQuery: subgraphQuery(),
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

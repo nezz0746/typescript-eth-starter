@@ -20,7 +20,7 @@ if (localChainEnabled) {
   defaultChain = localhost;
   appChains = [localhost];
   providers.push(
-    jsonRpcProvider({ rpc: (chain) => ({ http: "http://localhost:8545" }) })
+    jsonRpcProvider({ rpc: () => ({ http: "http://localhost:8545" }) })
   );
 }
 
