@@ -3,6 +3,7 @@ import useChain from "./hooks/useChain";
 import useIndexedTransaction from "./hooks/useIndexed";
 import { counterAddress, usePrepareCounterSetNumber } from "wagmi-config";
 import { useNumberQuery, useNumberSetsQuery } from "web-kit";
+import { Button, Card } from "web-ui";
 
 function App() {
   const { chainId } = useChain();
@@ -16,15 +17,17 @@ function App() {
     }
   );
 
-  const { data: numberSets, refetch: refetchNumberUpdates } =
-    useNumberSetsQuery(
-      { variables: {}, chainId },
-      {
-        selectFromResult: ({ data, ...rest }) => {
-          return { data: data?.numberSets, ...rest };
-        },
-      }
-    );
+  const {
+    data: numberSets,
+    refetch: refetchNumberUpdates,
+  } = useNumberSetsQuery(
+    { variables: {}, chainId },
+    {
+      selectFromResult: ({ data, ...rest }) => {
+        return { data: data?.numberSets, ...rest };
+      },
+    }
+  );
 
   const { config } = usePrepareCounterSetNumber({
     args: [number],
@@ -43,13 +46,10 @@ function App() {
   );
 
   return (
-    <div className="h-full w-full border">
+    <div className="h-full w-full">
       <section className="flex w-full flex-col md:flex-row gap-4 md:gap-6 mx-auto p-4 md:p-6">
-        <div className="w-full md:w-1/2 lg:w-1/3">
-          <div
-            className="rounded-lg border bg-card text-card-foreground shadow-sm"
-            data-v0-t="card"
-          >
+        <div className="w-full md:w-1/2 lg:w-1/3 ">
+          <Card>
             <div className="p-6 flex flex-col gap-4">
               <p className="text-sm font-medium leading-none">Current number</p>
               <p>{currentNumber?.number?.value}</p>
@@ -63,29 +63,26 @@ function App() {
               </label>
               <div className="flex gap-4 mt-2">
                 <input
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-grow"
+                  className="input input-primary"
                   id="number-input"
                   type="number"
                   placeholder="Enter a number"
                   value={Number(number)}
                   onChange={(e) => setNumber(BigInt(e.target.value))}
                 />
-                <button
-                  className="inline-flex btn-primary items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                <Button
+                  loading={loading}
                   type="submit"
                   onClick={() => execute()}
                 >
-                  {loading ? "..." : "Submit"}
-                </button>
+                  Submit
+                </Button>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
         <div className="w-full md:w-1/2 lg:w-2/3">
-          <div
-            className="rounded-lg border bg-card text-card-foreground shadow-sm"
-            data-v0-t="card"
-          >
+          <Card>
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="text-2xl font-semibold leading-none tracking-tight">
                 Number Updates History
@@ -105,7 +102,7 @@ function App() {
                 })}
               </ul>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </div>
