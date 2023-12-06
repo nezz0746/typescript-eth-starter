@@ -12,7 +12,8 @@ contract BaseScript is Script {
 
     enum DeployementChain {
         Anvil,
-        Goerli
+        Goerli,
+        Mumbai
     }
     string internal mnemonic =
         "test test test test test test test test test test test junk";
@@ -69,6 +70,7 @@ contract BaseScript is Script {
         );
 
         json = vm.serializeAddress(objectName, "address", contractAddress);
+        json = vm.serializeUint(objectName, "startBlock", block.number);
 
         vm.writeFile(filePathWithEncodePacked, json);
     }
