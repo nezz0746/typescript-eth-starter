@@ -1,4 +1,5 @@
 import { ConnectButton as RainbowKitConnectButton } from "@rainbow-me/rainbowkit";
+import { Button, WalletButton } from "web-ui";
 
 const ConnectButton = () => {
   return (
@@ -34,25 +35,29 @@ const ConnectButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button onClick={openConnectModal} type="button">
+                  <Button
+                    className="btn-ghost"
+                    onClick={openConnectModal}
+                    type="button"
+                  >
                     Connect Wallet
-                  </button>
+                  </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <Button
+                    className="btn-ghost"
+                    onClick={openChainModal}
+                    type="button"
+                  >
                     Wrong network
-                  </button>
+                  </Button>
                 );
               }
               return (
-                <div style={{ display: "flex", gap: 12 }}>
-                  <button
-                    onClick={openChainModal}
-                    className="btn btn-outline"
-                    type="button"
-                  >
+                <div className="flex flex-row items-center gap-2">
+                  <Button onClick={openChainModal} className="btn-ghost">
                     {chain.hasIcon && (
                       <div
                         style={{
@@ -74,17 +79,18 @@ const ConnectButton = () => {
                       </div>
                     )}
                     {chain.name}
-                  </button>
-                  <button
+                  </Button>
+                  <WalletButton
+                    className="btn-ghost"
+                    address={account.address}
                     onClick={openAccountModal}
                     type="button"
-                    className="btn btn-outline"
                   >
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
                       : ""}
-                  </button>
+                  </WalletButton>
                 </div>
               );
             })()}

@@ -21,16 +21,20 @@ export function Button({
     <button
       {...rest}
       disabled={disabled || loading}
-      className={classNames("btn", {
-        "btn-primary": variant === "primary",
-        "btn-secondary": variant === "secondary",
-        "btn-disabled": disabled,
-        "btn-xs": size === "xs",
-        "btn-sm": size === "sm",
-        "btn-md": size === "md",
-        "btn-lg": size === "lg",
-        "btn-xl": size === "xl",
-      })}
+      className={classNames(
+        "btn",
+        {
+          "btn-primary": variant === "primary",
+          "btn-secondary": variant === "secondary",
+          "btn-disabled": disabled,
+          "btn-xs": size === "xs",
+          "btn-sm": size === "sm",
+          "btn-md": size === "md",
+          "btn-lg": size === "lg",
+          "btn-xl": size === "xl",
+        },
+        className
+      )}
     >
       {loading && <span className="loading loading-xs"></span>}
       {children}

@@ -8,11 +8,13 @@
   "scripts": {
     "demo": "vite",
     "watch": "tsc --p ./tsconfig.build.json && vite build -w",
+    "build": "tsc --p ./tsconfig.build.json && vite build",
     "dev": "concurrently \"npm:watch\" \"npm:demo\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "blockies-ts": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

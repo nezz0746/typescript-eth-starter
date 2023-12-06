@@ -1,3 +1,4 @@
+import { WalletButton } from "../lib/components/WalletButton";
 import { Button } from "../lib/main";
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
         <Button variant="secondary">Submit</Button>
         <Button disabled>Submit</Button>
         <Button loading>Submit</Button>
+      </div>
+      <div className="flex flex-row gap-2">
+        <WalletButton address="0x2D232d68E797C2cB7430000bF2Eff2a9A9F908f1" />
       </div>
     </div>
   );
