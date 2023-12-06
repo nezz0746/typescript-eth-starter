@@ -7,8 +7,11 @@
     "build": "graph build",
     "copy-artifacts": "npx tsx copy-artifacts.ts",
     "prepare:local": "yarn run copy-artifacts && mustache config/1337.json template.yaml > subgraph.yaml && yarn run codegen",
+    "prepare:mumbai": "yarn run copy-artifacts && mustache config/80001.json template.yaml > subgraph.yaml && yarn run codegen",
     "create-local": "graph create --node http://localhost:8020/ local-graph",
     "deploy:local": "yarn run prepare:local && yarn run create-local && graph deploy -l 0.0.1 --node http://localhost:8020/ --ipfs http://localhost:5001 local-graph",
+    "deploy:mumbai": "yarn run prepare:mumbai && graph deploy --product hosted-service nezz0746/starter-counter-mumbai",
+    "deploy:testnets": "yarn run deploy:mumbai",
     "test": "graph test"
   },
   "dependencies": {
@@ -18,6 +21,6 @@
     "wagmi-config": "*"
   },
   "devDependencies": {
-    "matchstick-as": "0.5.0"
+    "matchstick-as": "0.6.0"
   }
 }

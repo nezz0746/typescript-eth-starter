@@ -1,6 +1,6 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { Chain, ChainProviderFn, configureChains, createConfig } from "wagmi";
-import { base, goerli, localhost } from "wagmi/chains";
+import { base, goerli, localhost, polygonMumbai } from "wagmi/chains";
 import {
   projectId,
   appName,
@@ -26,7 +26,7 @@ if (localChainEnabled) {
 
 if (testnetChainEnabled) {
   defaultChain = goerli;
-  appChains = [goerli];
+  appChains = [polygonMumbai];
 }
 
 if (mainnetChainEnabled) {
