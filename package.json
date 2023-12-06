@@ -15,8 +15,11 @@
     "test": "turbo run test",
     "test:force": "turbo run test --force",
     "add:web": "yarn workspace web add",
+    "add:kit": "yarn workspace web-kit add",
+    "add:ui": "yarn workspace web-ui add",
     "add:wagmi": "yarn workspace wagmi-config add",
     "add:subgraph": "yarn workspace subgraph add",
+    "add:shared": "yarn workspace shared-config add",
     "postinstall": "npx patch-package"
   },
   "workspaces": [

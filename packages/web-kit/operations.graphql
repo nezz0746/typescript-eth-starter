@@ -1,0 +1,160 @@
+query number($id: ID!, $block: Block_height) {
+  number(id: $id, block: $block) {
+    id
+    value
+  }
+}query numbers($skip: Int, $first: Int, $orderBy: Number_orderBy, $orderDirection: OrderDirection, $where: Number_filter, $block: Block_height) {
+  numbers(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    value
+  }
+}query numberSet($id: ID!, $block: Block_height) {
+  numberSet(id: $id, block: $block) {
+    id
+    newValue
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query numberSets($skip: Int, $first: Int, $orderBy: NumberSet_orderBy, $orderDirection: OrderDirection, $where: NumberSet_filter, $block: Block_height) {
+  numberSets(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    newValue
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query adminChanged($id: ID!, $block: Block_height) {
+  adminChanged(id: $id, block: $block) {
+    id
+    previousAdmin
+    newAdmin
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query adminChangeds($skip: Int, $first: Int, $orderBy: AdminChanged_orderBy, $orderDirection: OrderDirection, $where: AdminChanged_filter, $block: Block_height) {
+  adminChangeds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    previousAdmin
+    newAdmin
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query beaconUpgraded($id: ID!, $block: Block_height) {
+  beaconUpgraded(id: $id, block: $block) {
+    id
+    beacon
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query beaconUpgradeds($skip: Int, $first: Int, $orderBy: BeaconUpgraded_orderBy, $orderDirection: OrderDirection, $where: BeaconUpgraded_filter, $block: Block_height) {
+  beaconUpgradeds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    beacon
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query initialized($id: ID!, $block: Block_height) {
+  initialized(id: $id, block: $block) {
+    id
+    version
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query initializeds($skip: Int, $first: Int, $orderBy: Initialized_orderBy, $orderDirection: OrderDirection, $where: Initialized_filter, $block: Block_height) {
+  initializeds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    version
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query ownershipTransferred($id: ID!, $block: Block_height) {
+  ownershipTransferred(id: $id, block: $block) {
+    id
+    previousOwner
+    newOwner
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query ownershipTransferreds($skip: Int, $first: Int, $orderBy: OwnershipTransferred_orderBy, $orderDirection: OrderDirection, $where: OwnershipTransferred_filter, $block: Block_height) {
+  ownershipTransferreds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    previousOwner
+    newOwner
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query upgraded($id: ID!, $block: Block_height) {
+  upgraded(id: $id, block: $block) {
+    id
+    implementation
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query upgradeds($skip: Int, $first: Int, $orderBy: Upgraded_orderBy, $orderDirection: OrderDirection, $where: Upgraded_filter, $block: Block_height) {
+  upgradeds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+  ) {
+    id
+    implementation
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}
