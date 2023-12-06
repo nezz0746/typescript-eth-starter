@@ -29,6 +29,7 @@ node_modules
 apps/subgraph/subgraph.yaml
 apps/subgraph/build
 apps/contracts/data
+apps/contracts/broadcast/**
 
 packages/kit/operations.graphql
 

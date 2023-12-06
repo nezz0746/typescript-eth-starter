@@ -24,6 +24,7 @@ import {
 /**
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export const counterABI = [
   {
@@ -191,15 +192,18 @@ export const counterABI = [
 /**
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export const counterAddress = {
   5: '0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619',
-  1337: '0xbCF26943C0197d2eE0E5D05c716Be60cc2761508',
+  1337: '0x0f5D1ef48f12b6f691401bfe88c2037c690a6afe',
+  80001: '0x4dEd60AC9C6859e19bb809026aFE8128DD810992',
 } as const
 
 /**
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export const counterConfig = {
   address: counterAddress,
@@ -382,6 +386,7 @@ export const upgradeableCounterABI = [
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterRead<
   TFunctionName extends string,
@@ -407,6 +412,7 @@ export function useCounterRead<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterGetNumber<
   TFunctionName extends 'getNumber',
@@ -433,6 +439,7 @@ export function useCounterGetNumber<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterNumber<
   TFunctionName extends 'number',
@@ -459,6 +466,7 @@ export function useCounterNumber<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterOwner<
   TFunctionName extends 'owner',
@@ -485,6 +493,7 @@ export function useCounterOwner<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterProxiableUuid<
   TFunctionName extends 'proxiableUUID',
@@ -511,6 +520,7 @@ export function useCounterProxiableUuid<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterWrite<
   TFunctionName extends string,
@@ -544,6 +554,7 @@ export function useCounterWrite<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterInitialize<
   TMode extends WriteContractMode = undefined,
@@ -581,6 +592,7 @@ export function useCounterInitialize<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterRenounceOwnership<
   TMode extends WriteContractMode = undefined,
@@ -622,6 +634,7 @@ export function useCounterRenounceOwnership<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterSetNumber<
   TMode extends WriteContractMode = undefined,
@@ -659,6 +672,7 @@ export function useCounterSetNumber<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterTransferOwnership<
   TMode extends WriteContractMode = undefined,
@@ -700,6 +714,7 @@ export function useCounterTransferOwnership<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterUpgradeTo<
   TMode extends WriteContractMode = undefined,
@@ -737,6 +752,7 @@ export function useCounterUpgradeTo<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterUpgradeToAndCall<
   TMode extends WriteContractMode = undefined,
@@ -778,6 +794,7 @@ export function useCounterUpgradeToAndCall<
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterWrite<TFunctionName extends string>(
   config: Omit<
@@ -800,6 +817,7 @@ export function usePrepareCounterWrite<TFunctionName extends string>(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterInitialize(
   config: Omit<
@@ -823,6 +841,7 @@ export function usePrepareCounterInitialize(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterRenounceOwnership(
   config: Omit<
@@ -846,6 +865,7 @@ export function usePrepareCounterRenounceOwnership(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterSetNumber(
   config: Omit<
@@ -869,6 +889,7 @@ export function usePrepareCounterSetNumber(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterTransferOwnership(
   config: Omit<
@@ -892,6 +913,7 @@ export function usePrepareCounterTransferOwnership(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterUpgradeTo(
   config: Omit<
@@ -915,6 +937,7 @@ export function usePrepareCounterUpgradeTo(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function usePrepareCounterUpgradeToAndCall(
   config: Omit<
@@ -938,6 +961,7 @@ export function usePrepareCounterUpgradeToAndCall(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterEvent<TEventName extends string>(
   config: Omit<
@@ -960,6 +984,7 @@ export function useCounterEvent<TEventName extends string>(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterAdminChangedEvent(
   config: Omit<
@@ -983,6 +1008,7 @@ export function useCounterAdminChangedEvent(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterBeaconUpgradedEvent(
   config: Omit<
@@ -1006,6 +1032,7 @@ export function useCounterBeaconUpgradedEvent(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterInitializedEvent(
   config: Omit<
@@ -1029,6 +1056,7 @@ export function useCounterInitializedEvent(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterNumberSetEvent(
   config: Omit<
@@ -1052,6 +1080,7 @@ export function useCounterNumberSetEvent(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterOwnershipTransferredEvent(
   config: Omit<
@@ -1075,6 +1104,7 @@ export function useCounterOwnershipTransferredEvent(
  *
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x5e28e947EcC3684b6F385Dd1bB0C7Fa6f66F8619)
  * -
+ * - [__View Contract on Polygon Mumbai Polygon Scan__](https://mumbai.polygonscan.com/address/0x4dEd60AC9C6859e19bb809026aFE8128DD810992)
  */
 export function useCounterUpgradedEvent(
   config: Omit<
