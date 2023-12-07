@@ -34,7 +34,7 @@ const useIndexedTransaction = <SubgraphQuery>(
   const { chainId } = useChain();
   const [polling, setPolling] = useState(false);
 
-  const { data, write, isLoading: confirmationPending } = useContractWrite(
+  const { data, writeAsync, isLoading: confirmationPending } = useContractWrite(
     config
   );
 
@@ -78,7 +78,7 @@ const useIndexedTransaction = <SubgraphQuery>(
   return {
     loading: confirmationPending || transactionPending || polling,
     execute: () => {
-      write && write();
+      return writeAsync && writeAsync();
     },
   };
 };

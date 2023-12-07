@@ -36,7 +36,7 @@ export function Button({
         className
       )}
     >
-      {loading && <span className="loading loading-xs"></span>}
+      {loading && <span className="loading loading-xs loading-bars"></span>}
       {children}
     </button>
   );

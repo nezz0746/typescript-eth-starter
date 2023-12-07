@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "blockies-ts": "^1.0.0",
+    "daisyui": "4.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
