@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useChain from "./hooks/useChain";
 import useIndexedTransaction from "./hooks/useIndexed";
 import { counterAddress, usePrepareCounterSetNumber } from "wagmi-config";
@@ -11,11 +11,17 @@ import {
 } from "web-kit";
 import { Button, Card, Table, Web3Account } from "web-ui";
 import dayjs from "dayjs";
+import { useAccount } from "wagmi";
 
 function App() {
+  const { address } = useAccount();
   const { chainId, explorer, isLocal } = useChain();
 
   const [number, setNumber] = useState<bigint>(BigInt(0));
+
+  const [pendingNumberSet, setPendingNumberSet] = useState<
+    (NumberSet & { pending?: boolean }) | null
+  >(null);
 
   const { data: currentNumber, refetch: refetchCurrentNumber } = useNumberQuery(
     {
@@ -41,10 +47,14 @@ function App() {
     },
     {
       selectFromResult: ({ data, ...rest }) => {
-        return { data: data?.numberSets, ...rest };
+        return { data: data?.numberSets ?? [], ...rest };
       },
     }
   );
+
+  const tableDataNumberSets = pendingNumberSet
+    ? [pendingNumberSet, ...numberSets]
+    : numberSets;
 
   const { config } = usePrepareCounterSetNumber({
     args: [number],
@@ -57,10 +67,27 @@ function App() {
       return { indexed: Boolean(numberSets?.length) };
     },
     () => {
+      setPendingNumberSet(null);
       refetchNumberUpdates();
       refetchCurrentNumber();
     }
   );
+
+  const executeNumberSet = useCallback(async () => {
+    await execute()?.then((result) => {
+      setPendingNumberSet({
+        id: result.hash + "-pending",
+        pending: true,
+        newValue: number.toString(),
+        blockNumber: "...",
+        blockTimestamp: (Date.now() / 1000).toString(),
+        transactionHash: result.hash,
+        owner: {
+          id: address,
+        },
+      });
+    });
+  }, [number, execute, address, setPendingNumberSet]);
 
   return (
     <div className="h-full w-full">
@@ -98,7 +125,7 @@ function App() {
                   <Button
                     loading={loading}
                     type="submit"
-                    onClick={() => execute()}
+                    onClick={executeNumberSet}
                   >
                     Submit
                   </Button>
@@ -157,7 +184,7 @@ function App() {
                       },
                     },
                   ]}
-                  data={numberSets ?? []}
+                  data={tableDataNumberSets}
                 />
               </ul>
             </div>

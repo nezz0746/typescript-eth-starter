@@ -1,6 +1,10 @@
 import classNames from "classnames";
 
-export function Table<T = Record<string, any>>({
+type TableDataProps = {
+  pending?: boolean;
+} & Record<string, any>;
+
+export function Table<T extends TableDataProps = Record<string, any>>({
   children,
   className,
   head,
@@ -25,7 +29,12 @@ export function Table<T = Record<string, any>>({
       </thead>
       <tbody>
         {data.map((row, index) => (
-          <tr key={index}>
+          <tr
+            key={index}
+            className={classNames({
+              "opacity-40": row.pending,
+            })}
+          >
             {head.map(({ key, render }) => (
               <td key={String(key)}>
                 {render ? render(row) : ((row as unknown) as any)[key]}
