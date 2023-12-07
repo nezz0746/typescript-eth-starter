@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "shared-config": "*",
-    "wagmi": "^1.4.5"
+    "wagmi": "1.4.8"
   },
   "devDependencies": {
     "typescript": "^5.2.2",

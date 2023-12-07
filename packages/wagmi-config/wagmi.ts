@@ -16,12 +16,9 @@ let defaultChain: Chain;
 let appChains: Chain[] = [];
 let providers: ChainProviderFn<Chain>[] = [];
 
-if (localChainEnabled) {
-  defaultChain = localhost;
-  appChains = [localhost];
-  providers.push(
-    jsonRpcProvider({ rpc: () => ({ http: "http://localhost:8545" }) })
-  );
+if (mainnetChainEnabled) {
+  defaultChain = base;
+  appChains = [base];
 }
 
 if (testnetChainEnabled) {
@@ -29,16 +26,19 @@ if (testnetChainEnabled) {
   appChains.push(polygonMumbai);
 }
 
-if (mainnetChainEnabled) {
-  defaultChain = base;
-  appChains = [base];
-}
-
 if (testnetChainEnabled || mainnetChainEnabled) {
   providers.push(alchemyProvider({ apiKey: alchemy_key }));
 }
 
+if (localChainEnabled) {
+  defaultChain = localhost;
+  appChains.push(localhost);
+  providers.push(
+    jsonRpcProvider({ rpc: () => ({ http: "http://localhost:8545" }) })
+  );
+}
 console.log({ appChains });
+console.log({ providers });
 
 const { chains, publicClient } = configureChains(appChains, providers);
 

@@ -15,6 +15,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <RainbowKitProvider chains={chains}>
         <AppProvider>
           <Layout>
+            {/* TOFIX - DAISYUI BUG: missing/overriden classes */}
+            <div className="hidden loading-bars loading-xs" />
             <App />
           </Layout>
         </AppProvider>

@@ -1,13 +1,7 @@
 import classNames from "classnames";
-import * as blockies from "blockies-ts";
+import { Web3Account, Web3AccountProps } from "./Web3Account";
 
-type WalletButtonProps = {
-  address: string;
-};
-
-function truncateAddress(address: string) {
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-}
+type WalletButtonProps = Web3AccountProps;
 
 export function WalletButton({
   className,
@@ -16,8 +10,7 @@ export function WalletButton({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & WalletButtonProps) {
   return (
     <button {...rest} className={classNames("btn", className)}>
-      <img src={blockies.create({ seed: address }).toDataURL()} />
-      {truncateAddress(address)}
+      <Web3Account address={address} />
     </button>
   );
 }
