@@ -4,7 +4,7 @@ import ConnectButton from "./ConnectButton";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col h-screen">
-      <div className="navbar bg-base-100 border-b">
+      <div className="navbar fixed bg-base-100 border-b z-20">
         <div className="flex-1">
           <Button className="btn btn-ghost text-lg">Home</Button>
         </div>
@@ -12,7 +12,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <ConnectButton />
         </div>
       </div>
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 mt-16">{children}</main>
     </div>
   );
 };
