@@ -28,7 +28,7 @@ function App() {
       variables: {
         id: counterAddress[
           chainId as keyof typeof counterAddress
-        ].toLowerCase(),
+        ]?.toLowerCase(),
       },
       chainId,
     }
