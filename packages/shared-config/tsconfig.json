@@ -4,5 +4,5 @@
     "module": "ESNext",
     "types": ["vite/client"]
   },
-  "include": ["index.ts", "variables.ts"],
+  "include": ["index.ts", "variables.ts", "assets.ts"],
 }
