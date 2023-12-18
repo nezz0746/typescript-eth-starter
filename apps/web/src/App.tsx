@@ -12,10 +12,13 @@ import {
 import { Button, Card, Table, Web3Account } from "web-ui";
 import dayjs from "dayjs";
 import { useAccount } from "wagmi";
+import useOwnedNFTs from "./hooks/useOwnedNFTs";
+import { optimism } from "wagmi/chains";
 
 function App() {
   const { address } = useAccount();
   const { chainId, explorer, isLocal } = useChain();
+  const { data } = useOwnedNFTs(optimism.id);
 
   const [number, setNumber] = useState<bigint>(BigInt(0));
 
@@ -132,6 +135,14 @@ function App() {
                 </div>
               </div>
             </div>
+          </Card>
+          <Card className="p-4 grid grid-cols-4">
+            {data?.length &&
+              data.map((nft) => (
+                <Card>
+                  <img src={nft.image.cachedUrl} />
+                </Card>
+              ))}
           </Card>
         </div>
         <div className="w-full md:w-1/2 lg:w-2/3 h-full">

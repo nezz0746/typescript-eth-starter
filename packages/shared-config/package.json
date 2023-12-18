@@ -9,6 +9,6 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
-    "alchemy-sdk": "^3.1.0"
+    "alchemy-sdk": "3.1.0"
   }
 }

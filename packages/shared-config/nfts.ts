@@ -18,6 +18,7 @@ const chainIdToNetwork: Record<number, Network> = {
   420: Network.OPT_GOERLI,
   137: Network.MATIC_MAINNET,
   80001: Network.MATIC_MUMBAI,
+  8453: Network.BASE_MAINNET,
 };
 
 export const getAlchemyNFT = (chainId: number) => {
