@@ -13,6 +13,7 @@ contract CounterScript is BaseScript {
         forks[DeployementChain.Anvil] = "local";
         forks[DeployementChain.Goerli] = "goerli";
         forks[DeployementChain.Mumbai] = "mumbai";
+        forks[DeployementChain.Sepolia] = "sepolia";
     }
 
     function deployCounterLocal() public setEnvDeploy(Cycle.Local) {
@@ -22,7 +23,7 @@ contract CounterScript is BaseScript {
     }
 
     function deployCounterTesnet() public setEnvDeploy(Cycle.Testnet) {
-        deploymentChains.push(DeployementChain.Mumbai);
+        deploymentChains.push(DeployementChain.Sepolia);
 
         _deployCounter(deploymentChains);
     }

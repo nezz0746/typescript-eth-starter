@@ -13,6 +13,7 @@ contract BaseScript is Script {
     enum DeployementChain {
         Anvil,
         Goerli,
+        Sepolia,
         Mumbai
     }
     string internal mnemonic =
