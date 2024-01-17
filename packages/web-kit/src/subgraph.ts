@@ -4,6 +4,7 @@ import request, { ClientError } from "graphql-request";
 const subgraphUrls: Record<number, string> = {
   1337: "http://localhost:8000/subgraphs/name/local-graph",
   80001: "https://api.thegraph.com/subgraphs/name/nezz0746/starter-counter-mumbai",
+  11155111: "https://api.thegraph.com/subgraphs/name/nezz0746/starter-counter-sepolia",
 };
 
 type SubgraphGraphQLBaseQueryParams = {

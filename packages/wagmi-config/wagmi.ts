@@ -1,6 +1,12 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { Chain, ChainProviderFn, configureChains, createConfig } from "wagmi";
-import { base, goerli, localhost, polygonMumbai } from "wagmi/chains";
+import {
+  Chain,
+  ChainProviderFn,
+  configureChains,
+  createConfig,
+  sepolia,
+} from "wagmi";
+import { base, localhost } from "wagmi/chains";
 import {
   projectId,
   appName,
@@ -22,8 +28,8 @@ if (mainnetChainEnabled) {
 }
 
 if (testnetChainEnabled) {
-  defaultChain = goerli;
-  appChains.push(polygonMumbai);
+  defaultChain = sepolia;
+  appChains.push(sepolia);
 }
 
 if (testnetChainEnabled || mainnetChainEnabled) {

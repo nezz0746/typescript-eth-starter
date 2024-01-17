@@ -6,6 +6,7 @@ const chainIdToNetwork = {
   5: "goerli",
   80001: "mumbai",
   84531: "base-testnet",
+  11155111: "sepolia",
 };
 
 /**

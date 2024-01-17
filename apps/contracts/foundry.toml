@@ -9,12 +9,14 @@ fs_permissions = [
 
 [etherscan]
 mumbai = { key = "${API_KEY_POLYGON}" }
+sepolia = { key = "${API_KEY_ETHERSCAN}" }
 goerli = { key = "${API_KEY_ETHERSCAN}" }
 base_goerli = { key = "${API_KEY_BASESCAN}" }
 
 [rpc_endpoints]
 local = "http://localhost:8545"
 mumbai = "https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_KEY}"
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_KEY}"
 goerli = "https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_KEY}"
 base_goerli = "https://base-goerli.g.alchemy.com/v2/${ALCHEMY_KEY}"
 
